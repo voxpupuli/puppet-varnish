@@ -1,5 +1,76 @@
 {
-  "author": "Max Horlanchuk \u003cmax.horlanchuk@gmail.com\u003e",
+  "name": "maxchk-varnish",
+  "version": "1.0.0",
+  "author": "Max Horlanchuk <max.horlanchuk@gmail.com>",
+  "summary": "Varnish module",
+  "license": "Apache",
+  "source": "",
+  "project_page": "https://github.com/maxchk/puppet-varnish",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib"
+    },
+    {
+      "name": "puppetlabs/concat"
+    },
+    {
+      "name": "puppetlabs/apt"
+    },
+    {
+      "name": "puppetlabs/firewall"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "9"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "18.04"
+      ]
+    },
+    {
+      "operatingsystem": "windows",
+      "operatingsystemrelease": [
+        "2019",
+        "10"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.10.0 < 7.0.0"
+    }
+  ],
   "checksums": {
     "manifests/vcl.pp": "bfd640f7bc97b6feb1f397d494345615",
     "manifests/install.pp": "5ff4badd2547580edc9f3ffb5a7a6d75",
@@ -52,26 +123,11 @@
     "tests/vcl_backends_probes.pp": "6c866c7533c9b022f1a1f7563be952d2",
     "Gemfile.lock": "f682533935c9d9940d9b72cb37625bae"
   },
-  "dependencies": [
-    {
-      "name": "puppetlabs/stdlib"
-    },
-    {
-      "name": "puppetlabs/concat"
-    },
-    {
-      "name": "puppetlabs/apt"
-    },
-    {
-      "name": "puppetlabs/firewall"
-    }
-  ],
   "description": "Install, configure and manage VCL (Ubuntu/CentOS)",
-  "license": "Apache",
-  "name": "maxchk-varnish",
-  "project_page": "https://github.com/maxchk/puppet-varnish",
-  "source": "",
-  "summary": "Varnish module",
-  "types": [],
-  "version": "1.0.0"
+  "types": [
+
+  ],
+  "pdk-version": "1.12.0",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#1.12.0",
+  "template-ref": "tags/1.12.0-0-g55d9ae2"
 }
