@@ -66,10 +66,10 @@ class varnish::service (
 
   if $systemd {
       file {  $systemd_conf_path :
-        ensure => file,
+        ensure  => file,
         content => template('varnish/varnish.service.erb'),
-        notify => Exec['Reload systemd'],
-        before => [Service['varnish'], Exec['restart-varnish']],
+        notify  => Exec['Reload systemd'],
+        before  => [Service['varnish'], Exec['restart-varnish']],
         require => Package['varnish'],
       }
 

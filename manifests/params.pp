@@ -32,7 +32,7 @@ class varnish::params {
         $systemd = false
         $conf_file_path = '/etc/default/varnish'
         $default_version = '3'
-        
+
       }
     }
     default: {

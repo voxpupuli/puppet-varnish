@@ -14,14 +14,14 @@
 
 class { 'varnish::vcl':
 
-  probes => {
+  probes    => {
     'health_check1' => { url => '/health_check_url1' },
-    'health_check2' => { 
+    'health_check2' => {
       window    => '8',
       timeout   => '5s',
       threshold => '3',
       interval  => '5s',
-      request   => [ "GET /action/healthCheck1 HTTP/1.1", "Host: www.example1.com", "Connection: close" ]
+      request   => [ 'GET /action/healthCheck1 HTTP/1.1', 'Host: www.example1.com', 'Connection: close' ]
     }
   },
 #  probes => [
@@ -35,14 +35,14 @@ class { 'varnish::vcl':
 #    },
 #  ],
 
-  backends => { 
+  backends  => {
     'srv1' => { host => '172.16.0.1', port => '80', probe => 'health_check1' },
     'srv2' => { host => '172.16.0.2', port => '80', probe => 'health_check1' },
     'srv3' => { host => '172.16.0.3', port => '80', probe => 'health_check2' },
     'srv4' => { host => '172.16.0.4', port => '80', probe => 'health_check2' },
     'srv5' => { host => '172.16.0.5', port => '80', probe => 'health_check2' },
     'srv6' => { host => '172.16.0.6', port => '80', probe => 'health_check2' },
-  }, 
+  },
 #  backends => [
 #    { name => 'srv1', host => '172.16.0.1', port => '80', probe => 'health_check_url1' },
 #    { name => 'srv2', host => '172.16.0.2', port => '80', probe => 'health_check_url1' },

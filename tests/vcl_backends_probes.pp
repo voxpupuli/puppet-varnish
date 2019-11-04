@@ -13,13 +13,13 @@ varnish::probe { 'health_check2':
       timeout   => '5s',
       threshold => '3',
       interval  => '5s',
-      request   => [ "GET /healthCheck2 HTTP/1.1", "Host: www.example1.com", "Connection: close" ]
+      request   => [ 'GET /healthCheck2 HTTP/1.1', 'Host: www.example1.com', 'Connection: close' ]
 }
 
 # configure backends
 varnish::backend { 'srv1': host => '172.16.0.1', port => '80', probe => 'health_check1' }
 varnish::backend { 'srv2': host => '172.16.0.2', port => '80', probe => 'health_check2' }
- 
+
 # configure selectors
 varnish::selector { 'srv1': condition => 'req.url ~ "^/url_on_srv1"' }
 varnish::selector { 'srv2': condition => 'true' } # will be used as default by Varnish
