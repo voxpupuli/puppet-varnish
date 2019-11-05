@@ -17,9 +17,10 @@ describe 'varnish::acl', type: :define do
 
   context('invalid acl title') do
     let(:title) { '-wrong_title' }
+    let(:params) { { hosts: ['192.168.10.14'] } }
 
     it 'causes a failure' do
-      expect { is_expected.to raise_error(Puppet::Error, 'Invalid characters in ACL name _wrong-title. Only letters, numbers and underscore are allowed.') }
+      is_expected.to compile.and_raise_error(/Invalid characters in ACL name -wrong_title. Only letters, numbers and underscore are allowed./)
     end
   end
 end

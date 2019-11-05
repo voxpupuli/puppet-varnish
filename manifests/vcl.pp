@@ -68,6 +68,7 @@ class varnish::vcl (
   validate_array($unset_headers_debugips)
 
   # define include file type
+  # lint:ignore:autoloader_layout
   define includefile {
     $selectors = $varnish::vcl::selectors
     concat { "${varnish::vcl::includedir}/${title}.vcl":
@@ -84,6 +85,7 @@ class varnish::vcl (
       order   => '01',
     }
   }
+  # lint:endignore
 
 
   # select template to use

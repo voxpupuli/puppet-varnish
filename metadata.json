@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "Max Horlanchuk <max.horlanchuk@gmail.com>",
   "summary": "Varnish module",
-  "license": "Apache",
+  "license": "Apache-2.0",
   "source": "",
   "project_page": "https://github.com/maxchk/puppet-varnish",
   "dependencies": [
