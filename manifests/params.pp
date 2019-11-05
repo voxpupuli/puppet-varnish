@@ -16,6 +16,7 @@ class varnish::params {
       } else {
         $systemd = false
         $conf_file_path = '/etc/sysconfig/varnish'
+        $systemd_conf_path = undef
       }
     }
     'Debian': {
@@ -30,6 +31,7 @@ class varnish::params {
       } else {
         $add_repo = true
         $systemd = false
+        $systemd_conf_path = undef
         $conf_file_path = '/etc/default/varnish'
         $default_version = '3'
 

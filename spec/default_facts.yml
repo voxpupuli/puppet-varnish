@@ -2,6 +2,23 @@
 #
 # Facts specified here will override the values provided by rspec-puppet-facts.
 ---
-ipaddress: "172.16.254.254"
+ipaddress: '172.16.254.254'
 is_pe: false
-macaddress: "AA:AA:AA:AA:AA:AA"
+macaddress: 'AA:AA:AA:AA:AA:AA'
+osfamily: 'RedHat'
+operatingsystem: 'RedHat'
+operatingsystemmajrelease: '7'
+operatingsystemrelease: '7.6'
+architecture: 'amd64'
+selinux: false
+os:
+  architecture: x86_64
+  family: RedHat
+  hardware: x86_64
+  name: RedHat
+  release:
+    full: '7.6'
+    major: '7'
+    minor: '6'
+  selinux:
+    enabled: false

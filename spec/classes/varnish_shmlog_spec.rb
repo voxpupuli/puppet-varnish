@@ -14,7 +14,7 @@ describe 'varnish::shmlog', type: :class do
         'target'  => '/etc/fstab',
         'fstype'  => 'tmpfs',
         'device'  => 'tmpfs',
-        'options' => 'defaults,noatime,size=128M',
+        'options' => 'defaults,noatime,size=170M',
       )
     }
   end

@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'varnish::repo', type: :class do
+  let(:pre_condition) { 'include ::varnish' }
   context 'on a Debian OS' do
     let :facts do
       {
@@ -16,7 +17,10 @@ describe 'varnish::repo', type: :class do
       is_expected.to contain_apt__source('varnish').with(
         'location'   => 'http://repo.varnish-cache.org/debian',
         'repos'      => 'varnish-3.0',
-        'key_source' => 'http://repo.varnish-cache.org/debian/GPG-key.txt',
+        'key'        => {
+          'id'     => 'E98C6BBBA1CBC5C3EB2DF21C60E7C096C4DEFFEB',
+          'source' => 'http://repo.varnish-cache.org/debian/GPG-key.txt',
+        },
       )
     }
   end
