@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'varnish::repo', type: :class do
   let(:pre_condition) { 'include ::varnish' }
+
   context 'on a Debian OS' do
     let :facts do
       {

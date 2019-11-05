@@ -11,29 +11,29 @@ describe 'varnish', type: :class do
         lsbdistid: 'Debian',
         lsbdistcodename: 'wheezy',
         os: {
-          architecture: "amd64",
+          architecture: 'amd64',
           distro: {
-            codename: "wheezy",
-            description: "Debian GNU/Linux 7.11 (wheezy)",
-            id: "Debian",
+            codename: 'wheezy',
+            description: 'Debian GNU/Linux 7.11 (wheezy)',
+            id: 'Debian',
             release: {
-              full: "7.11",
-              major: "7",
-              minor: "11"
-            }
+              full: '7.11',
+              major: '7',
+              minor: '11',
+            },
           },
-          family: "Debian",
-          hardware: "x86_64",
-          name: "Debian",
+          family: 'Debian',
+          hardware: 'x86_64',
+          name: 'Debian',
           release: {
-            full: "7.11",
-            major: "7",
-            minor: "11"
+            full: '7.11',
+            major: '7',
+            minor: '11',
           },
           selinux: {
-            enabled: false
-          }
-        }
+            enabled: false,
+          },
+        },
 
       }
     end
@@ -50,7 +50,7 @@ describe 'varnish', type: :class do
         'group'   => 'root',
         'mode'    => '0644',
         'require' => 'Package[varnish]',
-    #    'notify'  => 'Service[varnish]',
+        #    'notify'  => 'Service[varnish]',
       )
     }
     it {
@@ -142,8 +142,10 @@ describe 'varnish', type: :class do
 
     it { is_expected.to compile }
 
-    it { is_expected.to contain_package('varnish').with(
-      'ensure' => 'present'
-    )}
+    it {
+      is_expected.to contain_package('varnish').with(
+        'ensure' => 'present',
+      )
+    }
   end
 end

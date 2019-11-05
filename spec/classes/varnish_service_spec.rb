@@ -37,12 +37,12 @@ describe 'varnish::service', type: :class do
     xit { is_expected.to compile }
     xit { is_expected.to contain_class('varnish::install') }
 
-    xit {
+    xit do
       is_expected.to contain_service('varnish').with(
         'ensure'  => 'stopped',
         'restart' => '/sbin/service varnish reload',
         'require' => 'Package[varnish]',
       )
-    }
+    end
   end
 end
