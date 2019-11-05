@@ -4,11 +4,37 @@ describe 'varnish', type: :class do
   context 'on a Debian OS' do
     let :facts do
       {
+        architecture: 'amd64',
         osfamily: 'Debian',
-        operatingsystemrelease: '6',
+        operatingsystemrelease: '7',
         concat_basedir: '/dne',
         lsbdistid: 'Debian',
-        lsbdistcodename: 'precise',
+        lsbdistcodename: 'wheezy',
+        os: {
+          architecture: "amd64",
+          distro: {
+            codename: "wheezy",
+            description: "Debian GNU/Linux 7.11 (wheezy)",
+            id: "Debian",
+            release: {
+              full: "7.11",
+              major: "7",
+              minor: "11"
+            }
+          },
+          family: "Debian",
+          hardware: "x86_64",
+          name: "Debian",
+          release: {
+            full: "7.11",
+            major: "7",
+            minor: "11"
+          },
+          selinux: {
+            enabled: false
+          }
+        }
+
       }
     end
 
@@ -102,5 +128,22 @@ describe 'varnish', type: :class do
 
       it { is_expected.not_to contain_class('varnish::shmlog') }
     end
+  end
+  context 'on a Ubuntu OS' do
+    let :facts do
+      {
+        osfamily: 'Debian',
+        operatingsystemrelease: '18.04',
+        concat_basedir: '/dne',
+        lsbdistid: 'Ubuntu',
+        lsbdistcodename: 'bionic',
+      }
+    end
+
+    it { is_expected.to compile }
+
+    it { is_expected.to contain_package('varnish').with(
+      'ensure' => 'present'
+    )}
   end
 end
