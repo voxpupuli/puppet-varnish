@@ -71,9 +71,10 @@ class varnish::params {
     default => $default_version,
   }
   $version = $real_version ? {
+    /3\..*/ => '3',
     /4\..*/ => '4',
     /5\..*/ => '5',
     /6\..*/ => '6',
-    default => 3,
+    default => 4,
   }
 }
