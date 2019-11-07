@@ -8,7 +8,8 @@ define varnish::selector(
 ) {
   $template_selector = $::varnish::params::version ? {
     '4'     => 'varnish/includes/backendselection4.vcl.erb',
-    default => 'varnish/includes/backendselection.vcl.erb',
+    '3'     => 'varnish/includes/backendselection.vcl.erb',
+    default => 'varnish/includes/backendselection4.vcl.erb',
   }
 
   concat::fragment { "${title}-selector":
