@@ -18,7 +18,4 @@ describe 'varnish::shmlog', type: :class do
       )
     }
   end
-
-  context 'default values' do
-  end
 end

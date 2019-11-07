@@ -73,7 +73,7 @@ describe 'varnish', type: :class do
       it { is_expected.to contain_file('varnish-conf').with_content(%r{START=yes}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{NFILES=131072}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{MEMLOCK=82000}) }
-      it { is_expected.to contain_file('varnish-conf').with_content(/VARNISH_VCL_CONF=\/etc\/varnish\/default\.vcl/) }
+      it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_VCL_CONF=/etc/varnish/default.vcl}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_LISTEN_ADDRESS=}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_LISTEN_PORT=6081}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_ADMIN_LISTEN_ADDRESS=(localhost|127.0.0.1)}) }
@@ -81,9 +81,9 @@ describe 'varnish', type: :class do
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_MIN_THREADS=5}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_MAX_THREADS=500}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_THREAD_TIMEOUT=300}) }
-      it { is_expected.to contain_file('varnish-conf').with_content(/VARNISH_STORAGE_FILE=\/var\/lib\/varnish-storage\/varnish_storage\.bin/) }
+      it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_STORAGE_FILE=/var/lib/varnish-storage/varnish_storage.bin}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_STORAGE_SIZE=1G}) }
-      it { is_expected.to contain_file('varnish-conf').with_content(/VARNISH_SECRET_FILE=\/etc\/varnish\/secret/) }
+      it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_SECRET_FILE=/etc/varnish/secret}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_STORAGE=\"malloc,\${VARNISH_STORAGE_SIZE}\"}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_TTL=120}) }
       xit { is_expected.to contain_file('varnish-conf').with_content(%r{DAEMON_OPTS=\"-a \${VARNISH_LISTEN_ADDRESS}:\${VARNISH_LISTEN_PORT}}) }
