@@ -1,8 +1,8 @@
 fixtures:
   repositories:
-    stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib.git"
-    concat: "git://github.com/puppetlabs/puppetlabs-concat.git"
-    apt:    "git://github.com/puppetlabs/puppetlabs-apt.git"
-    translate: "git://github.com/puppetlabs/puppetlabs-translate.git"
+    stdlib: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
+    concat: 'https://github.com/puppetlabs/puppetlabs-concat.git'
+    apt: 'https://github.com/puppetlabs/puppetlabs-apt.git'
+    translate: 'https://github.com/puppetlabs/puppetlabs-translate.git'
   symlinks:
-    varnish: "#{source_dir}"
+    varnish: '#{source_dir}'
