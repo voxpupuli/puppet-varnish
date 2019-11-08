@@ -31,7 +31,6 @@ class varnish::params {
       $default_version = '3'
     }
     'Ubuntu': {
-      $vcl_reload_script = '/usr/share/varnish/reload-vcl'
       case $::facts['os']['release']['major'] {
         default: {
           $add_repo = true
@@ -39,6 +38,7 @@ class varnish::params {
           $systemd_conf_path = undef
           $conf_file_path = '/etc/default/varnish'
           $default_version = '3'
+          $vcl_reload_script = '/usr/share/varnish/reload-vcl'
         }
         '15.10': {
           #don't add repo as in default repo
@@ -47,6 +47,7 @@ class varnish::params {
           $systemd = true
           $conf_file_path = '/etc/varnish/varnish.params'
           $default_version ='4'
+          $vcl_reload_script = '/usr/share/varnish/reload-vcl'
         }
         '16.04': {
           #don't add repo as in default repo
@@ -55,6 +56,7 @@ class varnish::params {
           $systemd = true
           $conf_file_path = '/etc/varnish/varnish.params'
           $default_version ='4'
+          $vcl_reload_script = '/usr/share/varnish/reload-vcl'
         }
         '18.04': {
           $add_repo = false
@@ -62,11 +64,12 @@ class varnish::params {
           $systemd = true
           $conf_file_path = '/etc/varnish/varnish.params'
           $default_version ='5'
+          $vcl_reload_script = '/usr/share/varnish/varnishreload'
         }
       }
     }
     default: {
-      fail("Class['apache::params']: Unsupported osfamily: ${::osfamily}")
+      fail("Class['apache::params']: Unsupported os: ${::facts['os']['name']}")
     }
   }
   $version = $default_version
