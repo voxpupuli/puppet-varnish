@@ -22,7 +22,7 @@ class varnish::service (
   $systemd                = $::varnish::params::systemd,
   $systemd_conf_path      = $::varnish::params::systemd_conf_path,
   $vcl_reload_script      = $::varnish::params::vcl_reload_script
-) {
+) inherits ::varnish::params {
 
   # include install
   include ::varnish::install

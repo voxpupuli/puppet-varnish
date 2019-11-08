@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe 'varnish::service', type: :class do
   context 'on a Debian OS family' do
-    let(:pre_condition) { 'include ::varnish' }
     let :facts do
       {
         osfamily: 'Debian',
@@ -25,7 +24,6 @@ describe 'varnish::service', type: :class do
   end
 
   context 'on a RedHat OS family and sisabled' do
-    let(:pre_condition) { 'include ::varnish' }
     let :facts do
       {
         osfamily: 'RedHat',
@@ -34,10 +32,10 @@ describe 'varnish::service', type: :class do
 
     let(:params) { { start: 'no' } }
 
-    xit { is_expected.to compile }
-    xit { is_expected.to contain_class('varnish::install') }
+    it { is_expected.to compile }
+    it { is_expected.to contain_class('varnish::install') }
 
-    xit do
+    it do
       is_expected.to contain_service('varnish').with(
         'ensure'  => 'stopped',
         'restart' => '/sbin/service varnish reload',

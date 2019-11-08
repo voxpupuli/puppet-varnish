@@ -21,10 +21,12 @@ class varnish::install (
   $add_repo = true,
   $manage_firewall = false,
   $varnish_listen_port = '6081',
+  $version = 'present',
 ) {
   class { 'varnish::repo':
-    enable => $add_repo,
-    before => Package['varnish'],
+    enable  => $add_repo,
+    version =>  $version,
+    before  => Package['varnish'],
   }
 
   class { 'varnish::firewall':
@@ -34,6 +36,6 @@ class varnish::install (
 
   # varnish package
   package { 'varnish':
-    ensure  => $varnish::version,
+    ensure  => $version,
   }
 }

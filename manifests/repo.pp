@@ -3,11 +3,10 @@
 # This class installs aditional repos for varnish
 #
 class varnish::repo (
+  $version  = undef,
   $base_url = '',
-  $enable = true,
-  ) {
-
-  include varnish::params
+  $enable   = true,
+  ) inherits ::varnish::params {
 
   $repo_base_url = 'http://repo.varnish-cache.org'
 
@@ -19,7 +18,7 @@ class varnish::repo (
     default     => downcase($::operatingsystem),
   }
 
-  $repo_version = $::varnish::version ? {
+  $repo_version = $version ? {
     /^3\./  => '3.0',
     /^4\.0/ => '4.0',
     /^4\.1/ => '4.1',

@@ -95,7 +95,7 @@ class varnish::vcl (
     $template_vcl = $template
   }
   else {
-    $template_vcl = $::varnish::params::version ? {
+    $template_vcl = $::varnish::major_version ? {
       '4'     => 'varnish/varnish4-vcl.erb',
       '3'     => 'varnish/varnish-vcl.erb',
       default => 'varnish/varnish4-vcl.erb',

@@ -6,7 +6,10 @@ class varnish::params {
   # set Varnish conf location based on OS
   case $::facts['os']['name'] {
     'RedHat': {
-      $default_version = '3'
+      $default_version = $::facts['os']['release']['major'] ? {
+        '6' => '3',
+        '7' => '4',
+      }
       $add_repo = true
       $vcl_reload_script = '/usr/sbin/varnish_reload_vcl'
       if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
@@ -66,15 +69,5 @@ class varnish::params {
       fail("Class['apache::params']: Unsupported osfamily: ${::osfamily}")
     }
   }
-  $real_version = $::varnish::version ? {
-    /^(3|4|5).*/ => $::varnish::version,
-    default => $default_version,
-  }
-  $version = $real_version ? {
-    /3\..*/ => '3',
-    /4\..*/ => '4',
-    /5\..*/ => '5',
-    /6\..*/ => '6',
-    default => 4,
-  }
+  $version = $default_version
 }
