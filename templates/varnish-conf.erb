@@ -109,4 +109,6 @@ DAEMON_OPTS="-a <%= scope.lookupvar('varnish_listen_address') %>:<%= scope.looku
              -p thread_pool_min=<%= scope.lookupvar('varnish_min_threads') %> \
              -p thread_pool_max=<%= scope.lookupvar('varnish_max_threads') %> \
              -p thread_pool_timeout=<%= scope.lookupvar('varnish_thread_timeout') %>"
+
+
 <% end -%>

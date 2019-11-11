@@ -86,7 +86,7 @@ describe 'varnish', type: :class do
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_SECRET_FILE=/etc/varnish/secret}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_STORAGE=\"malloc,\${VARNISH_STORAGE_SIZE}\"}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_TTL=120}) }
-      xit { is_expected.to contain_file('varnish-conf').with_content(%r{DAEMON_OPTS=\"-a \${VARNISH_LISTEN_ADDRESS}:\${VARNISH_LISTEN_PORT}}) }
+      it { is_expected.to contain_file('varnish-conf').with_content(%r{DAEMON_OPTS=\"-a :6081 }) }
     end
   end
 
