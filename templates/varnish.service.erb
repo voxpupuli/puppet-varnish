@@ -25,7 +25,7 @@ LimitCORE=infinity
 
 EnvironmentFile=/etc/varnish/varnish.params
 
-Type=<%- if @version >= 5 -%>simple<%- else -%>forking<%- end -%>
+Type=<%- if @version >= 5 -%>simple<%- else -%>forking<%- end %>
 PIDFile=/var/run/varnish.pid
 PrivateTmp=true
 <%- if @version >= 5 -%>
