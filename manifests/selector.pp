@@ -5,6 +5,7 @@ define varnish::selector(
   $rewrite = undef,
   $newurl = undef,
   $movedto = undef,
+  $order = '03',
 ) {
   $template_selector = $::varnish::major_version ? {
     '4'     => 'varnish/includes/backendselection4.vcl.erb',
@@ -15,7 +16,7 @@ define varnish::selector(
   concat::fragment { "${title}-selector":
     target  => "${varnish::vcl::includedir}/backendselection.vcl",
     content => template($template_selector),
-    order   => '03',
+    order   => $order,
   }
 
 }
