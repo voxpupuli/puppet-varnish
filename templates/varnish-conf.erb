@@ -103,6 +103,9 @@ DAEMON_OPTS="-a <%= scope.lookupvar('varnish_listen_address') %>:<%= scope.looku
 <% @additional_parameters.each do |param, value| -%>
              -p <%= param %>=<%= value %> \
 <% end -%>
+<% if scope.lookupvar('varnish::major_version').to_i >= 5 -%>
+             -j unix,user=vcache \
+<% end -%>
 <% if scope.lookupvar('varnish::major_version').to_i == 3 -%>
              -w <%= scope.lookupvar('varnish_min_threads') %>,<%= scope.lookupvar('varnish_max_threads') %>,<%= scope.lookupvar('varnish_thread_timeout') %>"
 <% else -%>
