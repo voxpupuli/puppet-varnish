@@ -9,7 +9,7 @@ class { 'varnish::vcl': }
 # configure backends
 varnish::backend { 'srv1': host => '172.16.0.1', port => '80' }
 varnish::backend { 'srv2': host => '172.16.0.2', port => '80' }
- 
+
 # configure selectors
 varnish::selector { 'srv1': condition => 'req.url ~ "^/server1"' }
 varnish::selector { 'srv2': condition => 'true' } # will be used as default by Varnish

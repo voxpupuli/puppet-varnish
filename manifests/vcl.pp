@@ -68,6 +68,8 @@ class varnish::vcl (
   validate_array($unset_headers_debugips)
 
   # define include file type
+  # lint:ignore:autoloader_layout
+  # lint:ignore:nested_classes_or_defines
   define includefile {
     $selectors = $varnish::vcl::selectors
     concat { "${varnish::vcl::includedir}/${title}.vcl":
@@ -84,6 +86,8 @@ class varnish::vcl (
       order   => '01',
     }
   }
+  # lint:endignore
+  # lint:endignore
 
 
   # select template to use
@@ -91,9 +95,10 @@ class varnish::vcl (
     $template_vcl = $template
   }
   else {
-    $template_vcl = $::varnish::params::version ? {
+    $template_vcl = $::varnish::major_version ? {
       '4'     => 'varnish/varnish4-vcl.erb',
-      default => 'varnish/varnish-vcl.erb',
+      '3'     => 'varnish/varnish-vcl.erb',
+      default => 'varnish/varnish4-vcl.erb',
     }
   }
 

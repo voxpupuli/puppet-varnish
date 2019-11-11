@@ -4,9 +4,12 @@
 class varnish::params {
 
   # set Varnish conf location based on OS
-  case $::osfamily {
+  case $::facts['os']['name'] {
     'RedHat': {
-      $default_version = '3'
+      $default_version = $::facts['os']['release']['major'] ? {
+        '6' => '3',
+        '7' => '4',
+      }
       $add_repo = true
       $vcl_reload_script = '/usr/sbin/varnish_reload_vcl'
       if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
@@ -16,35 +19,58 @@ class varnish::params {
       } else {
         $systemd = false
         $conf_file_path = '/etc/sysconfig/varnish'
+        $systemd_conf_path = undef
       }
     }
     'Debian': {
       $vcl_reload_script = '/usr/share/varnish/reload-vcl'
-      if ($::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemmajrelease, '15.10')) {
-        #don't add repo as in default repo
-        $add_repo = false
-        $systemd_conf_path = '/lib/systemd/system/varnish.service'
-        $systemd = true
-        $conf_file_path = '/etc/varnish/varnish.params'
-        $default_version ='4'
-      } else {
-        $add_repo = true
-        $systemd = false
-        $conf_file_path = '/etc/default/varnish'
-        $default_version = '3'
-        
+      $add_repo = true
+      $systemd = false
+      $systemd_conf_path = undef
+      $conf_file_path = '/etc/default/varnish'
+      $default_version = '3'
+    }
+    'Ubuntu': {
+      case $::facts['os']['release']['major'] {
+        default: {
+          $add_repo = true
+          $systemd = false
+          $systemd_conf_path = undef
+          $conf_file_path = '/etc/default/varnish'
+          $default_version = '3'
+          $vcl_reload_script = '/usr/share/varnish/reload-vcl'
+        }
+        '15.10': {
+          #don't add repo as in default repo
+          $add_repo = false
+          $systemd_conf_path = '/lib/systemd/system/varnish.service'
+          $systemd = true
+          $conf_file_path = '/etc/varnish/varnish.params'
+          $default_version ='4'
+          $vcl_reload_script = '/usr/share/varnish/reload-vcl'
+        }
+        '16.04': {
+          #don't add repo as in default repo
+          $add_repo = false
+          $systemd_conf_path = '/lib/systemd/system/varnish.service'
+          $systemd = true
+          $conf_file_path = '/etc/varnish/varnish.params'
+          $default_version ='4'
+          $vcl_reload_script = '/usr/share/varnish/reload-vcl'
+        }
+        '18.04': {
+          $add_repo = false
+          $systemd_conf_path = '/lib/systemd/system/varnish.service'
+          $systemd = true
+          $conf_file_path = '/etc/varnish/varnish.params'
+          $default_version ='5'
+          $vcl_reload_script = '/usr/share/varnish/varnishreload'
+        }
       }
     }
     default: {
-      fail("Class['apache::params']: Unsupported osfamily: ${::osfamily}")
+      fail("Class['apache::params']: Unsupported os: ${::facts['os']['name']}")
     }
   }
-  $real_version = $::varnish::version ? {
-    /^(3|4).*/ => $::varnish::version,
-    default => $default_version,
-  }
-  $version = $real_version ? {
-    /4\..*/ => '4',
-    default => 3,
-  }
+  $version = $default_version
 }

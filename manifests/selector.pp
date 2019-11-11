@@ -1,14 +1,15 @@
 #selector.pp
 define varnish::selector(
-  $director = $name,
   $condition,
+  $director = $name,
   $rewrite = undef,
   $newurl = undef,
   $movedto = undef,
 ) {
-  $template_selector = $::varnish::params::version ? {
+  $template_selector = $::varnish::major_version ? {
     '4'     => 'varnish/includes/backendselection4.vcl.erb',
-    default => 'varnish/includes/backendselection.vcl.erb',
+    '3'     => 'varnish/includes/backendselection.vcl.erb',
+    default => 'varnish/includes/backendselection4.vcl.erb',
   }
 
   concat::fragment { "${title}-selector":

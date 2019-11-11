@@ -13,7 +13,7 @@ varnish::probe { 'health_check2':
       timeout   => '5s',
       threshold => '3',
       interval  => '5s',
-      request   => [ "GET /healthCheck2 HTTP/1.1", "Host: www.example1.com", "Connection: close" ]
+      request   => [ 'GET /healthCheck2 HTTP/1.1', 'Host: www.example1.com', 'Connection: close' ]
 }
 
 # configure backends
@@ -23,7 +23,7 @@ varnish::backend { 'srv3': host => '172.16.0.3', port => '80', probe => 'health_
 varnish::backend { 'srv4': host => '172.16.0.4', port => '80', probe => 'health_check2' }
 varnish::backend { 'srv5': host => '172.16.0.5', port => '80', probe => 'health_check2' }
 varnish::backend { 'srv6': host => '172.16.0.6', port => '80', probe => 'health_check2' }
- 
+
 # configure directors
 varnish::director { 'cluster1': backends => [ 'srv1', 'srv2' ] }
 varnish::director { 'cluster2': backends => [ 'srv3', 'srv4', 'srv5', 'srv6' ] }

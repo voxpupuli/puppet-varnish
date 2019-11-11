@@ -26,6 +26,7 @@ define varnish::acl(
   }
 }
 
+# lint:ignore:autoloader_layout
 define varnish::acl_member(
   $varnish_fqdn,
   $acl,
@@ -49,3 +50,4 @@ define varnish::acl_member(
     order   => "02-${acl}-2-${host}",
   }
 }
+# lint:endignore

@@ -67,24 +67,27 @@ class varnish (
   $shmlog_dir                   = '/var/lib/varnish',
   $shmlog_tempfs                = true,
   $version                      = present,
-  $add_repo                     = true,
-  $manage_firewall              = false,
+  Boolean $add_repo             = $::varnish::params::add_repo,
+  Boolean $manage_firewall      = false,
   $varnish_conf_template        = 'varnish/varnish-conf.erb',
   $additional_parameters        = {},
-) {
+) inherits ::varnish::params {
 
-  # read parameters
-  include varnish::params
+  $major_version = $version ? {
+    /(\d+)\./ => "${1}",
+    default => $::varnish::params::version
+  }
 
   # install Varnish
   class {'varnish::install':
     add_repo            => $add_repo,
     manage_firewall     => $manage_firewall,
     varnish_listen_port => $varnish_listen_port,
+    version             => $version,
   }
 
   # enable Varnish service
-  class {'varnish::service':
+  -> class {'varnish::service':
     start => $start,
   }
 
