@@ -1,3 +1,4 @@
+<%- @version = scope.lookupvar('varnish::params::version').to_i -%>
 [Unit]
 Description=Varnish a high-perfomance HTTP accelerator
 After=syslog.target network.target
@@ -5,7 +6,7 @@ After=syslog.target network.target
 [Service]
 
 #
-# If you want to make changes to this file, please copy it to 
+# If you want to make changes to this file, please copy it to
 # /etc/systemd/system/varnish.service and make your changes there.
 # This will override the file kept at /lib/systemd/system/varnish.service
 #
@@ -19,18 +20,22 @@ LimitNOFILE=131072
 # Default log size is 82MB + header
 LimitMEMLOCK=82000
 
-# Maximum size of the corefile. 
+# Maximum size of the corefile.
 LimitCORE=infinity
 
 EnvironmentFile=/etc/varnish/varnish.params
 
-Type=forking
+Type=<%- if @version >= 5 -%>simple<%- else -%>forking<%- end -%>
 PIDFile=/var/run/varnish.pid
 PrivateTmp=true
+<%- if @version >= 5 -%>
+PrivateDevices=true
+ProtectSystem=full
+ProtectHome=true
+<%- end -%>
 ExecStartPre=/usr/sbin/varnishd -C -f $VARNISH_VCL_CONF
-ExecStart=/usr/sbin/varnishd -P /var/run/varnish.pid -f $VARNISH_VCL_CONF $DAEMON_OPTS
+ExecStart=/usr/sbin/varnishd <%- if @version >= 5 -%>-F <%- end -%>-P /var/run/varnish.pid -f $VARNISH_VCL_CONF $DAEMON_OPTS
 ExecReload=<%= @vcl_reload_script %>
 
 [Install]
 WantedBy=multi-user.target
-
