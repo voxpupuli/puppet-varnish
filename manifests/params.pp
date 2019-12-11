@@ -64,7 +64,7 @@ class varnish::params {
           $systemd = true
           $conf_file_path = '/etc/varnish/varnish.params'
           $default_version ='5'
-          $vcl_reload_script = '/usr/share/varnish/varnishreload'
+          $vcl_reload_script = '/usr/share/varnish/varnishreload $VARNISH_VCL_CONF'
         }
       }
     }
