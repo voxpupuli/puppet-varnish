@@ -1,4 +1,13 @@
 fixtures:
+  forge_modules:
+    yumrepo_core:
+      repo: "puppetlabs/yumrepo_core"
+      ref: "1.0.6"
+      puppet_version: '>= 6.0.0'
+    mount_core:
+      repo: "puppetlabs/mount_core"
+      ref: "1.0.4"
+      puppet_version: '>= 6.0.0'
   repositories:
     stdlib: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
     concat: 'https://github.com/puppetlabs/puppetlabs-concat.git'

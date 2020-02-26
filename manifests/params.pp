@@ -9,6 +9,7 @@ class varnish::params {
       $default_version = $::facts['os']['release']['major'] ? {
         '6' => '3',
         '7' => '4',
+        '8' => '6',
       }
       $add_repo = true
       $vcl_reload_script = '/usr/sbin/varnish_reload_vcl'

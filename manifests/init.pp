@@ -51,6 +51,7 @@ class varnish (
   $storage_type                 = 'malloc',
   $varnish_vcl_conf             = '/etc/varnish/default.vcl',
   $varnish_user                 = 'varnish',
+  $varnish_jail_user            = 'vcache',
   $varnish_group                = 'varnish',
   $varnish_listen_address       = '',
   $varnish_listen_port          = '6081',
