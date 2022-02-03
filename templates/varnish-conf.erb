@@ -95,8 +95,8 @@ DAEMON_OPTS="-a <%= scope.lookupvar('varnish_listen_address') %>:<%= scope.looku
 <% if scope.lookupvar('storage_type') == 'malloc' -%>
              -s <%= scope.lookupvar('storage_type') %>,<%= scope.lookupvar('varnish_storage_size') %> \
 <% elsif scope.lookupvar('storage_type') == 'mse' %>
-             -s <%= scope.lookupvar('storage_type') %> %> \
-             -p memory_target=<%= scope.lookupvar('varnish_storage_size') %> %> \
+             -s <%= scope.lookupvar('storage_type') %> \
+             -p memory_target=<%= scope.lookupvar('varnish_storage_size') %> \
 <% else -%>
              -s <%= scope.lookupvar('storage_type') %>,<%= scope.lookupvar('varnish_storage_file') %>,<%= scope.lookupvar('varnish_storage_size') %> \
 <% end -%>
