@@ -18,10 +18,8 @@
 # }
 
 class varnish::service (
-  $start                  = 'yes',
-  $systemd                = $::varnish::params::systemd,
-  $systemd_conf_path      = $::varnish::params::systemd_conf_path,
-  $vcl_reload_script      = $::varnish::params::vcl_reload_script
+  Optional[String]               $start                  = 'yes',
+  Optional[Stdlib::Absolutepath] $vcl_reload_script      = $::varnish::params::vcl_reload_script
 ) inherits ::varnish::params {
 
   # include install
@@ -33,52 +31,14 @@ class varnish::service (
     default => running,
   }
 
-  # varnish service
-  $reload_cmd = $::osfamily ? {
-    'debian'    => '/etc/init.d/varnish reload',
-    'redhat'    => '/sbin/service varnish reload',
-    default     => undef,
-  }
-
   service {'varnish':
     ensure  => $service_state,
-    restart => $reload_cmd,
     require => Package['varnish'],
   }
-
-  $restart_command = $::osfamily ? {
-    'debian'    => '/etc/init.d/varnish restart',
-    'redhat'    => '/sbin/service varnish restart',
-    default     => undef,
-  }
-
-  $status_command = $::osfamily ? {
-    'debian'    => '/etc/init.d/varnish status',
-    'redhat'    => '/sbin/service varnish status',
-    default     => undef,
-  }
-
-  exec {'restart-varnish':
-    command     => $restart_command,
-    refreshonly => true,
-    onlyif      => $status_command,
-  }
-
-  if $systemd {
-      file {  $systemd_conf_path :
-        ensure  => file,
-        content => template('varnish/varnish.service.erb'),
-        notify  => Exec['Reload systemd'],
-        before  => [Service['varnish'], Exec['restart-varnish']],
-        require => Package['varnish'],
-      }
-
-      if (!defined(Exec['Reload systemd'])) {
-        exec {'Reload systemd':
-          command     => 'systemctl daemon-reload',
-          path        => ['/bin','/sbin','/usr/bin','/usr/sbin'],
-          refreshonly => true,
-        }
-      }
+  systemd::dropin_file{'varnish_service':
+    unit     => 'varnish.service',
+    content  => template('varnish/varnish.dropin.erb'),
+    filename => 'varnish_override.conf',
+    require  => Service['varnish'],
   }
 }

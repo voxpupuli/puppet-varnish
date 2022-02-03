@@ -8,6 +8,11 @@ fixtures:
       repo: "puppetlabs/mount_core"
       ref: "1.0.4"
       puppet_version: '>= 6.0.0'
+    systemd:
+      repo: "puppet-systemd"
+      #ref: "3.5.2"
+    firewall:
+      repo: "puppetlabs/firewall"
   repositories:
     stdlib: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
     concat: 'https://github.com/puppetlabs/puppetlabs-concat.git'

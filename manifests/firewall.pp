@@ -3,8 +3,8 @@
 # Uses puppetlabs/firewall module to open varnish listen port
 #
 class varnish::firewall (
-  $manage_firewall     = false,
-  $varnish_listen_port = '6081',
+  Boolean $manage_firewall     = false,
+  Stdlib::Port $varnish_listen_port = 6081,
 ) {
 
   if $manage_firewall {

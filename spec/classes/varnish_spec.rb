@@ -6,19 +6,19 @@ describe 'varnish', type: :class do
       {
         architecture: 'amd64',
         osfamily: 'Debian',
-        operatingsystemrelease: '7',
+        operatingsystemrelease: '8',
         concat_basedir: '/dne',
         lsbdistid: 'Debian',
-        lsbdistcodename: 'wheezy',
+        lsbdistcodename: 'jessie',
         os: {
           architecture: 'amd64',
           distro: {
-            codename: 'wheezy',
-            description: 'Debian GNU/Linux 7.11 (wheezy)',
+            codename: 'jessie',
+            description: 'Debian GNU/Linux 8.11 (jessie)',
             id: 'Debian',
             release: {
-              full: '7.11',
-              major: '7',
+              full: '8.11',
+              major: '8',
               minor: '11',
             },
           },
@@ -26,26 +26,25 @@ describe 'varnish', type: :class do
           hardware: 'x86_64',
           name: 'Debian',
           release: {
-            full: '7.11',
-            major: '7',
+            full: '8.11',
+            major: '8',
             minor: '11',
           },
           selinux: {
             enabled: false,
           },
         },
-
       }
     end
 
     it { is_expected.to compile }
-    it { is_expected.to contain_class('varnish::install').with('add_repo' => 'true') }
+    it { is_expected.to contain_class('varnish::install').with('add_repo' => 'false') }
     it { is_expected.to contain_class('varnish::service').with('start' => 'yes') }
     it { is_expected.to contain_class('varnish::shmlog') }
     it {
       is_expected.to contain_file('varnish-conf').with(
         'ensure'  => 'present',
-        'path'    => '/etc/default/varnish',
+        'path'    => '/etc/varnish/varnish.params',
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
@@ -67,6 +66,22 @@ describe 'varnish', type: :class do
       end
 
       it { is_expected.not_to contain_class('varnish::shmlog') }
+    end
+
+    context 'Varnish Enterprise' do
+      let :params do
+        { varnish_enterprise: true }
+      end
+
+      it { is_expected.to contain_class('varnish::install') }
+      it { is_expected.to contain_class('varnish::install').with_varnish_enterprise(true) }
+
+      it {
+        is_expected.to contain_package('varnish').with(
+          'ensure' => 'present',
+          'name'   => 'varnish-plus',
+        )
+      }
     end
 
     context 'default varnish-conf values' do
@@ -100,7 +115,7 @@ describe 'varnish', type: :class do
     end
 
     it { is_expected.to compile }
-    it { is_expected.to contain_class('varnish::install').with('add_repo' => 'true') }
+    it { is_expected.to contain_class('varnish::install').with('add_repo' => 'false') }
     it { is_expected.to contain_class('varnish::service').with('start' => 'yes') }
     it { is_expected.to contain_class('varnish::shmlog') }
     it {
@@ -129,6 +144,7 @@ describe 'varnish', type: :class do
       it { is_expected.not_to contain_class('varnish::shmlog') }
     end
   end
+
   context 'on a Ubuntu OS' do
     let :facts do
       {
@@ -137,6 +153,28 @@ describe 'varnish', type: :class do
         concat_basedir: '/dne',
         lsbdistid: 'Ubuntu',
         lsbdistcodename: 'bionic',
+        os: {
+          architecture: 'amd64',
+          distro: {
+            codename: 'bionic',
+            description: 'Ubuntu 18.04.5 LTS',
+            id: 'Ubuntu',
+            release: {
+              full: '18.04',
+              major: '18.04',
+            },
+          },
+          family: 'Debian',
+          hardware: 'x86_64',
+          name: 'Ubuntu',
+          release: {
+            full: '18.04',
+            major: '18.04',
+          },
+          selinux: {
+            enabled: false,
+          },
+        },
       }
     end
 

@@ -5,24 +5,24 @@
 class varnish::repo (
   $version  = undef,
   $base_url = '',
-  $enable   = true,
+  Boolean $enable   = false,
   ) inherits ::varnish::params {
 
-  $repo_base_url = 'http://repo.varnish-cache.org'
+  $repo_base_url = 'https://packagecloud.io/varnishcache'
 
   $repo_distro = $::operatingsystem ? {
     'RedHat'    => 'redhat',
     'LinuxMint' => 'ubuntu',
     'centos'    => 'redhat',
     'amazon'    => 'redhat',
+    'debian'    => 'ubuntu',
     default     => downcase($::operatingsystem),
   }
 
   $repo_version = $version ? {
-    /^3\./  => '3.0',
     /^4\.0/ => '4.0',
     /^4\.1/ => '4.1',
-    default => '3.0',
+    default => '60lts',
   }
 
   $repo_arch = $::architecture
@@ -38,24 +38,25 @@ class varnish::repo (
   else {
     $osver = $osver_array[0]
   }
-  if str2bool($enable) {
+  if $enable {
     case $::osfamily {
       redhat: {
         yumrepo { 'varnish':
           descr    => 'varnish',
           enabled  => '1',
-          gpgcheck => '0',
+          gpgcheck => '1',
           priority => '1',
-          baseurl  => "${repo_base_url}/${repo_distro}/varnish-${repo_version}/el${osver}/${repo_arch}",
+          gpgkey   => "${repo_base_url}/varnish${repo_version}/gpgkey",
+          baseurl  => "${repo_base_url}/varnish${repo_version}/el/${osver}/${repo_arch}",
         }
       }
       debian: {
         apt::source { 'varnish':
-          location => "${repo_base_url}/${repo_distro}",
+          location => "${repo_base_url}/varnish${repo_version}/${repo_distro}/",
           repos    => "varnish-${repo_version}",
           key      => {
-            id     => 'E98C6BBBA1CBC5C3EB2DF21C60E7C096C4DEFFEB',
-            source => 'http://repo.varnish-cache.org/debian/GPG-key.txt',
+            id     => '48D81A24CB0456F5D59431D94CFCFD6BA750EDCD',
+            source => "${repo_base_url}/varnish${repo_version}/gpgkey",
           }
         }
       }

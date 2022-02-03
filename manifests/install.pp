@@ -18,10 +18,13 @@
 #
 
 class varnish::install (
-  $add_repo = true,
-  $manage_firewall = false,
-  $varnish_listen_port = '6081',
-  $version = 'present',
+  Boolean $add_repo = true,
+  Boolean $manage_firewall = false,
+  Stdlib::Port  $varnish_listen_port = 6081,
+  Optional[String]  $package_name = undef,
+  Boolean $varnish_enterprise = false,
+  Boolean $varnish_enterprise_vmods_extra = false,
+  String  $version = 'present',
 ) {
   class { 'varnish::repo':
     enable  => $add_repo,
@@ -33,9 +36,37 @@ class varnish::install (
     manage_firewall     => $manage_firewall,
     varnish_listen_port => $varnish_listen_port,
   }
-
-  # varnish package
-  package { 'varnish':
-    ensure  => $version,
+  #Custom Package Name defined
+  if($package_name) {
+    package { 'varnish':
+      ensure => $version,
+      name   => $package_name,
+    }
+  }
+  else { #let the module decide
+    if($varnish_enterprise) {
+      $package_ensure = 'varnish-plus'
+      $package_absent = 'varnish'
+      if($varnish_enterprise_vmods_extra) {
+        package { 'varnish-plus-vmods-extra':
+          ensure  => 'present',
+          name    => 'varnish-plus-vmods-extra',
+          require => Package['varnish'],
+        }
+      }
+    }
+    else {
+      $package_ensure = 'varnish'
+      $package_absent = 'varnish-plus'
+    }
+    package { 'varnish-absent':
+      ensure => 'absent',
+      name   => $package_absent,
+      before => Package['varnish'],
+    }
+    package { 'varnish':
+      ensure => $version,
+      name   => $package_ensure,
+    }
   }
 }

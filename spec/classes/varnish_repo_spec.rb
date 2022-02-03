@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'varnish::repo', type: :class do
-  let(:pre_condition) { 'include ::varnish' }
+  # let(:pre_condition) { 'include ::varnish' }
 
   context 'on a Debian OS' do
     let :facts do
@@ -10,20 +10,52 @@ describe 'varnish::repo', type: :class do
         lsbdistid: 'Debian',
         operatingsystem: 'Debian',
         lsbdistcodename: 'foo',
+        os: {
+          architecture: 'amd64',
+          distro: {
+            codename: 'jessie',
+            description: 'Debian GNU/Linux 8.11 (jessie)',
+            id: 'Debian',
+            release: {
+              full: '8.11',
+              major: '8',
+              minor: '11',
+            },
+          },
+          family: 'Debian',
+          hardware: 'x86_64',
+          name: 'Debian',
+          release: {
+            full: '8.11',
+            major: '8',
+            minor: '11',
+          },
+          selinux: {
+            enabled: false,
+          },
+        },
       }
     end
 
     it { is_expected.to compile }
-    it {
-      is_expected.to contain_apt__source('varnish').with(
-        'location'   => 'http://repo.varnish-cache.org/debian',
-        'repos'      => 'varnish-3.0',
-        'key'        => {
-          'id'     => 'E98C6BBBA1CBC5C3EB2DF21C60E7C096C4DEFFEB',
-          'source' => 'http://repo.varnish-cache.org/debian/GPG-key.txt',
-        },
-      )
-    }
+    it { is_expected.not_to contain_apt__source('varnish') }
+    it { is_expected.not_to contain_yumrepo('varnish') }
+    context 'enabled Repo' do
+      let :params do
+        { enable: true }
+      end
+
+      it {
+        is_expected.to contain_apt__source('varnish').with(
+          'location'   => 'https://packagecloud.io/varnishcache/varnish60lts/ubuntu/',
+          'repos'      => 'varnish-60lts',
+          'key'        => {
+            'id'     => '48D81A24CB0456F5D59431D94CFCFD6BA750EDCD',
+            'source' => 'https://packagecloud.io/varnishcache/varnish60lts/gpgkey',
+          },
+        )
+      }
+    end
   end
 
   context 'on a RedHat OS' do
@@ -31,19 +63,26 @@ describe 'varnish::repo', type: :class do
       {
         osfamily: 'RedHat',
         operatingsystem: 'RedHat',
-        operatingsystemrelease: '6.4',
+        operatingsystemrelease: '7.4',
         architecture: 'x86_64',
       }
     end
 
     it { is_expected.to compile }
     it { is_expected.not_to contain_apt__source('varnish') }
-    it {
-      is_expected.to contain_yumrepo('varnish').with(
-        'enabled' => '1',
-        'baseurl' => 'http://repo.varnish-cache.org/redhat/varnish-3.0/el6/x86_64',
-      )
-    }
+    it { is_expected.not_to contain_yumrepo('varnish') }
+    context 'enabled Repo' do
+      let :params do
+        { enable: true }
+      end
+
+      it {
+        is_expected.to contain_yumrepo('varnish').with(
+          'enabled' => '1',
+          'baseurl' => 'https://packagecloud.io/varnishcache/varnish60lts/el/7/x86_64',
+        )
+      }
+    end
   end
 
   context 'on an Amazon OS' do
@@ -58,11 +97,18 @@ describe 'varnish::repo', type: :class do
 
     it { is_expected.to compile }
     it { is_expected.not_to contain_apt__source('varnish') }
-    it {
-      is_expected.to contain_yumrepo('varnish').with(
-        'enabled' => '1',
-        'baseurl' => 'http://repo.varnish-cache.org/redhat/varnish-3.0/el6/x86_64',
-      )
-    }
+    it { is_expected.not_to contain_yumrepo('varnish') }
+    context 'enabled Repo' do
+      let :params do
+        { enable: true }
+      end
+
+      it {
+        is_expected.to contain_yumrepo('varnish').with(
+          'enabled' => '1',
+          'baseurl' => 'https://packagecloud.io/varnishcache/varnish60lts/el/6/x86_64',
+        )
+      }
+    end
   end
 end
