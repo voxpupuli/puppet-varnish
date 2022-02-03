@@ -6,7 +6,7 @@ define varnish::probe(
   String $window    = '8',
   String $includedir = $varnish::vcl::includedir,
   Optional[String] $url       = undef,
-  Optional[String] $request   = undef,
+  Optional[Variant[String,Array[String]]] $request   = undef,
 ) {
 
   validate_re($title,'^[A-Za-z0-9_]*$', "Invalid characters in probe name ${title}. Only letters, numbers and underscore are allowed.")
