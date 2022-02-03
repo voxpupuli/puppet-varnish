@@ -44,34 +44,36 @@
 #
 
 class varnish (
-  $start                        = 'yes',
-  $reload_vcl                   = true,
-  $nfiles                       = '131072',
-  $memlock                      = '82000',
-  $storage_type                 = 'malloc',
-  $varnish_vcl_conf             = '/etc/varnish/default.vcl',
-  $varnish_user                 = 'varnish',
-  $varnish_jail_user            = 'vcache',
-  $varnish_group                = 'varnish',
-  $varnish_listen_address       = '',
-  $varnish_listen_port          = '6081',
-  $varnish_admin_listen_address = 'localhost',
-  $varnish_admin_listen_port    = '6082',
-  $varnish_min_threads          = '5',
-  $varnish_max_threads          = '500',
-  $varnish_thread_timeout       = '300',
-  $varnish_storage_size         = '1G',
-  $varnish_secret_file          = '/etc/varnish/secret',
-  $varnish_storage_file         = '/var/lib/varnish-storage/varnish_storage.bin',
-  $varnish_ttl                  = '120',
-  $vcl_dir                      = undef,
-  $shmlog_dir                   = '/var/lib/varnish',
-  $shmlog_tempfs                = true,
-  $version                      = present,
+  String                $start                        = 'yes',
+  Boolean               $reload_vcl                   = true,
+  String                $nfiles                       = '131072',
+  String                $memlock                      = '82000',
+  String                $storage_type                 = 'malloc',
+  Stdlib::Absolutepath  $varnish_vcl_conf             = '/etc/varnish/default.vcl',
+  String                $varnish_user                 = 'varnish',
+  String                $varnish_jail_user            = 'vcache',
+  String                $varnish_group                = 'varnish',
+  String                $varnish_listen_address       = '',
+  Stdlib::Port          $varnish_listen_port          = 6081,
+  String                $varnish_admin_listen_address = 'localhost',
+  Stdlib::Port $varnish_admin_listen_port    = 6082,
+  String $varnish_min_threads          = '5',
+  String $varnish_max_threads          = '500',
+  String $varnish_thread_timeout       = '300',
+  String $varnish_storage_size         = '1G',
+  Stdlib::Absolutepath $varnish_secret_file          = '/etc/varnish/secret',
+  Stdlib::Absolutepath $varnish_storage_file         = '/var/lib/varnish-storage/varnish_storage.bin',
+  String $varnish_ttl                  = '120',
+  Boolean $varnish_enterprise   = false,
+  Boolean $varnish_enterprise_vmods_extra = false,
+  Optional[Stdlib::Absolutepath] $vcl_dir                      = undef,
+  Stdlib::Absolutepath $shmlog_dir                   = '/var/lib/varnish',
+  Boolean $shmlog_tempfs                = true,
+  String $version                      = present,
   Boolean $add_repo             = $::varnish::params::add_repo,
   Boolean $manage_firewall      = false,
-  $varnish_conf_template        = 'varnish/varnish-conf.erb',
-  $additional_parameters        = {},
+  String $varnish_conf_template        = 'varnish/varnish-conf.erb',
+  Hash $additional_parameters        = {},
 ) inherits ::varnish::params {
 
   $major_version = $version ? {
@@ -81,10 +83,12 @@ class varnish (
 
   # install Varnish
   class {'varnish::install':
-    add_repo            => $add_repo,
-    manage_firewall     => $manage_firewall,
-    varnish_listen_port => $varnish_listen_port,
-    version             => $version,
+    add_repo                       => $add_repo,
+    manage_firewall                => $manage_firewall,
+    varnish_listen_port            => $varnish_listen_port,
+    version                        => $version,
+    varnish_enterprise             => $varnish_enterprise,
+    varnish_enterprise_vmods_extra => $varnish_enterprise_vmods_extra,
   }
 
   # enable Varnish service
@@ -109,7 +113,7 @@ class varnish (
     mode    => '0644',
     content => template($varnish_conf_template),
     require => Package['varnish'],
-    notify  => Exec['restart-varnish'],
+    notify  => Service['varnish'],
   }
 
   # storage dir

@@ -1,0 +1,8 @@
+[Service]
+ExecStart=
+EnvironmentFile=-/etc/varnish/varnish.params
+ExecStart=/usr/sbin/varnishd -f $VARNISH_VCL_CONF $DAEMON_OPTS
+
+[Unit]
+Wants=network-online.target
+After=network.target network-online.target

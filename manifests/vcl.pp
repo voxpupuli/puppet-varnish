@@ -31,64 +31,41 @@
 # Not following above rules will result in VCL compilation failure
 #
 class varnish::vcl (
-  $functions         = {},
-  $probes            = {},
-  $backends          = { 'default' => { host => '127.0.0.1', port => '8080' } },
-  $directors         = {},
-  $selectors         = {},
-  $conditions        = [],
-  $acls              = {},
-  $blockedips        = [],
-  $blockedbots       = [],
-  $enable_waf        = false,
-  $pipe_uploads      = false,
-  $wafexceptions     = [ '57' , '56' , '34' ],
+  Hash $functions         = {},
+  Hash $probes            = {},
+  Hash $backends          = { 'default' => { host => '127.0.0.1', port => '8080' } },
+  Hash $directors         = {},
+  Hash $selectors         = {},
+  Array $conditions        = [],
+  Hash $acls              = {},
+  Array $blockedips        = [],
+  Array $blockedbots       = [],
+  Boolean $enable_waf        = false,
+  Boolean $pipe_uploads      = false,
+  Array[String] $wafexceptions     = [ '57' , '56' , '34' ],
   $purgeips          = [],
-  $includedir        = '/etc/varnish/includes',
-  $manage_includes   = true,
-  $cookiekeeps       = [ '__ac', '_ZopeId', 'captchasessionid', 'statusmessages', '__cp', 'MoodleSession'],
+  Stdlib::Absolutepath $includedir        = '/etc/varnish/includes',
+  Boolean $manage_includes   = true,
+  Array[String] $cookiekeeps       = [ '__ac', '_ZopeId', 'captchasessionid', 'statusmessages', '__cp', 'MoodleSession'],
   $defaultgrace      = undef,
-  $min_cache_time    = '60s',
-  $static_cache_time = '5m',
-  $gziptypes         = [ 'text/', 'application/xml', 'application/rss', 'application/xhtml', 'application/javascript', 'application/x-javascript' ],
+  String $min_cache_time    = '60s',
+  String $static_cache_time = '5m',
+  Array[String] $gziptypes         = [ 'text/', 'application/xml', 'application/rss', 'application/xhtml', 'application/javascript', 'application/x-javascript' ],
   $template          = undef,
-  $logrealip         = false,
-  $honor_backend_ttl = false,
-  $cond_requests     = false,
-  $x_forwarded_proto = false,
-  $https_redirect    = false,
-  $drop_stat_cookies = true,
+  Boolean $logrealip         = false,
+  Boolean $honor_backend_ttl = false,
+  Boolean $cond_requests     = false,
+  Boolean $x_forwarded_proto = false,
+  Boolean $https_redirect    = false,
+  Boolean $drop_stat_cookies = true,
   $cond_unset_cookies = undef,
-  $unset_headers     = ['Via','X-Powered-By','X-Varnish','Server','Age','X-Cache'],
-  $unset_headers_debugips = [ '172.0.0.1' ],
+  Array[String] $unset_headers     = ['Via','X-Powered-By','X-Varnish','Server','Age','X-Cache'],
+  Array[String] $unset_headers_debugips = [ '172.0.0.1' ],
 ) {
 
   include ::varnish
   validate_array($unset_headers)
   validate_array($unset_headers_debugips)
-
-  # define include file type
-  # lint:ignore:autoloader_layout
-  # lint:ignore:nested_classes_or_defines
-  define includefile {
-    $selectors = $varnish::vcl::selectors
-    concat { "${varnish::vcl::includedir}/${title}.vcl":
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0444',
-      notify  => Service['varnish'],
-      require => File[$varnish::vcl::includedir],
-    }
-
-    concat::fragment { "${title}-header":
-      target  => "${varnish::vcl::includedir}/${title}.vcl",
-      content => "# File managed by Puppet\n",
-      order   => '01',
-    }
-  }
-  # lint:endignore
-  # lint:endignore
-
 
   # select template to use
   if $template {
