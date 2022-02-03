@@ -1,4 +1,6 @@
 [Service]
+Type=forking
+KillMode=process
 ExecStart=
 EnvironmentFile=-/etc/varnish/varnish.params
 ExecStart=/usr/sbin/varnishd -f $VARNISH_VCL_CONF $DAEMON_OPTS
