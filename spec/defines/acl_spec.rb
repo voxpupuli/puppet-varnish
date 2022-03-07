@@ -11,10 +11,9 @@ describe 'varnish::acl', type: :define do
   context('expected behaviour') do
     let(:params) { { hosts: ['192.168.10.14'] } }
 
-    it {
-      is_expected.to contain_concat__fragment('foo-acl_body')
-      is_expected.to contain_concat__fragment('foo-acl_head')
-    }
+    it { is_expected.to contain_concat__fragment('foo-acl_body').with_target('/etc/varnish/includes/acls.vcl') }
+    it { is_expected.to contain_concat__fragment('foo-acl_head').with_target('/etc/varnish/includes/acls.vcl') }
+    it { is_expected.to contain_concat__fragment('foo-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }
   end
 
   context('invalid acl title') do

@@ -52,6 +52,7 @@ describe 'varnish::vcl', type: :class do
     # Backends
     it { is_expected.to contain_varnish__backend('default').with_host('127.0.0.1') }
     it { is_expected.to contain_varnish__backend('default').with_port('8080') }
+    it { is_expected.to contain_concat__fragment('default-backend') }
 
     # Default ACL
     it { is_expected.to contain_varnish__acl('blockedips').with_hosts([]) }
@@ -74,6 +75,7 @@ describe 'varnish::vcl', type: :class do
     it { is_expected.to compile }
     it { is_expected.to contain_varnish__backend('test').with_host('127.0.0.2') }
     it { is_expected.to contain_varnish__backend('test').with_port('8081') }
+    it { is_expected.to contain_concat__fragment('test-backend').with_target('/etc/varnish/includes/backends.vcl') }
   end
 
   context 'manual probes' do
@@ -89,6 +91,7 @@ describe 'varnish::vcl', type: :class do
 
     it { is_expected.to compile }
     it { is_expected.to contain_varnish__probe('test') }
+    it { is_expected.to contain_concat__fragment('test-probe') }
   end
 
   context 'manual directors' do
@@ -104,6 +107,7 @@ describe 'varnish::vcl', type: :class do
 
     it { is_expected.to compile }
     it { is_expected.to contain_varnish__director('test') }
+    it { is_expected.to contain_concat__fragment('test-director') }
   end
 
   context 'manual selectors' do
