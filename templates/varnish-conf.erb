@@ -88,6 +88,9 @@ VARNISH_TTL=<%= scope.lookupvar('varnish_ttl') %>
 # # sure you update this section, too.
 # Version: <%= scope.lookupvar('varnish::params::version') %>
 DAEMON_OPTS="-a <%= scope.lookupvar('varnish_listen_address') %>:<%= scope.lookupvar('varnish_listen_port') %> \
+<% if @varnish_proxy_listen_port -%>
+            -a <%= scope.lookupvar('varnish_proxy_listen_address') %>:<%= scope.lookupvar('varnish_proxy_listen_port') %>,PROXY \
+<% end -%>
              -f <%= scope.lookupvar('varnish_vcl_conf') %> \
              -T <%= scope.lookupvar('varnish_admin_listen_address') %>:<%= scope.lookupvar('varnish_admin_listen_port') %> \
              -t <%= scope.lookupvar('varnish_ttl') %> \

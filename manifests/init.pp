@@ -37,7 +37,7 @@
 # - storage size is set to 2 GB
 # - vcl file is '/etc/varnish/my-vcl.vcl'
 # class {'varnish':
-#   varnish_listen_port  => '80',
+#   varnish_listen_port  => 80,
 #   varnish_storage_size => '2G',
 #   varnish_vcl_conf     => '/etc/varnish/my-vcl.vcl',
 # }
@@ -55,6 +55,8 @@ class varnish (
   String                $varnish_group                = 'varnish',
   String                $varnish_listen_address       = '',
   Stdlib::Port          $varnish_listen_port          = 6081,
+  String                $varnish_proxy_listen_address       = '127.0.0.1',
+  Optional[Stdlib::Port]  $varnish_proxy_listen_port          = undef,
   String                $varnish_admin_listen_address = 'localhost',
   Stdlib::Port $varnish_admin_listen_port    = 6082,
   String $varnish_min_threads          = '5',
