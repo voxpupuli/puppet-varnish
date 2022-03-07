@@ -144,11 +144,12 @@ describe 'varnish', type: :class do
 
       it { is_expected.not_to contain_class('varnish::shmlog') }
     end
-    
+
     context 'enable proxy port' do
       let :params do
         { varnish_proxy_listen_port: 8443 }
       end
+
       it { is_expected.to contain_file('varnish-conf').with_content(%r{-a 127.0.0.1:8443,PROXY}) }
     end
   end
