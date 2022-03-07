@@ -61,8 +61,6 @@ describe 'varnish::vcl', type: :class do
     it { is_expected.to contain_concat__fragment('unset_headers_debugips-acl_body').with_target('/etc/varnish/includes/acls.vcl') }
     it { is_expected.to contain_concat__fragment('unset_headers_debugips-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }
     it { is_expected.to contain_varnish__acl('purge').with_hosts([]) }
-
-
   end
 
   context 'manual backends' do
