@@ -57,7 +57,12 @@ describe 'varnish::vcl', type: :class do
     # Default ACL
     it { is_expected.to contain_varnish__acl('blockedips').with_hosts([]) }
     it { is_expected.to contain_varnish__acl('unset_headers_debugips').with_hosts(['172.0.0.1']) }
+    it { is_expected.to contain_concat__fragment('unset_headers_debugips-acl_head').with_target('/etc/varnish/includes/acls.vcl') }
+    it { is_expected.to contain_concat__fragment('unset_headers_debugips-acl_body').with_target('/etc/varnish/includes/acls.vcl') }
+    it { is_expected.to contain_concat__fragment('unset_headers_debugips-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }
     it { is_expected.to contain_varnish__acl('purge').with_hosts([]) }
+
+
   end
 
   context 'manual backends' do
