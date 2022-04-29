@@ -1,4 +1,6 @@
 .gitlab-ci.yml:
+  unmanaged: true
+  override: false
   simplecov: true
 appveyor.yml:
   simplecov: true
@@ -7,3 +9,22 @@ appveyor.yml:
 spec/spec_helper.rb:
   coverage_report: true
   minimum_code_coverage_percentage: 90
+spec/default_facts.yml:
+  extra_facts:
+    osfamily: 'RedHat'
+    operatingsystem: 'RedHat'
+    operatingsystemmajrelease: '7'
+    operatingsystemrelease: '7.6'
+    architecture: 'amd64'
+    selinux: false
+    os:
+      architecture: x86_64
+      family: RedHat
+      hardware: x86_64
+      name: RedHat
+      release:
+        full: '7.6'
+        major: '7'
+        minor: '6'
+      selinux:
+        enabled: false
