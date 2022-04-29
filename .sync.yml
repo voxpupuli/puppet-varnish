@@ -1,0 +1,9 @@
+.gitlab-ci.yml:
+  simplecov: true
+appveyor.yml:
+  simplecov: true
+.travis.yml:
+  simplecov: true
+spec/spec_helper.rb:
+  coverage_report: true
+  minimum_code_coverage_percentage: 90
