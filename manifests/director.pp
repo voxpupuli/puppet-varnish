@@ -1,12 +1,12 @@
 #director.pp
-define varnish::director(
-  $type = 'round-robin',
-  $backends = [],
+define varnish::director (
+  String $type = 'round-robin',
+  Array $backends = [],
+  String $vcl_version = $varnish::vcl::vcl_version
 ) {
-
   validate_re($title,'^[A-Za-z0-9_]*$', "Invalid characters in director name ${title}. Only letters, numbers and underscore are allowed.")
 
-  case $::varnish::major_version {
+  case $vcl_version {
     '4': {
       $template_director = 'varnish/includes/directors4.vcl.erb'
       $director_object = $type ? {

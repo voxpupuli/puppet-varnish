@@ -22,7 +22,6 @@ class varnish::shmlog (
   $tempfs     = true,
   $size       = '170M',
 ) {
-
   file { 'shmlog-dir':
     ensure  => directory,
     path    => $shmlog_dir,
@@ -35,7 +34,7 @@ class varnish::shmlog (
     default => absent,
   }
 
-  $options = $::selinux ? {
+  $options = $facts['os']['selinux']['enabled'] ? {
     true    => "defaults,noatime,size=${size},rootcontext=system_u:object_r:varnishd_var_lib_t:s0",
     default => "defaults,noatime,size=${size}",
   }

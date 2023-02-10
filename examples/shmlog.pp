@@ -1,1 +1,1 @@
-class {'varnish::shmlog':}
+class { 'varnish::shmlog': }

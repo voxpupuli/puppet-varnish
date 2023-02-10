@@ -1,0 +1,2 @@
+---
+varnish::service::vcl_reload_script: /usr/sbin/varnish_reload_vcl

@@ -1,15 +1,15 @@
 #selector.pp
-define varnish::selector(
+define varnish::selector (
   String $condition,
-  $director = $name,
-  $rewrite = undef,
-  $newurl = undef,
-  $movedto = undef,
-  $order = '03',
+  String $director = $name,
+  Optional[String] $rewrite = undef,
+  Optional[String] $newurl = undef,
+  Optional[String] $movedto = undef,
+  Variant[String, Integer] $order = '03',
   Stdlib::Absolutepath $includedir = $varnish::vcl::includedir,
-  String $varnish_major_version = $varnish::major_version
+  String $vcl_version = $varnish::vcl::vcl_version
 ) {
-  $template_selector = $varnish_major_version ? {
+  $template_selector = $vcl_version ? {
     '4'     => 'varnish/includes/backendselection4.vcl.erb',
     default => 'varnish/includes/backendselection4.vcl.erb',
   }
@@ -19,5 +19,4 @@ define varnish::selector(
     content => template($template_selector),
     order   => $order,
   }
-
 }

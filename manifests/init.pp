@@ -72,19 +72,15 @@ class varnish (
   Stdlib::Absolutepath $shmlog_dir                   = '/var/lib/varnish',
   Boolean $shmlog_tempfs                = true,
   String $version                      = present,
-  Boolean $add_repo             = $::varnish::params::add_repo,
+  Boolean $add_repo             = false,
   Boolean $manage_firewall      = false,
   String $varnish_conf_template        = 'varnish/varnish-conf.erb',
+  Stdlib::Absolutepath $conf_file_path  = '/etc/varnish/varnish.params',
   Hash $additional_parameters        = {},
-) inherits ::varnish::params {
-
-  $major_version = $version ? {
-    /(\d+)\./ => "${1}",
-    default => $::varnish::params::version
-  }
-
+) {
+  Class['varnish::install'] -> Class['varnish::service']
   # install Varnish
-  class {'varnish::install':
+  class { 'varnish::install':
     add_repo                       => $add_repo,
     manage_firewall                => $manage_firewall,
     varnish_listen_port            => $varnish_listen_port,
@@ -94,9 +90,7 @@ class varnish (
   }
 
   # enable Varnish service
-  -> class {'varnish::service':
-    start => $start,
-  }
+  include varnish::service
 
   # mount shared memory log dir as tempfs
   if $shmlog_tempfs {
@@ -108,8 +102,8 @@ class varnish (
 
   # varnish config file
   file { 'varnish-conf':
-    ensure  => present,
-    path    => $varnish::params::conf_file_path,
+    ensure  => file,
+    path    => $conf_file_path,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
