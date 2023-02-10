@@ -9,11 +9,11 @@ class { 'varnish::vcl': }
 # configure probes
 varnish::probe { 'health_check1': url => '/health_check_url1' }
 varnish::probe { 'health_check2':
-      window    => '8',
-      timeout   => '5s',
-      threshold => '3',
-      interval  => '5s',
-      request   => [ 'GET /healthCheck2 HTTP/1.1', 'Host: www.example1.com', 'Connection: close' ]
+  window    => '8',
+  timeout   => '5s',
+  threshold => '3',
+  interval  => '5s',
+  request   => ['GET /healthCheck2 HTTP/1.1', 'Host: www.example1.com', 'Connection: close'],
 }
 
 # configure backends

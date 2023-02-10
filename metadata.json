@@ -1,7 +1,7 @@
 {
-  "name": "maxchk-varnish",
-  "version": "2.0.0",
-  "author": "Max Horlanchuk <max.horlanchuk@gmail.com>",
+  "name": "apa-varnish",
+  "version": "3.0.0",
+  "author": "APA-Tech",
   "summary": "Varnish module",
   "license": "Apache-2.0",
   "source": "",
@@ -13,11 +13,11 @@
     },
     {
       "name": "puppetlabs/concat",
-      "version_requirement": ">= 1.0.0 < 6.0.0"
+      "version_requirement": ">= 1.0.0 < 7.0.0"
     },
     {
       "name": "puppetlabs/apt",
-      "version_requirement": ">= 1.1.0 < 6.0.0"
+      "version_requirement": ">= 1.1.0 < 8.0.0"
     },
     {
       "name": "puppetlabs/firewall",
@@ -40,14 +40,16 @@
       "operatingsystem": "OracleLinux",
       "operatingsystemrelease": [
         "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
@@ -60,26 +62,27 @@
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "8",
-        "9"
+        "9",
+        "10",
+        "11"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "16.04",
         "18.04",
-        "20.04"
+        "20.04",
+        "22.04"
       ]
     }
   ],
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 5.0.0 < 7.0.0"
+      "version_requirement": ">= 5.0.0 < 8.0.0"
     }
   ],
-  "pdk-version": "2.4.0",
-  "template-url": "https://github.com/puppetlabs/pdk-templates#2.4.0",
-  "template-ref": "tags/2.4.0-0-gfa6b6d2"
+  "pdk-version": "2.5.0",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#2.5.0",
+  "template-ref": "tags/2.5.0-0-g369d483"
 }

@@ -21,8 +21,8 @@ class { 'varnish::vcl':
       timeout   => '5s',
       threshold => '3',
       interval  => '5s',
-      request   => [ 'GET /action/healthCheck1 HTTP/1.1', 'Host: www.example1.com', 'Connection: close' ]
-    }
+      request   => ['GET /action/healthCheck1 HTTP/1.1', 'Host: www.example1.com', 'Connection: close'],
+    },
   },
 #  probes => [
 #    { name => 'health_check1', url => "/health_check_url1" },
@@ -53,8 +53,8 @@ class { 'varnish::vcl':
 #  ],
 
   directors => {
-    'cluster1' => { backends => [ 'srv1', 'srv2' ] },
-    'cluster2' => { backends => [ 'srv3', 'srv4', 'srv5', 'srv6' ] }
+    'cluster1' => { backends => ['srv1', 'srv2'] },
+    'cluster2' => { backends => ['srv3', 'srv4', 'srv5', 'srv6'] },
   },
 #  directors => [
 #    {
@@ -69,8 +69,8 @@ class { 'varnish::vcl':
 
   selectors => {
     'cluster1' => { condition => 'req.url ~ "^/cluster1"' },
-    'cluster2' => { condition => 'true' }
-  }
+    'cluster2' => { condition => 'true' },
+  },
 #  selectors => [
 #    { backend => 'cluster2', condition => 'req.url ~ "^/cluster2"' },
 #    { backend => 'cluster1' },

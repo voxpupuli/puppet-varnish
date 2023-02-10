@@ -36,22 +36,21 @@ class varnish::vcl (
   Hash $backends          = { 'default' => { host => '127.0.0.1', port => '8080' } },
   Hash $directors         = {},
   Hash $selectors         = {},
-  Array $conditions        = [],
   Hash $acls              = {},
   Array $blockedips        = [],
   Array $blockedbots       = [],
   Boolean $enable_waf        = false,
   Boolean $pipe_uploads      = false,
-  Array[String] $wafexceptions     = [ '57' , '56' , '34' ],
-  $purgeips          = [],
+  Array[String] $wafexceptions     = ['57' , '56' , '34'],
+  Array[Stdlib::IP::Address] $purgeips          = [],
   Stdlib::Absolutepath $includedir        = '/etc/varnish/includes',
   Boolean $manage_includes   = true,
-  Array[String] $cookiekeeps       = [ '__ac', '_ZopeId', 'captchasessionid', 'statusmessages', '__cp', 'MoodleSession'],
+  Array[String] $cookiekeeps       = ['__ac', '_ZopeId', 'captchasessionid', 'statusmessages', '__cp', 'MoodleSession'],
   $defaultgrace      = undef,
   String $min_cache_time    = '60s',
   String $static_cache_time = '5m',
-  Array[String] $gziptypes         = [ 'text/', 'application/xml', 'application/rss', 'application/xhtml', 'application/javascript', 'application/x-javascript' ],
-  $template          = undef,
+  Array[String] $gziptypes         = ['text/', 'application/xml', 'application/rss', 'application/xhtml', 'application/javascript', 'application/x-javascript'],
+  Optional[String] $template          = undef,
   Boolean $logrealip         = false,
   Boolean $honor_backend_ttl = false,
   Boolean $cond_requests     = false,
@@ -60,10 +59,10 @@ class varnish::vcl (
   Boolean $drop_stat_cookies = true,
   $cond_unset_cookies = undef,
   Array[String] $unset_headers     = ['Via','X-Powered-By','X-Varnish','Server','Age','X-Cache'],
-  Array[String] $unset_headers_debugips = [ '172.0.0.1' ],
+  Array[Stdlib::IP::Address] $unset_headers_debugips = ['172.0.0.1'],
+  String $vcl_version     = '4',
 ) {
-
-  include ::varnish
+  include varnish
   validate_array($unset_headers)
   validate_array($unset_headers_debugips)
 
@@ -72,7 +71,7 @@ class varnish::vcl (
     $template_vcl = $template
   }
   else {
-    $template_vcl = $::varnish::major_version ? {
+    $template_vcl = $vcl_version ? {
       '4'     => 'varnish/varnish4-vcl.erb',
       '3'     => 'varnish/varnish-vcl.erb',
       default => 'varnish/varnish4-vcl.erb',
@@ -81,7 +80,7 @@ class varnish::vcl (
 
   # vcl file
   file { 'varnish-vcl':
-    ensure  => present,
+    ensure  => file,
     path    => $varnish::varnish_vcl_conf,
     owner   => 'root',
     group   => 'root',
@@ -136,6 +135,6 @@ class varnish::vcl (
     }
     $all_acls = merge($default_acls, $acls)
     create_resources(varnish::acl,$all_acls)
-    Varnish::Acl_member <| varnish_fqdn == $::fqdn |>
+    Varnish::Acl_member <| varnish_fqdn == $facts['networking']['fqdn'] |>
   }
 }

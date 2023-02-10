@@ -6,21 +6,3 @@ ipaddress: "172.16.254.254"
 ipaddress6: "FE80:0000:0000:0000:AAAA:AAAA:AAAA"
 is_pe: false
 macaddress: "AA:AA:AA:AA:AA:AA"
-osfamily: RedHat
-operatingsystem: RedHat
-operatingsystemmajrelease: '7'
-operatingsystemrelease: '7.6'
-architecture: amd64
-selinux: false
-os:
-  architecture: x86_64
-  family: RedHat
-  hardware: x86_64
-  name: RedHat
-  release:
-    full: '7.6'
-    major: '7'
-    minor: '6'
-  selinux:
-    enabled: false
-

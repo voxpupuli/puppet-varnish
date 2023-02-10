@@ -1,11 +1,10 @@
 # ncsa.pp
 class varnish::ncsa (
-  $enable = true,
-  $varnishncsa_daemon_opts = undef,
+  Boolean $enable = true,
+  Optional[String] $varnishncsa_daemon_opts = undef,
 ) {
-
   file { '/etc/default/varnishncsa':
-    ensure  => 'present',
+    ensure  => 'file',
     mode    => '0644',
     owner   => 'root',
     group   => 'root',
@@ -24,5 +23,4 @@ class varnish::ncsa (
     require   => Service['varnish'],
     subscribe => File['/etc/default/varnishncsa'],
   }
-
 }

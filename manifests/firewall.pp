@@ -6,7 +6,6 @@ class varnish::firewall (
   Boolean $manage_firewall     = false,
   Stdlib::Port $varnish_listen_port = 6081,
 ) {
-
   if $manage_firewall {
     firewall { "100 allow port ${varnish_listen_port} to varnish":
       chain  => 'INPUT',

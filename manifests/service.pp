@@ -16,14 +16,15 @@
 # class {'varnish::service':
 #   start => 'no',
 # }
+# 
+# @api private
 
 class varnish::service (
-  Optional[String]               $start                  = 'yes',
-  Optional[Stdlib::Absolutepath] $vcl_reload_script      = $::varnish::params::vcl_reload_script
-) inherits ::varnish::params {
-
+  Optional[String]               $start                  = $varnish::start,
+  Optional[Stdlib::Absolutepath] $vcl_reload_script      = '/usr/share/varnish/reload-vcl'
+) {
   # include install
-  include ::varnish::install
+  include varnish::install
 
   # set state
   $service_state = $start ? {
@@ -31,14 +32,14 @@ class varnish::service (
     default => running,
   }
 
-  service {'varnish':
+  systemd::dropin_file { 'varnish_service':
+    unit     => 'varnish.service',
+    content  => epp('varnish/varnish.dropin.epp'),
+    filename => 'varnish_override.conf',
+    # require  => Service['varnish'],
+  }
+  ~> service { 'varnish':
     ensure  => $service_state,
     require => Package['varnish'],
-  }
-  systemd::dropin_file{'varnish_service':
-    unit     => 'varnish.service',
-    content  => template('varnish/varnish.dropin.erb'),
-    filename => 'varnish_override.conf',
-    require  => Service['varnish'],
   }
 }
