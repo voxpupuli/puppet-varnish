@@ -11,7 +11,7 @@ describe 'varnish', type: :class do
       it { is_expected.to compile }
       it { is_expected.to contain_class('varnish::install').with('add_repo' => 'false') }
       it {
-        is_expected.to contain_class('varnish::service').with('start' => 'yes')
+        is_expected.to contain_class('varnish::service').with('ensure' => 'running')
         is_expected.to contain_systemd__dropin_file('varnish_service').with_unit('varnish.service')
         is_expected.to contain_systemd__dropin_file('varnish_service').with_filename('varnish_override.conf')
         is_expected.to contain_service('varnish').with_ensure('running')
@@ -35,7 +35,7 @@ describe 'varnish', type: :class do
       }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{START=yes}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{NFILES=131072}) }
-      it { is_expected.to contain_file('varnish-conf').with_content(%r{MEMLOCK=82000}) }
+      it { is_expected.to contain_file('varnish-conf').with_content(%r{MEMLOCK=100M}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_VCL_CONF=/etc/varnish/default.vcl}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_LISTEN_ADDRESS=}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_LISTEN_PORT=6081}) }
@@ -91,15 +91,15 @@ describe 'varnish', type: :class do
         it { is_expected.to contain_systemd__dropin_file('varnish_service').with_content(%r{EnvironmentFile=-/etc/varnish.params}) }
       end
 
-      # With disabled Start for Service
-      context 'with disabled Start' do
+      # With stopped Ensure for Service
+      context 'with stopped ensure' do
         let :params do
-          { 'start': 'no' }
+          { 'service_ensure': 'stopped' }
         end
 
         it { is_expected.to compile }
         it {
-          is_expected.to contain_class('varnish::service').with('start' => 'no')
+          is_expected.to contain_class('varnish::service').with('ensure' => 'stopped')
           is_expected.to contain_systemd__dropin_file('varnish_service').with_unit('varnish.service')
           is_expected.to contain_systemd__dropin_file('varnish_service').with_filename('varnish_override.conf')
           is_expected.to contain_service('varnish').with_ensure('stopped')

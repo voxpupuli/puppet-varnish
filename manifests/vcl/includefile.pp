@@ -1,4 +1,7 @@
 # define include file type
+# @oaram includedir
+#   Dir that contains the includefiles
+# @api private
 define varnish::vcl::includefile (
   Optional[Stdlib::Absolutepath] $includedir = $varnish::vcl::includedir
 ) {

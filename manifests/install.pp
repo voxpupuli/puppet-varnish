@@ -1,22 +1,30 @@
 # == Class: varnish::install
-#
+# @summary
 # Installs Varnish.
 #
-# === Parameters
+# @param add_repo
+#   if repo should be added
+# @param manage_firewall
+#   if firewall should be managed
+# @param varnish_listen_port
+#   port that varnish should listen to
+# @param package_name
+#   manually define package name for installation
+# @param varnish_enterprise
+#   If varnish enterprise packages should be installed
+# @param varnish_enterprise_vmods_extra
+#   if varnish enterprise extra vmods should also be installed
+# @param version
+#   passed to puppet type 'package', attribute 'ensure'
 #
-# version - passed to puppet type 'package', attribute 'ensure'
+# @example install Varnish
+#   class {'varnish::install':}
 #
-# === Examples
+# @example make sure latest version is always installed
+#   class {'varnish::install':
+#    version => latest,
+#   }
 #
-# install Varnish
-# class {'varnish::install':}
-#
-# make sure latest version is always installed
-# class {'varnish::install':
-#  version => latest,
-# }
-#
-
 class varnish::install (
   Boolean $add_repo = true,
   Boolean $manage_firewall = false,
