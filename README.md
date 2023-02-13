@@ -3,12 +3,12 @@
 2. [Install Varnish](#install-varnish)
 3. [Class varnish](#class-varnish)
 4. [Class varnish::vcl](#class-varnish-vcl)
-    * [varnish::acl](varnish-acl)
-    * [varnish::acl_member](varnish-acl_member)
-    * [varnish::probe](varnish-probe)
-    * [varnish::backend](varnish-backend)
-    * [varnish::director](varnish-director)
-    * [varnish::selector](varnish-selector)
+    * [varnish::vcl::acl](varnish-acl)
+    * [varnish::vcl::acl_member](varnish-acl_member)
+    * [varnish::vcl::probe](varnish-probe)
+    * [varnish::vcl::backend](varnish-backend)
+    * [varnish::vcl::director](varnish-director)
+    * [varnish::vcl::selector](varnish-selector)
 5. [Configure VCL with class varnish::vcl](#configure-vcl-with-class-varnish-vcl)
 6. [Class varnish::ncsa](#class-varnish-ncsa)
 7. [Tests](#tests)
@@ -78,42 +78,42 @@ For more details on parameters, check class varnish.
 
 ### varnish acl
 
-   Definition `varnish::acl` allows to configure Varnish acl.
+   Definition `varnish::vcl::acl` allows to configure Varnish acl.
 
-    varnish::acl { 'acl1': hosts => [ "localhost", "172.16.0.1" ] }
+    varnish::vcl::acl { 'acl1': hosts => [ "localhost", "172.16.0.1" ] }
 
 ### varnish acl_membr
 
-   Definition `varnish::acl_member` allows to export member resources to be included in configuration of Varnish acl.
+   Definition `varnish::vcl::acl_member` allows to export member resources to be included in configuration of Varnish acl.
 
-    varnish::acl_member { fqdn => "your.varshish.fqdn", acl => 'acl1', host => $::ipaddress }
+    varnish::vcl::acl_member { fqdn => "your.varshish.fqdn", acl => 'acl1', host => $::ipaddress }
 
 ### varnish probe
 
-   Definition `varnish::probe` allows to configure Varnish probe.
+   Definition `varnish::vcl::probe` allows to configure Varnish probe.
 
-    varnish::probe { 'health_check1': url => '/health_check_url1' }
+    varnish::vcl::probe { 'health_check1': url => '/health_check_url1' }
 
 ### varnish backend
 
-   Definition `varnish::backend` allows to configure Varnish backend.  
+   Definition `varnish::vcl::backend` allows to configure Varnish backend.  
    If you have a single backend, you can name it `default` and ignore  
    `selector` sections.  
    For more examples see `tests/vcl_backend_default.pp` and `tests/vcl_backends.pp`
 
-    varnish::backend { 'srv1': host => '172.16.0.1', port => '80', probe => 'health_check1' }
-    varnish::backend { 'srv2': host => '172.16.0.2', port => '80', probe => 'health_check1' }
+    varnish::vcl::backend { 'srv1': host => '172.16.0.1', port => '80', probe => 'health_check1' }
+    varnish::vcl::backend { 'srv2': host => '172.16.0.2', port => '80', probe => 'health_check1' }
 
 ### varnish director
 
-   Definition `varnish::director` allows to configure Varnish director.  
+   Definition `varnish::vcl::director` allows to configure Varnish director.  
    For more examples see `tests/vcl_backends_probes_directors.pp`
 
-    varnish::director { 'cluster1': backends => [ 'srv1', 'srv2' ] }
+    varnish::vcl::director { 'cluster1': backends => [ 'srv1', 'srv2' ] }
 
 ### varnish selector
 
-   Definition `varnish::selector` allows to configure Varnish selector.  
+   Definition `varnish::vcl::selector` allows to configure Varnish selector.  
 
    While `acl`, `probe`, `backend` and `director` are self-explanatory  
    WTF is `selector`?   
@@ -124,8 +124,8 @@ For more details on parameters, check class varnish.
    Parameter `selectors` gives access to req.backend inside `vcl_recv`.  
    Code:  
 
-    varnish::selector { 'cluster1': condition => 'req.url ~ "^/cluster1"' }
-    varnish::selector { 'cluster2': condition => 'true' } # will act as backend set by else statement
+    varnish::vcl::selector { 'cluster1': condition => 'req.url ~ "^/cluster1"' }
+    varnish::vcl::selector { 'cluster2': condition => 'true' } # will act as backend set by else statement
 
    Will result in following VCL configuration to be generated:
 
@@ -155,20 +155,20 @@ For more details on parameters, check class varnish.
     }
 
     # configure backends
-    varnish::backend { 'srv1': host => '172.16.0.1', port => '80', probe => 'health_check1' }
-    varnish::backend { 'srv2': host => '172.16.0.2', port => '80', probe => 'health_check1' }
-    varnish::backend { 'srv3': host => '172.16.0.3', port => '80', probe => 'health_check2' }
-    varnish::backend { 'srv4': host => '172.16.0.4', port => '80', probe => 'health_check2' }
-    varnish::backend { 'srv5': host => '172.16.0.5', port => '80', probe => 'health_check2' }
-    varnish::backend { 'srv6': host => '172.16.0.6', port => '80', probe => 'health_check2' }
+    varnish::vcl::backend { 'srv1': host => '172.16.0.1', port => '80', probe => 'health_check1' }
+    varnish::vcl::backend { 'srv2': host => '172.16.0.2', port => '80', probe => 'health_check1' }
+    varnish::vcl::backend { 'srv3': host => '172.16.0.3', port => '80', probe => 'health_check2' }
+    varnish::vcl::backend { 'srv4': host => '172.16.0.4', port => '80', probe => 'health_check2' }
+    varnish::vcl::backend { 'srv5': host => '172.16.0.5', port => '80', probe => 'health_check2' }
+    varnish::vcl::backend { 'srv6': host => '172.16.0.6', port => '80', probe => 'health_check2' }
 
     # configure directors
-    varnish::director { 'cluster1': backends => [ 'srv1', 'srv2' ] }
-    varnish::director { 'cluster2': backends => [ 'srv3', 'srv4', 'srv5', 'srv6' ] }
+    varnish::vcl::director { 'cluster1': backends => [ 'srv1', 'srv2' ] }
+    varnish::vcl::director { 'cluster2': backends => [ 'srv3', 'srv4', 'srv5', 'srv6' ] }
 
     # configure selectors
-    varnish::selector { 'cluster1': condition => 'req.url ~ "^/cluster1"' }
-    varnish::selector { 'cluster2': condition => 'true' } # will act as backend set by else statement
+    varnish::vcl::selector { 'cluster1': condition => 'req.url ~ "^/cluster1"' }
+    varnish::vcl::selector { 'cluster2': condition => 'true' } # will act as backend set by else statement
 
    If modification to Varnish VCL goes further than configuring `probes`, `backends` and `directors`  
    parameter `template` can be used to point `varnish::vcl` class at a different template.  
@@ -239,3 +239,5 @@ For more details on parameters, check class varnish.
 - Rich Kang <rich@saekang.co.uk>
 - browarrek <browarrek@gmail.com>
 - Stanislav Voroniy <stas@voroniy.com>
+- Hannes Schaller <hannes.schaller@apa.at>
+- Lukas Plattner <lukas.plattner@apa.at>

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'varnish::director', type: :define do
+describe 'varnish::vcl::director', type: :define do
   let :pre_condition do
     [
       'class { "::varnish": }',

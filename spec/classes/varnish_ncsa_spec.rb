@@ -37,7 +37,22 @@ describe 'varnish::ncsa', type: :class do
         let(:params) { { enable: false } }
 
         it { is_expected.to contain_file('/etc/default/varnishncsa').with_content(%r{# VARNISHNCSA_ENABLED=1}) }
+        it { is_expected.to contain_service('varnishncsa').with('enable' => false) }
+      end
+
+      context 'with service_ensure stopped' do
+        let(:params) { { 'service_ensure': 'stopped' } }
+
+        it { is_expected.to contain_file('/etc/default/varnishncsa').with_content(%r{VARNISHNCSA_ENABLED=1}) }
         it { is_expected.to contain_service('varnishncsa').with('ensure' => 'stopped') }
+      end
+
+      context 'with all disabled' do
+        let(:params) { { 'service_ensure': 'stopped', enable: false } }
+
+        it { is_expected.to contain_file('/etc/default/varnishncsa').with_content(%r{# VARNISHNCSA_ENABLED=1}) }
+        it { is_expected.to contain_service('varnishncsa').with('ensure' => 'stopped') }
+        it { is_expected.to contain_service('varnishncsa').with('enable' => false) }
       end
     end
   end

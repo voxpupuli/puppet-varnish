@@ -10,7 +10,7 @@
 # edit that file.
 
 # Should we start varnishd at boot?  Set to "no" to disable.
-START=<%= scope.lookupvar('start') %>
+START=<% if scope.lookupvar('service_ensure') -%>yes<% else -%>no<% end -%>
 
 <% if scope.lookupvar('varnish::params::version').to_i == 4 -%>
 # Should systemd reload varnish incase of a vcl change?

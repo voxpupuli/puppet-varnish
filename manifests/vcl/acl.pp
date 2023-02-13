@@ -1,5 +1,11 @@
-#acl.pp
-define varnish::acl (
+# acl
+# @summary
+# Class defines an ACL Type of Varnish. Defined ACL's must be used in VCL
+# 
+# @param hosts
+#    Array of defined Hosts
+# 
+define varnish::vcl::acl (
   Array[Stdlib::IP::Address] $hosts,
 ) {
   # Varnish does not allow empty ACLs
@@ -24,29 +30,3 @@ define varnish::acl (
     }
   }
 }
-
-# lint:ignore:autoloader_layout
-define varnish::acl_member (
-  $varnish_fqdn,
-  $acl,
-  $host,
-) {
-  unless defined(Concat::Fragment["${acl}-acl_head"]) {
-    concat::fragment { "${acl}-acl_head":
-      target  => "${varnish::vcl::includedir}/acls.vcl",
-      content => "acl ${acl} {\n",
-      order   => "02-${acl}-1-0",
-    } -> concat::fragment { "${acl}-acl_tail":
-      target  => "${varnish::vcl::includedir}/acls.vcl",
-      content => "}\n",
-      order   => "02-${acl}-3-0",
-    }
-  }
-  $hosts = [$host]
-  concat::fragment { "${acl}-acl_${host}":
-    target  => "${varnish::vcl::includedir}/acls.vcl",
-    content => template('varnish/includes/acls_body.vcl.erb'),
-    order   => "02-${acl}-2-${host}",
-  }
-}
-# lint:endignore

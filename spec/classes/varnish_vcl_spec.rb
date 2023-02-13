@@ -1,8 +1,5 @@
 require 'spec_helper'
 
-# TODO: add more sophisticated tests, but for
-# now you can't rspec concat content
-
 describe 'varnish::vcl', type: :class do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
@@ -53,17 +50,17 @@ describe 'varnish::vcl', type: :class do
         it { is_expected.to contain_concat__fragment('waf-header').with_target('/etc/varnish/includes/waf.vcl') }
 
         # Backends
-        it { is_expected.to contain_varnish__backend('default').with_host('127.0.0.1') }
-        it { is_expected.to contain_varnish__backend('default').with_port('8080') }
+        it { is_expected.to contain_varnish__vcl__backend('default').with_host('127.0.0.1') }
+        it { is_expected.to contain_varnish__vcl__backend('default').with_port('8080') }
         it { is_expected.to contain_concat__fragment('default-backend') }
 
         # Default ACL
-        it { is_expected.to contain_varnish__acl('blockedips').with_hosts([]) }
-        it { is_expected.to contain_varnish__acl('unset_headers_debugips').with_hosts(['172.0.0.1']) }
+        it { is_expected.to contain_varnish__vcl__acl('blockedips').with_hosts([]) }
+        it { is_expected.to contain_varnish__vcl__acl('unset_headers_debugips').with_hosts(['172.0.0.1']) }
         it { is_expected.to contain_concat__fragment('unset_headers_debugips-acl_head').with_target('/etc/varnish/includes/acls.vcl') }
         it { is_expected.to contain_concat__fragment('unset_headers_debugips-acl_body').with_target('/etc/varnish/includes/acls.vcl') }
         it { is_expected.to contain_concat__fragment('unset_headers_debugips-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }
-        it { is_expected.to contain_varnish__acl('purge').with_hosts([]) }
+        it { is_expected.to contain_varnish__vcl__acl('purge').with_hosts([]) }
 
         context 'functions arround' do
           let :params do
@@ -115,15 +112,15 @@ describe 'varnish::vcl', type: :class do
               backends: {
                 test: {
                   host: '127.0.0.2',
-                  port: '8081',
+                  port: 8081,
                 },
               },
             }
           end
 
           it { is_expected.to compile }
-          it { is_expected.to contain_varnish__backend('test').with_host('127.0.0.2') }
-          it { is_expected.to contain_varnish__backend('test').with_port('8081') }
+          it { is_expected.to contain_varnish__vcl__backend('test').with_host('127.0.0.2') }
+          it { is_expected.to contain_varnish__vcl__backend('test').with_port('8081') }
           it { is_expected.to contain_concat__fragment('test-backend').with_target('/etc/varnish/includes/backends.vcl') }
         end
 
@@ -139,7 +136,7 @@ describe 'varnish::vcl', type: :class do
           end
 
           it { is_expected.to compile }
-          it { is_expected.to contain_varnish__probe('test') }
+          it { is_expected.to contain_varnish__vcl__probe('test') }
           it { is_expected.to contain_concat__fragment('test-probe') }
         end
 
@@ -155,7 +152,7 @@ describe 'varnish::vcl', type: :class do
           end
 
           it { is_expected.to compile }
-          it { is_expected.to contain_varnish__director('test') }
+          it { is_expected.to contain_varnish__vcl__director('test') }
           it { is_expected.to contain_concat__fragment('test-director') }
         end
 
@@ -171,7 +168,7 @@ describe 'varnish::vcl', type: :class do
           end
 
           it { is_expected.to compile }
-          it { is_expected.to contain_varnish__selector('test').with_condition('req.url ~ "/"') }
+          it { is_expected.to contain_varnish__vcl__selector('test').with_condition('req.url ~ "/"') }
           it { is_expected.to contain_concat__fragment('test-selector').with_target('/etc/varnish/includes/backendselection.vcl') }
         end
 
@@ -187,10 +184,25 @@ describe 'varnish::vcl', type: :class do
           end
 
           it { is_expected.to compile }
-          it { is_expected.to contain_varnish__acl('test').with_hosts(['127.0.0.1/32']) }
+          it { is_expected.to contain_varnish__vcl__acl('test').with_hosts(['127.0.0.1/32']) }
           it { is_expected.to contain_concat__fragment('test-acl_head').with_target('/etc/varnish/includes/acls.vcl') }
           it { is_expected.to contain_concat__fragment('test-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }
           it { is_expected.to contain_concat__fragment('test-acl_body').with_target('/etc/varnish/includes/acls.vcl') }
+        end
+
+        context 'blocked IPS' do
+          let :params do
+            {
+              blockedips: ['127.0.0.12/32'],
+            }
+          end
+
+          it { is_expected.to compile }
+          it { is_expected.to contain_varnish__vcl__acl('blockedips').with_hosts(['127.0.0.12/32']) }
+          it { is_expected.to contain_concat__fragment('blockedips-acl_head').with_target('/etc/varnish/includes/acls.vcl') }
+          it { is_expected.to contain_concat__fragment('blockedips-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }
+          it { is_expected.to contain_concat__fragment('blockedips-acl_body').with_target('/etc/varnish/includes/acls.vcl') }
+          it { is_expected.to contain_file('varnish-vcl').with_content(%r{\s# blocked list}) }
         end
 
         context 'manual purgeips' do
@@ -201,7 +213,7 @@ describe 'varnish::vcl', type: :class do
           end
 
           it { is_expected.to compile }
-          it { is_expected.to contain_varnish__acl('purge').with_hosts(['127.0.0.12/32']) }
+          it { is_expected.to contain_varnish__vcl__acl('purge').with_hosts(['127.0.0.12/32']) }
           it { is_expected.to contain_concat__fragment('purge-acl_head').with_target('/etc/varnish/includes/acls.vcl') }
           it { is_expected.to contain_concat__fragment('purge-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }
           it { is_expected.to contain_concat__fragment('purge-acl_body').with_target('/etc/varnish/includes/acls.vcl') }

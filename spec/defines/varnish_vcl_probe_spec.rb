@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'varnish::probe', type: :define do
+describe 'varnish::vcl::probe', type: :define do
   let :pre_condition do
     '
     '

@@ -1,8 +1,7 @@
 # == Class: varnish::vcl
-#
-# to change name/location of vcl file, use $varnish_vcl_conf in the main varnish class
-#
-# NOTE: though you can pass config for backends, directors, acls, probes and selectors
+# @summary
+#   to change name/location of vcl file, use $varnish_vcl_conf in the main varnish class
+#   NOTE: though you can pass config for backends, directors, acls, probes and selectors
 #       as parameters to this class, it is recommended to use existing definitions instead:
 #       varnish::backend
 #       varnish::director
@@ -11,29 +10,83 @@
 #       varnish::selector
 #       See README for details on how to use those
 #
-# === Parameters
+# @param functions
+#   Hash of additional function definitions
+# @param probes
+#   Hash of probes, defined as varnish::vcl::probe
+# @param backends
+#   Hash of backends, defined as varnish::vcl::backend
+# @param directors
+#   Hash of directors, defined as varnish::vcl::director
+# @param selectors
+#   Hash of selectors, defined as varnish::vcl::selector
+# @param acls
+#   Hash of acls, defined as varnish::vcl::acl
+# @param blockedips
+#   Array of IP's that will be blocked with default VCL
+# @param blockedbots
+#   Array of UserAgent Bots that will be blocked
+# @param enable_waf
+#   controls VCL WAF component, can be true or false
+#   default value: false
+# @param pipe_uploads
+#   If the request is a post/put upload (chunked or multipart),
+#   pipe the request to the backend.
+#   default value: false
+# @param wafexceptions
+#   Exclude those rules
+# @param purgeips
+#   source ips which are allowed to send purge requests
+# @param includedir
+#   Dir for includefiles
+# @param manage_includes
+#   If Includes (and Subtypes like directors, probes,.. ) should be created
+# @param cookiekeeps
+#   Cookies that should be kept for backend
+# @param defaultgrace
+#   Default Grace time for Iptems
+# @param min_cache_time
+#   Default Cache time
+# @param static_cache_time
+#   Cache Time for static Elements like images,..
+# @param gziptypes
+#   Content Types that will be gziped
+# @param template
+#   Overwrite Template for VCL
+# @param logrealip
+#   Create std.log entry with Real IP of client
+# @param honor_backend_ttl
+#   if Backend TTL will be honored
+# @param cond_requests
+#   if condtional requests are allowed
+# @param x_forwarded_proto
+#   If Header x-forwared-proto should be added to hash
+# @param https_redirect
+#   deprecated
+# @param drop_stat_cookies
+#   depretaced
+# @param cond_unset_cookies
+#   If condtion to unset all coockies
+# @param unset_headers
+#   Unset the named http headers
+# @param unset_headers_debugips
+#   Do not unset the named headers for the following IP's
+# @param vcl_version
+#   Which version von VCL should be used - default 4
 #
-# enable_waf - controls VCL WAF component, can be true or false
-#              default value: false
-# pipe_uploads - If the request is a post/put upload (chunked or multipart),
-#                pipe the request to the backend.
-#                default value: false
-#
-#
-#
-# NOTE: VCL applies following restictions:
-# - if you define an acl it must be used
-# - if you define a probe it must be used
-# - if you define a backend it must be used
-# - if you define a director it must be used
-#
-# You cannot define 2 or more backends/directors and not to have selectors
-# Not following above rules will result in VCL compilation failure
+# @note
+#   VCL applies following restictions:
+#   - if you define an acl it must be used
+#   - if you define a probe it must be used
+#   - if you define a backend it must be used
+#   - if you define a director it must be used
+#   You cannot define 2 or more backends/directors and not to have selectors
+#   Not following above rules will result in VCL compilation failure
 #
 class varnish::vcl (
   Hash $functions         = {},
   Hash $probes            = {},
-  Hash $backends          = { 'default' => { host => '127.0.0.1', port => '8080' } },
+  Hash $backends          = { 'default' => { host => '127.0.0.1', port => 8080 } },
   Hash $directors         = {},
   Hash $selectors         = {},
   Hash $acls              = {},
@@ -46,7 +99,7 @@ class varnish::vcl (
   Stdlib::Absolutepath $includedir        = '/etc/varnish/includes',
   Boolean $manage_includes   = true,
   Array[String] $cookiekeeps       = ['__ac', '_ZopeId', 'captchasessionid', 'statusmessages', '__cp', 'MoodleSession'],
-  $defaultgrace      = undef,
+  Optional[String] $defaultgrace      = undef,
   String $min_cache_time    = '60s',
   String $static_cache_time = '5m',
   Array[String] $gziptypes         = ['text/', 'application/xml', 'application/rss', 'application/xhtml', 'application/javascript', 'application/x-javascript'],
@@ -57,10 +110,10 @@ class varnish::vcl (
   Boolean $x_forwarded_proto = false,
   Boolean $https_redirect    = false,
   Boolean $drop_stat_cookies = true,
-  $cond_unset_cookies = undef,
+  Optional[String] $cond_unset_cookies = undef,
   Array[String] $unset_headers     = ['Via','X-Powered-By','X-Varnish','Server','Age','X-Cache'],
   Array[Stdlib::IP::Address] $unset_headers_debugips = ['172.0.0.1'],
-  String $vcl_version     = '4',
+  Varnish::Vclversion $vcl_version     = '4',
 ) {
   include varnish
   validate_array($unset_headers)
@@ -112,19 +165,19 @@ class varnish::vcl (
 
     #Backends
     validate_hash($backends)
-    create_resources(varnish::backend,$backends)
+    create_resources(varnish::vcl::backend,$backends)
 
     #Probes
     validate_hash($probes)
-    create_resources(varnish::probe,$probes)
+    create_resources(varnish::vcl::probe,$probes)
 
     #Directors
     validate_hash($directors)
-    create_resources(varnish::director,$directors)
+    create_resources(varnish::vcl::director,$directors)
 
     #Selectors
     validate_hash($selectors)
-    create_resources(varnish::selector,$selectors)
+    create_resources(varnish::vcl::selector,$selectors)
 
     #ACLs
     validate_hash($acls)
@@ -134,7 +187,7 @@ class varnish::vcl (
       purge => { hosts => $purgeips },
     }
     $all_acls = merge($default_acls, $acls)
-    create_resources(varnish::acl,$all_acls)
-    Varnish::Acl_member <| varnish_fqdn == $facts['networking']['fqdn'] |>
+    create_resources(varnish::vcl::acl,$all_acls)
+    Varnish::Vcl::Acl_member <| varnish_fqdn == $facts['networking']['fqdn'] |>
   }
 }

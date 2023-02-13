@@ -1,36 +1,28 @@
-# == Class: varnish::service
+# varnish::service
+# @summary
+#   Enables/Disables Varnish service
 #
-# Enables/Disables Varnish service
-#
-# === Parameters
-#
-# start - 'yes' or 'no' to start varnishd at boot
-#          default value: 'yes'
-#
-# === Examples
-#
-# make sure Varnish is running
-# class {'varnish::service':}
-#
-# disable Varnish
-# class {'varnish::service':
-#   start => 'no',
-# }
+# @example make sure Varnish is running
+#   class {'varnish::service':}
 # 
+# @example disable Varnish
+#  class {'varnish::service':
+#    start => 'no',
+#  }
+#
+# @param ensure 
+#   Ensure service status
+#   default value: 'running'
+# 
+# @param vcl_reload_script
+#   Path to reload script
 # @api private
-
 class varnish::service (
-  Optional[String]               $start                  = $varnish::start,
-  Optional[Stdlib::Absolutepath] $vcl_reload_script      = '/usr/share/varnish/reload-vcl'
+  Stdlib::Ensure::Service $ensure                  = $varnish::service_ensure,
+  Stdlib::Absolutepath $vcl_reload_script      = '/usr/share/varnish/reload-vcl'
 ) {
   # include install
   include varnish::install
-
-  # set state
-  $service_state = $start ? {
-    'no'    => stopped,
-    default => running,
-  }
 
   systemd::dropin_file { 'varnish_service':
     unit     => 'varnish.service',
@@ -39,7 +31,7 @@ class varnish::service (
     # require  => Service['varnish'],
   }
   ~> service { 'varnish':
-    ensure  => $service_state,
+    ensure  => $ensure,
     require => Package['varnish'],
   }
 }

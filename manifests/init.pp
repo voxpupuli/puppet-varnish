@@ -1,53 +1,99 @@
 # == Class: varnish
-#
+# @summary
 # Installs and configures Varnish.
 # Tested on Ubuntu and CentOS.
 #
 #
 # === Parameters
-# All parameters are just a low case replica of actual parameters passed to
-# the Varnish conf file, $class_parameter -> VARNISH_PARAMETER, i.e.
-# $memlock             -> MEMLOCK
-# $varnish_vcl_conf    -> VARNISH_VCL_CONF
-# $varnish_listen_port -> VARNISH_LISTEN_PORT
-#
-# Exceptions are:
-# shmlog_dir    - location for shmlog
-# shmlog_tempfs - mounts shmlog directory as tmpfs
-#                 default value: true
-# version       - passed to puppet type 'package', attribute 'ensure'
-# add_repo      - if set to false (defaults to true), the yum/apt repo is not added
-#
-# === Default values
-# Set to Varnish default values
-# With an exception to
-# - $storage_type, which is set to 'malloc' in this module
-# - $varnish_storage_file, path to which is changed to /var/lib/varnish-storage
-#                          this is done to avoid clash with $shmlog_dir
-#
+# @param service_ensure
+#   Ensure for varnishservice
+# @param reload_vcl
+#   V4 paramter if Varnish will be reloaded - deprecated
+#   Will be removed when support for RHEL7 is dropped
+# @param nfiles
+#   passed to varnish conf-file
+# @param memlock
+#   passed to varnish conf-file
+# @param storage_type
+#   which storage will be used for varnish - default malloc
+# @param varnish_vcl_conf
+#   path to main vcl file
+# @param varnish_user
+#   passed to varnish-conf
+# @param varnish_jail_user
+#   passed to varnish-conf
+# @param varnish_group
+#   passed to varnish-conf
+# @param varnish_listen_address
+#   Address varnish will bind to - default ''
+# @param varnish_listen_port
+#   port varnish wil bind to
+# @param varnish_proxy_listen_address
+#   address varnish binds to in proxy mode
+# @param varnish_proxy_listen_port
+#   port varnish binds to in proxy mode
+# @param varnish_admin_listen_address
+#   address varnish binds to in admin mode
+# @param varnish_admin_listen_port
+#   port varnish binds to in admin mode
+# @param varnish_min_threads
+#   minumum no of varnish worker threads
+# @param varnish_max_threads
+#   maximum no of varnish worker threads
+# @param varnish_thread_timeout
+# @param varnish_storage_size
+#   defines the size of storage (depending of storage_type)
+# @param varnish_secret_file
+#   path to varnish secret file
+# @param varnish_storage_file
+#   defines the filepath of storage (depending of storage_type)
+# @param varnish_ttl
+#   default ttl for items
+# @param varnish_enterprise
+#   passed to varnish::install
+# @param varnish_enterprise_vmods_extra
+#   passed to varnish::install
+# @param vcl_dir
+#   dir where varnish vcl will be stored
+# @param shmlog_dir
+#   location for shmlog
+# @param shmlog_tempfs
+#   mounts shmlog directory as tmpfs
+# @param version
+#   passed to puppet type 'package', attribute 'ensure'
+# @param add_repo
+#   if set to false (defaults to true), the yum/apt repo is not added
+# @param manage_firewall
+#   passed to varnish::firewall
+# @param varnish_conf_template
+#   Template that will be used for varnish conf
+# @param conf_file_path
+#   path where varnish conf will be stored
+# @param additional_parameters
+#   additional parameters that will be passed to varnishd with -p
+# 
 # === Examples
+# 
+# @example installs Varnish
+#   - enabled Varnish service
+#   - uses default VCL '/etc/varnish/default.vcl'
+#   class {'varnish': }
 #
-# - installs Varnish
-# - enabled Varnish service
-# - uses default VCL '/etc/varnish/default.vcl'
-# class {'varnish': }
+# @example same as above, plus
+#   - sets Varnish to listen on port 80
+#   - storage size is set to 2 GB
+#   - vcl file is '/etc/varnish/my-vcl.vcl'
+#   class {'varnish':
+#     varnish_listen_port  => 80,
+#     varnish_storage_size => '2G',
+#     varnish_vcl_conf     => '/etc/varnish/my-vcl.vcl',
+#   }
 #
-# same as above, plus
-# - sets Varnish to listen on port 80
-# - storage size is set to 2 GB
-# - vcl file is '/etc/varnish/my-vcl.vcl'
-# class {'varnish':
-#   varnish_listen_port  => 80,
-#   varnish_storage_size => '2G',
-#   varnish_vcl_conf     => '/etc/varnish/my-vcl.vcl',
-# }
-#
-
 class varnish (
-  String                $start                        = 'yes',
+  Stdlib::Ensure::Service $service_ensure               = 'running',
   Boolean               $reload_vcl                   = true,
   String                $nfiles                       = '131072',
-  String                $memlock                      = '82000',
+  String                $memlock                      = '100M',
   String                $storage_type                 = 'malloc',
   Stdlib::Absolutepath  $varnish_vcl_conf             = '/etc/varnish/default.vcl',
   String                $varnish_user                 = 'varnish',
