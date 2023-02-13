@@ -16,7 +16,6 @@
 9. [Contributors](#contributors)
 
 ## Overview
-[![pipeline status](https://git.apa.at/hosting/puppet-varnish/badges/master/pipeline.svg)](https://git.apa.at/hosting/puppet-linux_users/commits/master) [![coverage report](https://git.apa.at/hosting/puppet-varnish/badges/master/coverage.svg)](https://git.apa.at/hosting/puppet-linux_users/commits/master)
 
    This Puppet module installs and configures Varnish.  
    It also allows to manage Varnish VCL.  
