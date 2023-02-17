@@ -59,6 +59,12 @@ describe 'varnish', type: :class do
         )
       }
 
+      if (facts[:osfamily] == 'RedHat') && (facts[:os]['release']['major'] == '7')
+        it { is_expected.to contain_file('varnish-conf').without_content(%r{\s  -j unix,user=vcache}) }
+      else
+        it { is_expected.to contain_file('varnish-conf').with_content(%r{\s  -j unix,user=vcache}) }
+      end
+
       context 'with extra varnish-conf values' do
         let :params do
           { additional_parameters: {
@@ -117,6 +123,16 @@ describe 'varnish', type: :class do
 
         it { is_expected.to compile }
         it { is_expected.not_to contain_class('varnish::shmlog') }
+      end
+
+      context 'Manual Set Version' do
+        let :params do
+          { version: '6.0.0-manual' }
+        end
+
+        it { is_expected.to compile }
+        it { is_expected.to contain_class('varnish::install').with_version('6.0.0-manual') }
+        it { is_expected.to contain_file('varnish-conf').with_content(%r{\s  -j unix,user=vcache}) }
       end
 
       context 'Varnish Enterprise' do

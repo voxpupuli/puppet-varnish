@@ -86,7 +86,7 @@ VARNISH_TTL=<%= scope.lookupvar('varnish_ttl') %>
 #
 # # DAEMON_OPTS is used by the init script.  If you add or remove options, make
 # # sure you update this section, too.
-# Version: <%= scope.lookupvar('varnish::params::version') %>
+# Version: <%= scope.lookupvar('varnish::version') %>
 DAEMON_OPTS="-a <%= scope.lookupvar('varnish_listen_address') %>:<%= scope.lookupvar('varnish_listen_port') %> \
 <% if @varnish_proxy_listen_port -%>
             -a <%= scope.lookupvar('varnish_proxy_listen_address') %>:<%= scope.lookupvar('varnish_proxy_listen_port') %>,PROXY \
