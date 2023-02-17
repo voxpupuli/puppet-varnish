@@ -71,6 +71,8 @@
 #   path where varnish conf will be stored
 # @param additional_parameters
 #   additional parameters that will be passed to varnishd with -p
+# @param default_version
+#   Default major version of Varnish for that OS release
 # 
 # === Examples
 # 
@@ -123,7 +125,13 @@ class varnish (
   String $varnish_conf_template        = 'varnish/varnish-conf.erb',
   Stdlib::Absolutepath $conf_file_path  = '/etc/varnish/varnish.params',
   Hash $additional_parameters        = {},
+  Integer $default_version = 6,
 ) {
+  $major_version = $version ? {
+    /(\d+)\./ => "${1}",
+    default => $default_version,
+  }
+
   Class['varnish::install'] -> Class['varnish::service']
   # install Varnish
   class { 'varnish::install':
