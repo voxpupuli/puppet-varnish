@@ -12,7 +12,7 @@
 # Should we start varnishd at boot?  Set to "no" to disable.
 START=<% if scope.lookupvar('service_ensure') -%>yes<% else -%>no<% end -%>
 
-<% if scope.lookupvar('varnish::params::version').to_i == 4 -%>
+<% if scope.lookupvar('varnish::major_version').to_i == 4 -%>
 # Should systemd reload varnish incase of a vcl change?
 <% if scope.lookupvar('reload_vcl') -%>
 RELOAD_VCL=1
@@ -21,7 +21,7 @@ RELOAD_VCL=0
 <% end -%>
 <% end -%>
 
-<% if scope.lookupvar('varnish::params::version').to_i == 4 -%>
+<% if scope.lookupvar('varnish::major_version').to_i == 4 -%>
 # User and group for the varnishd worker processes
 VARNISH_USER=<%= scope.lookupvar('varnish_user') %>
 VARNISH_GROUP=<%= scope.lookupvar('varnish_group') %>
