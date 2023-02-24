@@ -1,11 +1,12 @@
 {
   "name": "apa-varnish",
   "version": "3.0.0",
-  "author": "APA-Tech",
+  "author": "Vox Pupuli",
   "summary": "Varnish module",
   "license": "Apache-2.0",
-  "source": "",
-  "project_page": "https://github.com/maxchk/puppet-varnish",
+  "source": "https://github.com/voxpupuli/puppet-varnish",
+  "project_page": "https://github.com/voxpupuli/puppet-varnish",
+  "issues_url": "https://github.com/voxpupuli/puppet-varnish/issues",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
