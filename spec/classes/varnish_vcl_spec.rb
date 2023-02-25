@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'varnish::vcl', type: :class do
@@ -13,15 +15,17 @@ describe 'varnish::vcl', type: :class do
       context 'default values' do
         it { is_expected.to compile }
         it { is_expected.to contain_class('varnish') }
+
         it {
           is_expected.to contain_file('varnish-vcl').with(
             'owner'   => 'root',
             'group'   => 'root',
             'mode'    => '0644',
             'require' => 'Package[varnish]',
-            'notify'  => 'Service[varnish]',
+            'notify'  => 'Service[varnish]'
           )
         }
+
         it { is_expected.to contain_file('/etc/varnish/includes').with_ensure('directory') }
         it { is_expected.to contain_file('/etc/varnish/includes').with_purge(true) }
 

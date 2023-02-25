@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'varnish', type: :class do
@@ -10,6 +12,7 @@ describe 'varnish', type: :class do
       # Base Checks for all OS
       it { is_expected.to compile }
       it { is_expected.to contain_class('varnish::install').with('add_repo' => 'false') }
+
       it {
         is_expected.to contain_class('varnish::service').with('ensure' => 'running')
         is_expected.to contain_systemd__dropin_file('varnish_service').with_unit('varnish.service')
@@ -17,9 +20,10 @@ describe 'varnish', type: :class do
         is_expected.to contain_service('varnish').with_ensure('running')
         is_expected.to contain_service('varnish').with(
           'ensure'  => 'running',
-          'require' => 'Package[varnish]',
+          'require' => 'Package[varnish]'
         )
       }
+
       it { is_expected.to contain_class('varnish::shmlog') }
 
       it {
@@ -29,10 +33,11 @@ describe 'varnish', type: :class do
           'owner'   => 'root',
           'group'   => 'root',
           'mode'    => '0644',
-          'require' => 'Package[varnish]',
+          'require' => 'Package[varnish]'
           #    'notify'  => 'Service[varnish]',
         )
       }
+
       it { is_expected.to contain_file('varnish-conf').with_content(%r{START=yes}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{NFILES=131072}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{MEMLOCK=100M}) }
@@ -47,15 +52,15 @@ describe 'varnish', type: :class do
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_STORAGE_FILE=/var/lib/varnish-storage/varnish_storage.bin}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_STORAGE_SIZE=1G}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_SECRET_FILE=/etc/varnish/secret}) }
-      it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_STORAGE=\"malloc,\${VARNISH_STORAGE_SIZE}\"}) }
+      it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_STORAGE="malloc,\${VARNISH_STORAGE_SIZE}"}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_TTL=120}) }
-      it { is_expected.to contain_file('varnish-conf').with_content(%r{DAEMON_OPTS=\"-a :6081 }) }
+      it { is_expected.to contain_file('varnish-conf').with_content(%r{DAEMON_OPTS="-a :6081 }) }
 
       it {
         is_expected.to contain_file('storage-dir').with(
           'ensure' => 'directory',
           'path' => '/var/lib/varnish-storage',
-          'require' => 'Package[varnish]',
+          'require' => 'Package[varnish]'
         )
       }
 
@@ -88,7 +93,7 @@ describe 'varnish', type: :class do
       context 'with custom configfile' do
         let :params do
           {
-            'conf_file_path': '/etc/varnish.params'
+            conf_file_path: '/etc/varnish.params'
           }
         end
 
@@ -100,10 +105,11 @@ describe 'varnish', type: :class do
       # With stopped Ensure for Service
       context 'with stopped ensure' do
         let :params do
-          { 'service_ensure': 'stopped' }
+          { service_ensure: 'stopped' }
         end
 
         it { is_expected.to compile }
+
         it {
           is_expected.to contain_class('varnish::service').with('ensure' => 'stopped')
           is_expected.to contain_systemd__dropin_file('varnish_service').with_unit('varnish.service')
@@ -111,7 +117,7 @@ describe 'varnish', type: :class do
           is_expected.to contain_service('varnish').with_ensure('stopped')
           is_expected.to contain_service('varnish').with(
             'ensure'  => 'stopped',
-            'require' => 'Package[varnish]',
+            'require' => 'Package[varnish]'
           )
         }
       end
@@ -147,7 +153,7 @@ describe 'varnish', type: :class do
         it {
           is_expected.to contain_package('varnish').with(
             'ensure' => 'present',
-            'name'   => 'varnish-plus',
+            'name'   => 'varnish-plus'
           )
         }
       end
