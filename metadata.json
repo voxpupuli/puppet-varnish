@@ -1,5 +1,5 @@
 {
-  "name": "apa-varnish",
+  "name": "puppet-varnish",
   "version": "3.0.0",
   "author": "Vox Pupuli",
   "summary": "Varnish module",
