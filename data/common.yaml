@@ -4,4 +4,3 @@ varnish::conf_file_path: /etc/varnish/varnish.params
 varnish::service::vcl_reload_script: /usr/share/varnish/reload-vcl
 varnish::vcl::vcl_verion: '4'
 varnish::default_version: 6
-varnish::varnish_listen_address: ''
