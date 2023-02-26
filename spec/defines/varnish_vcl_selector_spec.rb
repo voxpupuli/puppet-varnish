@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'varnish::vcl::selector', type: :define do
@@ -29,6 +31,7 @@ describe 'varnish::vcl::selector', type: :define do
           is_expected.to contain_concat__fragment('foo-selector').with_content(%r{\sset req.backend_hint = foo;})
         }
       end
+
       context('set order') do
         let(:params) do
           {

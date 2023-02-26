@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'varnish::vcl::acl', type: :define do
@@ -21,7 +23,7 @@ describe 'varnish::vcl::acl', type: :define do
         let(:params) { { hosts: ['192.168.10.14'] } }
 
         it { is_expected.to contain_concat__fragment('foo-acl_body').with_target('/etc/varnish/includes/acls.vcl') }
-        it { is_expected.to contain_concat__fragment('foo-acl_body').with_content(%r{^\s+\"192.168.10.14\";\s+$}) }
+        it { is_expected.to contain_concat__fragment('foo-acl_body').with_content(%r{^\s+"192.168.10.14";\s+$}) }
         it { is_expected.to contain_concat__fragment('foo-acl_head').with_target('/etc/varnish/includes/acls.vcl') }
         it { is_expected.to contain_concat__fragment('foo-acl_head').with_content(%r{^acl foo \{$}) }
         it { is_expected.to contain_concat__fragment('foo-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }

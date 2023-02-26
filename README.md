@@ -17,8 +17,8 @@
 
 ## Overview
 
-   This Puppet module installs and configures Varnish.  
-   It also allows to manage Varnish VCL.  
+   This Puppet module installs and configures Varnish.
+   It also allows to manage Varnish VCL.
    Tested on Ubuntu, CentOS, RHEL and Oracle Linux.
 
    The Module is based on https://github.com/maxchk/puppet-varnish
@@ -28,9 +28,9 @@ Also drops support for pre Varnish 4
 
 ## Install Varnish
 
-   installs Varnish  
-   allocates for cache 1GB (malloc)  
-   starts it on port 80:  
+   installs Varnish
+   allocates for cache 1GB (malloc)
+   starts it on port 80:
 
     class {'varnish':
       varnish_listen_port => 80,
@@ -39,41 +39,41 @@ Also drops support for pre Varnish 4
 
 ## Class varnish
 
-   Class `varnish`  
-   Installs Varnish.  
-   Provides access to all configuration parameters.  
-   Controls Varnish service.  
-   By default mounts shared memory log directory as tmpfs.  
+   Class `varnish`
+   Installs Varnish.
+   Provides access to all configuration parameters.
+   Controls Varnish service.
+   By default mounts shared memory log directory as tmpfs.
 
-   All parameters are low case replica of actual parameters passed to  
-   the Varnish conf file, `$class_parameter -> VARNISH_PARAMETER`, i.e.  
-   
+   All parameters are low case replica of actual parameters passed to
+   the Varnish conf file, `$class_parameter -> VARNISH_PARAMETER`, i.e.
+
     $memlock             -> MEMLOCK
     $varnish_vcl_conf    -> VARNISH_VCL_CONF
     $varnish_listen_port -> VARNISH_LISTEN_PORT
 
-   Exceptions are:  
-   `shmlog_dir`    - location for shmlog  
-   `shmlog_tempfs` - mounts shmlog directory as tmpfs, (default value: true)  
-   `version`       - passes to puppet type 'package', attribute 'ensure', (default value: present)  
+   Exceptions are:
+   `shmlog_dir`    - location for shmlog
+   `shmlog_tempfs` - mounts shmlog directory as tmpfs, (default value: true)
+   `version`       - passes to puppet type 'package', attribute 'ensure', (default value: present)
 
-   At minimum you may want to change a value for default port:  
+   At minimum you may want to change a value for default port:
    `varnish_listen_port => '80'`
 
 For more details on parameters, check class varnish.
 
 ## Class varnish vcl
 
-   Class `varnish::vcl` manages Varnish VCL configuration.  
+   Class `varnish::vcl` manages Varnish VCL configuration.
 
-   Varnish VCL applies following restictions:  
-   if you define an acl it must be used  
-   if you define a probe it must be used  
-   if you define a backend it must be used  
-   if you define a director it must be used  
+   Varnish VCL applies following restictions:
+   if you define an acl it must be used
+   if you define a probe it must be used
+   if you define a backend it must be used
+   if you define a director it must be used
 
-   Gives access to Varnish acl, probe, backend, director, etc. definitions  
-   (see below)  
+   Gives access to Varnish acl, probe, backend, director, etc. definitions
+   (see below)
 
 ### varnish acl
 
@@ -95,9 +95,9 @@ For more details on parameters, check class varnish.
 
 ### varnish backend
 
-   Definition `varnish::vcl::backend` allows to configure Varnish backend.  
-   If you have a single backend, you can name it `default` and ignore  
-   `selector` sections.  
+   Definition `varnish::vcl::backend` allows to configure Varnish backend.
+   If you have a single backend, you can name it `default` and ignore
+   `selector` sections.
    For more examples see `tests/vcl_backend_default.pp` and `tests/vcl_backends.pp`
 
     varnish::vcl::backend { 'srv1': host => '172.16.0.1', port => '80', probe => 'health_check1' }
@@ -105,23 +105,23 @@ For more details on parameters, check class varnish.
 
 ### varnish director
 
-   Definition `varnish::vcl::director` allows to configure Varnish director.  
+   Definition `varnish::vcl::director` allows to configure Varnish director.
    For more examples see `tests/vcl_backends_probes_directors.pp`
 
     varnish::vcl::director { 'cluster1': backends => [ 'srv1', 'srv2' ] }
 
 ### varnish selector
 
-   Definition `varnish::vcl::selector` allows to configure Varnish selector.  
+   Definition `varnish::vcl::selector` allows to configure Varnish selector.
 
-   While `acl`, `probe`, `backend` and `director` are self-explanatory  
-   WTF is `selector`?   
+   While `acl`, `probe`, `backend` and `director` are self-explanatory
+   WTF is `selector`?
 
-   You cannot define 2 or more backends/directors and not to use them.  
-   This will result in VCL compilation failure.  
+   You cannot define 2 or more backends/directors and not to use them.
+   This will result in VCL compilation failure.
 
-   Parameter `selectors` gives access to req.backend inside `vcl_recv`.  
-   Code:  
+   Parameter `selectors` gives access to req.backend inside `vcl_recv`.
+   Code:
 
     varnish::vcl::selector { 'cluster1': condition => 'req.url ~ "^/cluster1"' }
     varnish::vcl::selector { 'cluster2': condition => 'true' } # will act as backend set by else statement
@@ -139,13 +139,13 @@ For more details on parameters, check class varnish.
 
 ## Usaging class varnish::vcl
 
-   Configure probes, backends, directors and selectors  
+   Configure probes, backends, directors and selectors
 
     class { 'varnish::vcl': }
 
     # configure probes
     varnish::probe { 'health_check1': url => '/health_check_url1' }
-    varnish::probe { 'health_check2':  
+    varnish::probe { 'health_check2':
       window    => '8',
       timeout   => '5s',
       threshold => '3',
@@ -169,16 +169,16 @@ For more details on parameters, check class varnish.
     varnish::vcl::selector { 'cluster1': condition => 'req.url ~ "^/cluster1"' }
     varnish::vcl::selector { 'cluster2': condition => 'true' } # will act as backend set by else statement
 
-   If modification to Varnish VCL goes further than configuring `probes`, `backends` and `directors`  
-   parameter `template` can be used to point `varnish::vcl` class at a different template.  
+   If modification to Varnish VCL goes further than configuring `probes`, `backends` and `directors`
+   parameter `template` can be used to point `varnish::vcl` class at a different template.
 
-   NOTE: If you copy existing template and modify it you will still  
-   be able to use `probes`, `backends`, `directors` and `selectors`.  
+   NOTE: If you copy existing template and modify it you will still
+   be able to use `probes`, `backends`, `directors` and `selectors`.
 
 ## Redefine functions in class varnish::vcl
 
-   With the module comes the basic Varnish vcl configuration file. If needed one can replace default 
-   functions in the configuration file with own ones and/or define custom functions. 
+   With the module comes the basic Varnish vcl configuration file. If needed one can replace default
+   functions in the configuration file with own ones and/or define custom functions.
    Override or custom functions specified in the array passed to `varnish::vcl` class as parameter `functions`.
    The best way to do it is to use hiera. For example:
    ```yaml
@@ -196,7 +196,7 @@ For more details on parameters, check class varnish.
          return (pipe);
        }
    ```
-   There are two special cases for functions `vcl_init` and `vcl_recv`. 
+   There are two special cases for functions `vcl_init` and `vcl_recv`.
    For Varnish version 4 in function `vcl_init` include directive for directors is always present.
    For function `vcl_recv` beside the possibility to override standard function one can also add
    peace of code to the begining or to the end of the function with special names `vcl_recv_prepend` and `vcl_recv_append`
@@ -213,18 +213,18 @@ For more details on parameters, check class varnish.
 
 ## Class varnish ncsa
 
-   Class `varnish::ncsa` manages varnishncsa configuration.  
+   Class `varnish::ncsa` manages varnishncsa configuration.
    To enable varnishncsa:
 
      class {'varnish::ncsa': }
 
 ## Tests
-   For more examples check module tests directory.  
-   NOTE: make sure you don't run tests on Production server.  
+   For more examples check module tests directory.
+   NOTE: make sure you don't run tests on Production server.
 
 ## Development
-  Contributions and patches are welcome!  
-  All new code goes into branch develop.  
+  Contributions and patches are welcome!
+  All new code goes into branch develop.
 
 ## Contributors
 - Max Horlanchuk <max.horlanchuk@gmail.com>
