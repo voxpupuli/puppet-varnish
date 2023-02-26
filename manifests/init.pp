@@ -101,7 +101,7 @@ class varnish (
   String                $varnish_user                 = 'varnish',
   String                $varnish_jail_user            = 'vcache',
   String                $varnish_group                = 'varnish',
-  Optional[String]      $varnish_listen_address       = undef,
+  Optional[String[1]]   $varnish_listen_address       = undef,
   Stdlib::Port          $varnish_listen_port          = 6081,
   String                $varnish_proxy_listen_address       = '127.0.0.1',
   Optional[Stdlib::Port]  $varnish_proxy_listen_port          = undef,
