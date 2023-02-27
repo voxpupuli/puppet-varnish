@@ -1,5 +1,5 @@
 # define include file type
-# @oaram includedir
+# @param includedir
 #   Dir that contains the includefiles
 # @api private
 define varnish::vcl::includefile (
