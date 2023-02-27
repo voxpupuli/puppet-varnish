@@ -22,6 +22,13 @@
    Tested on Ubuntu, CentOS, RHEL and Oracle Linux.
 
    The Module is based on https://github.com/maxchk/puppet-varnish
+   Since than to release 3.0.0
+  - Added support for new OS
+  - Dropped support outdated OS
+  - Moved VCL Subclasses (acl, acl_member, backend, director, probe, selector)
+  - Added support for varnish 6
+  - Added support for varnish-plus / Varnish Enterprise
+
 ### Important information
 Version 2.0.0 drops support for old OS Versions (pre systemd)
 Also drops support for pre Varnish 4
