@@ -22,7 +22,7 @@
    Tested on Ubuntu, CentOS, RHEL and Oracle Linux.
 
    The Module is based on https://github.com/maxchk/puppet-varnish
-   Since than to release 3.0.0 
+   Since than to release 3.0.0
   - Added support for new OS
   - Dropped support outdated OS
   - Moved VCL Subclasses (acl, acl_member, backend, director, probe, selector)
