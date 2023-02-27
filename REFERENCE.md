@@ -8,32 +8,42 @@
 
 #### Public Classes
 
-* [`varnish`](#varnish): Installs and configures Varnish.
-* [`varnish::firewall`](#varnish--firewall): Uses `puppetlabs/firewall` module to open varnish listen port
-* [`varnish::install`](#varnish--install): Installs Varnish
+* [`varnish`](#varnish): == Class: varnish Installs and configures Varnish. Tested on Ubuntu and CentOS.   === Parameters === Examples
+* [`varnish::firewall`](#varnish--firewall): Class varnish::firewall Uses puppetlabs/firewall module to open varnish listen port
+* [`varnish::install`](#varnish--install): == Class: varnish::install Installs Varnish.
 * [`varnish::ncsa`](#varnish--ncsa): Allows setup of varnishncsa
 * [`varnish::repo`](#varnish--repo): This class installs aditional repos for varnish
-* [`varnish::shmlog`](#varnish--shmlog): Mounts shmlog as tempfs
-* [`varnish::vcl`](#varnish--vcl): Manages the Varnish VCL configuration
+* [`varnish::shmlog`](#varnish--shmlog): varnish::shmlog Mounts shmlog as tempfs
+* [`varnish::vcl`](#varnish--vcl): to change name/location of vcl file, use $varnish_vcl_conf in the main varnish class
+NOTE: though you can pass config for backends, directors, acls, probes and selectors
+    as parameters to this class, it is recommended to use existing definitions instead:
+    varnish::backend
+    varnish::director
+    varnish::probe
+    varnish::acl
+    varnish::selector
+    See README for details on how to use those
 
 #### Private Classes
 
-* `varnish::service`: Manages the Varnish service
+* `varnish::service`: Enables/Disables Varnish service
 
 ### Defined types
 
 #### Public Defined types
 
-* [`varnish::vcl::acl`](#varnish--vcl--acl): Defines an ACL Type of Varnish. Defined ACL's must be used in VCL
+* [`varnish::vcl::acl`](#varnish--vcl--acl): acl Class defines an ACL Type of Varnish. Defined ACL's must be used in VCL
 * [`varnish::vcl::acl_member`](#varnish--vcl--acl_member)
 * [`varnish::vcl::backend`](#varnish--vcl--backend): Defines a Backend for VCL
 * [`varnish::vcl::director`](#varnish--vcl--director): Defines a backend director in varnish vcl
 * [`varnish::vcl::probe`](#varnish--vcl--probe): Defines a VCL Probe, that can be used for healthchecks for backends
+Defined probes must be used
 * [`varnish::vcl::selector`](#varnish--vcl--selector): Adds a selector to handle multiple backends
+Depending to the condition, requests will be sent to the correct backend
 
 #### Private Defined types
 
-* `varnish::vcl::includefile`: Used by vcl.pp to create the config files with header sections
+* `varnish::vcl::includefile`: define include file type
 
 ### Data types
 
@@ -43,25 +53,31 @@
 
 ### <a name="varnish"></a>`varnish`
 
+== Class: varnish
 Installs and configures Varnish.
+Tested on Ubuntu and CentOS.
+
+
+=== Parameters
+=== Examples
 
 #### Examples
 
-##### Installs Varnish
+##### installs Varnish
 
 ```puppet
-# enables Varnish service
-# uses default VCL '/etc/varnish/default.vcl'
-include varnish
+- enabled Varnish service
+- uses default VCL '/etc/varnish/default.vcl'
+class {'varnish': }
 ```
 
-##### Installs Varnish with custom options
+##### same as above, plus
 
 ```puppet
-# sets Varnish to listen on port 80
-# storage size is set to 2 GB
-# vcl file is '/etc/varnish/my-vcl.vcl'
-class { 'varnish':
+- sets Varnish to listen on port 80
+- storage size is set to 2 GB
+- vcl file is '/etc/varnish/my-vcl.vcl'
+class {'varnish':
   varnish_listen_port  => 80,
   varnish_storage_size => '2G',
   varnish_vcl_conf     => '/etc/varnish/my-vcl.vcl',
@@ -382,7 +398,8 @@ Default value: `6`
 
 ### <a name="varnish--firewall"></a>`varnish::firewall`
 
-Uses `puppetlabs/firewall` module to open varnish listen port
+Class varnish::firewall
+Uses puppetlabs/firewall module to open varnish listen port
 
 #### Parameters
 
@@ -409,20 +426,21 @@ Default value: `6081`
 
 ### <a name="varnish--install"></a>`varnish::install`
 
-Installs Varnish
+== Class: varnish::install
+Installs Varnish.
 
 #### Examples
 
-##### Install Varnish
+##### install Varnish
 
 ```puppet
-include 'varnish::install'
+class {'varnish::install':}
 ```
 
-##### Make sure latest version is always installed
+##### make sure latest version is always installed
 
 ```puppet
-class { 'varnish::install':
+class {'varnish::install':
  version => latest,
 }
 ```
@@ -497,7 +515,7 @@ Default value: `'present'`
 
 ### <a name="varnish--ncsa"></a>`varnish::ncsa`
 
-Allows setup of varnishncsa
+ncsa
 
 #### Parameters
 
@@ -533,7 +551,7 @@ Default value: `undef`
 
 ### <a name="varnish--repo"></a>`varnish::repo`
 
-This class installs aditional repos for varnish
+Class varnish::repo
 
 #### Parameters
 
@@ -560,14 +578,16 @@ Default value: `false`
 
 ### <a name="varnish--shmlog"></a>`varnish::shmlog`
 
+varnish::shmlog
 Mounts shmlog as tempfs
 
 #### Examples
 
-##### Disable config for mounting shmlog as tmpfs
+##### 
 
 ```puppet
-class { 'varnish::shmlog':
+disable config for mounting shmlog as tmpfs
+class {'varnish::shmlog':
   tempfs => false,
 }
 ```
@@ -593,6 +613,7 @@ Default value: `'/var/lib/varnish'`
 Data type: `Boolean`
 
 mount or not shmlog as tmpfs, boolean
+default value: true
 
 Default value: `true`
 
@@ -606,16 +627,7 @@ Default value: `'170M'`
 
 ### <a name="varnish--vcl"></a>`varnish::vcl`
 
-To change name/location of vcl file, use $varnish_vcl_conf in the main varnish class
-
-NOTE: though you can pass config for backends, directors, acls, probes and selectors
-      as parameters to this class, it is recommended to use existing definitions instead:
-      varnish::backend
-      varnish::director
-      varnish::probe
-      varnish::acl
-      varnish::selector
-      See README for details on how to use those
+== Class: varnish::vcl
 
 * **Note** VCL applies following restictions:
 - if you define an acl it must be used
@@ -729,6 +741,7 @@ Default value: `[]`
 Data type: `Boolean`
 
 controls VCL WAF component, can be true or false
+default value: false
 
 Default value: `false`
 
@@ -738,6 +751,7 @@ Data type: `Boolean`
 
 If the request is a post/put upload (chunked or multipart),
 pipe the request to the backend.
+default value: false
 
 Default value: `false`
 
@@ -897,7 +911,7 @@ Default value: `['172.0.0.1']`
 
 Data type: `Varnish::Vclversion`
 
-Which version von VCL should be used
+Which version von VCL should be used - default 4
 
 Default value: `'4'`
 
@@ -905,7 +919,8 @@ Default value: `'4'`
 
 ### <a name="varnish--vcl--acl"></a>`varnish::vcl::acl`
 
-Defines an ACL Type of Varnish. Defined ACL's must be used in VCL
+acl
+Class defines an ACL Type of Varnish. Defined ACL's must be used in VCL
 
 #### Parameters
 
@@ -951,7 +966,7 @@ Host ip that will be inserted
 
 ### <a name="varnish--vcl--backend"></a>`varnish::vcl::backend`
 
-Defines a Backend for VCL
+backend
 
 #### Parameters
 
@@ -1010,7 +1025,7 @@ Default value: `undef`
 
 ### <a name="varnish--vcl--director"></a>`varnish::vcl::director`
 
-Defines a backend director in varnish vcl
+director
 
 #### Parameters
 
@@ -1046,7 +1061,7 @@ Default value: `$varnish::vcl::vcl_version`
 
 ### <a name="varnish--vcl--probe"></a>`varnish::vcl::probe`
 
-Defined probes must be used
+probe
 
 * **See also**
   * https://varnish-cache.org/docs/trunk/reference/vcl-probe.html
@@ -1121,7 +1136,7 @@ Default value: `undef`
 
 ### <a name="varnish--vcl--selector"></a>`varnish::vcl::selector`
 
-Depending on the condition, requests will be sent to the correct backend
+selector.pp
 
 #### Parameters
 
