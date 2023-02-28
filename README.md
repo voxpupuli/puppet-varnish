@@ -3,17 +3,20 @@
 2. [Install Varnish](#install-varnish)
 3. [Class varnish](#class-varnish)
 4. [Class varnish::vcl](#class-varnish-vcl)
-    * [varnish::vcl::acl](varnish-acl)
-    * [varnish::vcl::acl_member](varnish-acl_member)
-    * [varnish::vcl::probe](varnish-probe)
-    * [varnish::vcl::backend](varnish-backend)
-    * [varnish::vcl::director](varnish-director)
     * [varnish::vcl::selector](varnish-selector)
-5. [Configure VCL with class varnish::vcl](#configure-vcl-with-class-varnish-vcl)
-6. [Class varnish::ncsa](#class-varnish-ncsa)
+    * [Configure VCL with class varnish::vcl](#configure-vcl-with-class-varnish-vcl)
 7. [Tests](#tests)
-8. [Development](#development)
+8. [Contributing](#contributing)
 9. [Contributors](#contributors)
+
+
+[![Build Status](https://github.com/voxpupuli/puppet-varnish/workflows/CI/badge.svg)](https://github.com/voxpupuli/puppet-varnish/actions?query=workflow%3ACI)
+[![Release](https://github.com/voxpupuli/puppet-varnish/actions/workflows/release.yml/badge.svg)](https://github.com/voxpupuli/puppet-varnish/actions/workflows/release.yml)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/varnish.svg)](https://forge.puppetlabs.com/puppet/varnish)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/varnish.svg)](https://forge.puppetlabs.com/puppet/varnish)
+[![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/varnish.svg)](https://forge.puppetlabs.com/puppet/varnish)
+[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/varnish.svg)](https://forge.puppetlabs.com/puppet/varnish)
+[![puppetmodule.info docs](http://www.puppetmodule.info/images/badge.png)](http://www.puppetmodule.info/m/puppet-varnish)
 
 ## Overview
 
@@ -28,6 +31,8 @@
   - Moved VCL Subclasses (acl, acl_member, backend, director, probe, selector)
   - Added support for varnish 6
   - Added support for varnish-plus / Varnish Enterprise
+
+  Detailed Reference to all classparameters can be found in (https://github.com/voxpupuli/puppet-varnish/blob/master/REFERENCE.md)
 
 ### Important information
 Version 2.0.0 drops support for old OS Versions (pre systemd)
@@ -82,41 +87,6 @@ For more details on parameters, check class varnish.
    Gives access to Varnish acl, probe, backend, director, etc. definitions
    (see below)
 
-### varnish acl
-
-   Definition `varnish::vcl::acl` allows to configure Varnish acl.
-
-    varnish::vcl::acl { 'acl1': hosts => [ "localhost", "172.16.0.1" ] }
-
-### varnish acl_membr
-
-   Definition `varnish::vcl::acl_member` allows to export member resources to be included in configuration of Varnish acl.
-
-    varnish::vcl::acl_member { fqdn => "your.varshish.fqdn", acl => 'acl1', host => $::ipaddress }
-
-### varnish probe
-
-   Definition `varnish::vcl::probe` allows to configure Varnish probe.
-
-    varnish::vcl::probe { 'health_check1': url => '/health_check_url1' }
-
-### varnish backend
-
-   Definition `varnish::vcl::backend` allows to configure Varnish backend.
-   If you have a single backend, you can name it `default` and ignore
-   `selector` sections.
-   For more examples see `tests/vcl_backend_default.pp` and `tests/vcl_backends.pp`
-
-    varnish::vcl::backend { 'srv1': host => '172.16.0.1', port => '80', probe => 'health_check1' }
-    varnish::vcl::backend { 'srv2': host => '172.16.0.2', port => '80', probe => 'health_check1' }
-
-### varnish director
-
-   Definition `varnish::vcl::director` allows to configure Varnish director.
-   For more examples see `tests/vcl_backends_probes_directors.pp`
-
-    varnish::vcl::director { 'cluster1': backends => [ 'srv1', 'srv2' ] }
-
 ### varnish selector
 
    Definition `varnish::vcl::selector` allows to configure Varnish selector.
@@ -130,27 +100,32 @@ For more details on parameters, check class varnish.
    Parameter `selectors` gives access to req.backend inside `vcl_recv`.
    Code:
 
+    ```puppet
     varnish::vcl::selector { 'cluster1': condition => 'req.url ~ "^/cluster1"' }
     varnish::vcl::selector { 'cluster2': condition => 'true' } # will act as backend set by else statement
+    ```
 
    Will result in following VCL configuration to be generated:
-
+    ```VCL
     if (req.url ~ "^/cluster1") {
       set req.backend = cluster1;
     }
     if (true) {
       set req.backend = cluster2;
     }
+    ```
 
    For more examples see `tests/vcl_backends_probes_directors.pp`
 
 ## Usaging class varnish::vcl
 
    Configure probes, backends, directors and selectors
-
+    ```puppet
     class { 'varnish::vcl': }
+    ```
 
     # configure probes
+    ```puppet
     varnish::probe { 'health_check1': url => '/health_check_url1' }
     varnish::probe { 'health_check2':
       window    => '8',
@@ -159,22 +134,29 @@ For more details on parameters, check class varnish.
       interval  => '5s',
       request   => [ "GET /healthCheck2 HTTP/1.1", "Host: www.example1.com", "Connection: close" ]
     }
+    ```
 
     # configure backends
+    ```puppet
     varnish::vcl::backend { 'srv1': host => '172.16.0.1', port => '80', probe => 'health_check1' }
     varnish::vcl::backend { 'srv2': host => '172.16.0.2', port => '80', probe => 'health_check1' }
     varnish::vcl::backend { 'srv3': host => '172.16.0.3', port => '80', probe => 'health_check2' }
     varnish::vcl::backend { 'srv4': host => '172.16.0.4', port => '80', probe => 'health_check2' }
     varnish::vcl::backend { 'srv5': host => '172.16.0.5', port => '80', probe => 'health_check2' }
     varnish::vcl::backend { 'srv6': host => '172.16.0.6', port => '80', probe => 'health_check2' }
+    ```
 
     # configure directors
+    ```puppet
     varnish::vcl::director { 'cluster1': backends => [ 'srv1', 'srv2' ] }
     varnish::vcl::director { 'cluster2': backends => [ 'srv3', 'srv4', 'srv5', 'srv6' ] }
+    ```
 
     # configure selectors
+    ```puppet
     varnish::vcl::selector { 'cluster1': condition => 'req.url ~ "^/cluster1"' }
     varnish::vcl::selector { 'cluster2': condition => 'true' } # will act as backend set by else statement
+    ```
 
    If modification to Varnish VCL goes further than configuring `probes`, `backends` and `directors`
    parameter `template` can be used to point `varnish::vcl` class at a different template.
@@ -218,20 +200,19 @@ For more details on parameters, check class varnish.
        call pipe_if_local;
    ```
 
-## Class varnish ncsa
-
-   Class `varnish::ncsa` manages varnishncsa configuration.
-   To enable varnishncsa:
-
-     class {'varnish::ncsa': }
-
 ## Tests
    For more examples check module tests directory.
    NOTE: make sure you don't run tests on Production server.
 
-## Development
-  Contributions and patches are welcome!
-  All new code goes into branch develop.
+## Contributing
+
+Please report bugs and feature request using [GitHub issue
+tracker](https://github.com/voxpupuli/puppet-varnish/issues).
+
+For pull requests, it is very much appreciated to check your Puppet manifest
+with [puppet-lint](https://github.com/puppetlabs/puppet-lint) to follow the recommended Puppet style guidelines from the
+[Puppet Labs style guide](http://docs.puppetlabs.com/guides/style_guide.html).
+
 
 ## Contributors
 - Max Horlanchuk <max.horlanchuk@gmail.com>
