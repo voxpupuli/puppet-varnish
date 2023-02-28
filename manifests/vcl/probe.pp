@@ -1,8 +1,9 @@
-#probe
-# @summary
-#   Defines a VCL Probe, that can be used for healthchecks for backends
-#   Defined probes must be used
+# @summary Defines a VCL Probe, that can be used for healthchecks for backends
+#
+# Defined probes must be used
+#
 # @see https://varnish-cache.org/docs/trunk/reference/vcl-probe.html
+#
 # @param interval
 #   Paramter as defined from varnish
 # @param timeout
@@ -17,7 +18,6 @@
 #   Paramter as defined from varnish
 # @param request
 #   Paramter as defined from varnish
-# 
 define varnish::vcl::probe (
   String $interval  = '5s',
   String $timeout   = '5s',

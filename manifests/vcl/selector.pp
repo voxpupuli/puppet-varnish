@@ -1,7 +1,6 @@
-#selector.pp
-# @summary
-#   Adds a selector to handle multiple backends
-#   Depending to the condition, requests will be sent to the correct backend
+# @summary Adds a selector to handle multiple backends
+#
+# Depending on the condition, requests will be sent to the correct backend
 # 
 # @param condition
 #   Condtion under that varnish will redirect to the defined backend

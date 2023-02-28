@@ -1,10 +1,5 @@
-# == Class: varnish
-# @summary
-# Installs and configures Varnish.
-# Tested on Ubuntu and CentOS.
+# @summary Installs and configures Varnish.
 #
-#
-# === Parameters
 # @param service_ensure
 #   Ensure for varnishservice
 # @param reload_vcl
@@ -74,18 +69,16 @@
 # @param default_version
 #   Default major version of Varnish for that OS release
 # 
-# === Examples
-# 
-# @example installs Varnish
-#   - enabled Varnish service
-#   - uses default VCL '/etc/varnish/default.vcl'
-#   class {'varnish': }
+# @example Installs Varnish
+#   # enables Varnish service
+#   # uses default VCL '/etc/varnish/default.vcl'
+#   include varnish
 #
-# @example same as above, plus
-#   - sets Varnish to listen on port 80
-#   - storage size is set to 2 GB
-#   - vcl file is '/etc/varnish/my-vcl.vcl'
-#   class {'varnish':
+# @example Installs Varnish with custom options
+#   # sets Varnish to listen on port 80
+#   # storage size is set to 2 GB
+#   # vcl file is '/etc/varnish/my-vcl.vcl'
+#   class { 'varnish':
 #     varnish_listen_port  => 80,
 #     varnish_storage_size => '2G',
 #     varnish_vcl_conf     => '/etc/varnish/my-vcl.vcl',

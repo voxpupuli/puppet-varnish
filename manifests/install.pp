@@ -1,6 +1,4 @@
-# == Class: varnish::install
-# @summary
-# Installs Varnish.
+# @summary Installs Varnish
 #
 # @param add_repo
 #   if repo should be added
@@ -17,11 +15,11 @@
 # @param version
 #   passed to puppet type 'package', attribute 'ensure'
 #
-# @example install Varnish
-#   class {'varnish::install':}
+# @example Install Varnish
+#   include 'varnish::install'
 #
-# @example make sure latest version is always installed
-#   class {'varnish::install':
+# @example Make sure latest version is always installed
+#   class { 'varnish::install':
 #    version => latest,
 #   }
 #
