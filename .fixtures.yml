@@ -1,22 +1,10 @@
 fixtures:
-  forge_modules:
-    yumrepo_core:
-      repo: "puppetlabs/yumrepo_core"
-      ref: "1.0.6"
-      puppet_version: '>= 6.0.0'
-    mount_core:
-      repo: "puppetlabs/mount_core"
-      ref: "1.0.4"
-      puppet_version: '>= 6.0.0'
-    systemd:
-      repo: "puppet-systemd"
-      #ref: "3.5.2"
-    firewall:
-      repo: "puppetlabs/firewall"
   repositories:
     stdlib: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
     concat: 'https://github.com/puppetlabs/puppetlabs-concat.git'
     apt: 'https://github.com/puppetlabs/puppetlabs-apt.git'
     translate: 'https://github.com/puppetlabs/puppetlabs-translate.git'
-  symlinks:
-    varnish: '#{source_dir}'
+    firewall: 'https://github.com/puppetlabs/puppetlabs-firewall.git'
+    systemd: 'https://github.com/voxpupuli/puppet-systemd.git'
+    mount_core: 'https://github.com/puppetlabs/puppetlabs-mount_core.git'
+    yumrepo_core: 'https://github.com/puppetlabs/puppetlabs-yumrepo_core.git'
