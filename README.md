@@ -44,10 +44,12 @@ Also drops support for pre Varnish 4
    allocates for cache 1GB (malloc)
    starts it on port 80:
 
-    class {'varnish':
-      varnish_listen_port => 80,
-      varnish_storage_size => '1G',
-    }
+```puppet
+class {'varnish':
+  varnish_listen_port => 80,
+  varnish_storage_size => '1G',
+}
+```
 
 ## Class varnish
 
@@ -100,63 +102,61 @@ For more details on parameters, check class varnish.
    Parameter `selectors` gives access to req.backend inside `vcl_recv`.
    Code:
 
-    ```puppet
-    varnish::vcl::selector { 'cluster1': condition => 'req.url ~ "^/cluster1"' }
-    varnish::vcl::selector { 'cluster2': condition => 'true' } # will act as backend set by else statement
-    ```
+  ```puppet
+  varnish::vcl::selector { 'cluster1': condition => 'req.url ~ "^/cluster1"' }
+  varnish::vcl::selector { 'cluster2': condition => 'true' } # will act as backend set by else statement
+  ```
 
    Will result in following VCL configuration to be generated:
-    ```VCL
-    if (req.url ~ "^/cluster1") {
-      set req.backend = cluster1;
-    }
-    if (true) {
-      set req.backend = cluster2;
-    }
-    ```
+  ```VCL
+  if (req.url ~ "^/cluster1") {
+    set req.backend = cluster1;
+  }
+  if (true) {
+    set req.backend = cluster2;
+  }
+  ```
 
    For more examples see `tests/vcl_backends_probes_directors.pp`
 
 ## Usaging class varnish::vcl
 
    Configure probes, backends, directors and selectors
-    ```puppet
+  ```puppet
     class { 'varnish::vcl': }
-    ```
+  ```
 
-    # configure probes
-    ```puppet
-    varnish::probe { 'health_check1': url => '/health_check_url1' }
-    varnish::probe { 'health_check2':
-      window    => '8',
-      timeout   => '5s',
-      threshold => '3',
-      interval  => '5s',
-      request   => [ "GET /healthCheck2 HTTP/1.1", "Host: www.example1.com", "Connection: close" ]
-    }
-    ```
+  ### configure probes
+  ```puppet
+  varnish::probe { 'health_check1': url => '/health_check_url1' }
+  varnish::probe { 'health_check2':
+    window    => '8',
+    timeout   => '5s',
+    threshold => '3',
+    interval  => '5s',
+    request   => [ "GET /healthCheck2 HTTP/1.1", "Host: www.example1.com", "Connection: close" ]
+  }
+  ```
+  ### configure backends
+  ```puppet
+  varnish::vcl::backend { 'srv1': host => '172.16.0.1', port => '80', probe => 'health_check1' }
+  varnish::vcl::backend { 'srv2': host => '172.16.0.2', port => '80', probe => 'health_check1' }
+  varnish::vcl::backend { 'srv3': host => '172.16.0.3', port => '80', probe => 'health_check2' }
+  varnish::vcl::backend { 'srv4': host => '172.16.0.4', port => '80', probe => 'health_check2' }
+  varnish::vcl::backend { 'srv5': host => '172.16.0.5', port => '80', probe => 'health_check2' }
+  varnish::vcl::backend { 'srv6': host => '172.16.0.6', port => '80', probe => 'health_check2' }
+  ```
 
-    # configure backends
-    ```puppet
-    varnish::vcl::backend { 'srv1': host => '172.16.0.1', port => '80', probe => 'health_check1' }
-    varnish::vcl::backend { 'srv2': host => '172.16.0.2', port => '80', probe => 'health_check1' }
-    varnish::vcl::backend { 'srv3': host => '172.16.0.3', port => '80', probe => 'health_check2' }
-    varnish::vcl::backend { 'srv4': host => '172.16.0.4', port => '80', probe => 'health_check2' }
-    varnish::vcl::backend { 'srv5': host => '172.16.0.5', port => '80', probe => 'health_check2' }
-    varnish::vcl::backend { 'srv6': host => '172.16.0.6', port => '80', probe => 'health_check2' }
-    ```
-
-    # configure directors
-    ```puppet
-    varnish::vcl::director { 'cluster1': backends => [ 'srv1', 'srv2' ] }
-    varnish::vcl::director { 'cluster2': backends => [ 'srv3', 'srv4', 'srv5', 'srv6' ] }
-    ```
-
-    # configure selectors
-    ```puppet
+  ### configure directors
+  ```puppet
+  varnish::vcl::director { 'cluster1': backends => [ 'srv1', 'srv2' ] }
+  varnish::vcl::director { 'cluster2': backends => [ 'srv3', 'srv4', 'srv5', 'srv6' ] }
+  ```
+  ### configure selectors
+  ```puppet
     varnish::vcl::selector { 'cluster1': condition => 'req.url ~ "^/cluster1"' }
     varnish::vcl::selector { 'cluster2': condition => 'true' } # will act as backend set by else statement
-    ```
+  ```
 
    If modification to Varnish VCL goes further than configuring `probes`, `backends` and `directors`
    parameter `template` can be used to point `varnish::vcl` class at a different template.
@@ -171,19 +171,19 @@ For more details on parameters, check class varnish.
    Override or custom functions specified in the array passed to `varnish::vcl` class as parameter `functions`.
    The best way to do it is to use hiera. For example:
    ```yaml
-   varnish::vcl::functions:
-     vcl_hash: |
-       hash_data(req.url);
-       if (req.http.host) {
-         hash_data(req.http.host);
-       } else {
-         hash_data(server.ip);
-       }
-       return (hash);
-     pipe_if_local: |
-       if (client.ip ~ localnetwork) {
-         return (pipe);
-       }
+  varnish::vcl::functions:
+    vcl_hash: |
+      hash_data(req.url);
+      if (req.http.host) {
+        hash_data(req.http.host);
+      } else {
+        hash_data(server.ip);
+      }
+      return (hash);
+    pipe_if_local: |
+      if (client.ip ~ localnetwork) {
+        return (pipe);
+      }
    ```
    There are two special cases for functions `vcl_init` and `vcl_recv`.
    For Varnish version 4 in function `vcl_init` include directive for directors is always present.
@@ -191,13 +191,13 @@ For more details on parameters, check class varnish.
    peace of code to the begining or to the end of the function with special names `vcl_recv_prepend` and `vcl_recv_append`
    For instance:
    ```yaml
-   varnish::vcl::functions:
-     pipe_if_local: |
-       if (client.ip ~ localnetwork) {
-         return (pipe);
-       }
-     vcl_recv_prepend: |
-       call pipe_if_local;
+  varnish::vcl::functions:
+    pipe_if_local: |
+      if (client.ip ~ localnetwork) {
+        return (pipe);
+      }
+    vcl_recv_prepend: |
+      call pipe_if_local;
    ```
 
 ## Tests
