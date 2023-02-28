@@ -17,6 +17,7 @@
 [![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/varnish.svg)](https://forge.puppetlabs.com/puppet/varnish)
 [![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/varnish.svg)](https://forge.puppetlabs.com/puppet/varnish)
 [![puppetmodule.info docs](http://www.puppetmodule.info/images/badge.png)](http://www.puppetmodule.info/m/puppet-varnish)
+[![Apache-2.0](https://img.shields.io/github/license/voxpupuli/puppet-varnish.svg)](LICENSE)
 
 ## Overview
 
