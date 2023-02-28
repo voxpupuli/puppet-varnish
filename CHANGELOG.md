@@ -8,9 +8,12 @@ These should not affect the functionality of the module.
 
 [Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/d55e143663f24b4f5efd8a9628a3d0173264609b...v3.0.0)
 
-**Closed issues:**
-
-- 3.0.0 release information [\#7](https://github.com/voxpupuli/puppet-varnish/issues/7)
+   The Module is based on https://forge.puppet.com/modules/maxchk/varnish/readme. Compared to the last 1.0.0 in that namespace, we did:
+  - Add support for new OS
+  - Drop support for outdated OS
+  - Move VCL Subclasses (acl, acl_member, backend, director, probe, selector)
+  - Add support for varnish 6
+  - Addsupport for varnish-plus / Varnish Enterprise
 
 **Merged pull requests:**
 
