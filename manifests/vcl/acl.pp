@@ -1,10 +1,7 @@
-# acl
-# @summary
-# Class defines an ACL Type of Varnish. Defined ACL's must be used in VCL
+# @summary Defines an ACL Type of Varnish. Defined ACL's must be used in VCL
 # 
 # @param hosts
 #    Array of defined Hosts
-# 
 define varnish::vcl::acl (
   Array[Stdlib::IP::Address] $hosts,
 ) {

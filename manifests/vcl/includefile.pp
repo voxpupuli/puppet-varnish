@@ -1,6 +1,10 @@
-# define include file type
+# @summary Used by vcl.pp to create the config files with header sections
+#
+# TODO: Move these resources to vcl.pp??
+#
 # @param includedir
 #   Dir that contains the includefiles
+#
 # @api private
 define varnish::vcl::includefile (
   Optional[Stdlib::Absolutepath] $includedir = $varnish::vcl::includedir

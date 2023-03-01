@@ -1,6 +1,5 @@
-#backend
-# @summary
-#   Defines a Backend for VCL
+# @summary Defines a Backend for VCL
+#
 # @param host
 #   Host that will be defined as backend
 # @param port

@@ -1,6 +1,5 @@
-# ncsa
-# @summary
-#   Allows setup of varnishncsa
+# @summary Allows setup of varnishncsa
+#
 # @param enable
 #   enable service
 # @param service_ensure

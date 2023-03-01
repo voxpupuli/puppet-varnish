@@ -1,27 +1,20 @@
-# varnish::shmlog
-# @summary
-# Mounts shmlog as tempfs
+# @summary Mounts shmlog as tempfs
 #
 # @param shmlog_dir
 #   directory where Varnish logs
-#
 # @param tempfs
 #   mount or not shmlog as tmpfs, boolean
-#   default value: true
-#
 # @param size
 #   size definition of shmlog tmpfs
-# 
-# @example
-#   disable config for mounting shmlog as tmpfs
-#   class {'varnish::shmlog':
+#
+# @example Disable config for mounting shmlog as tmpfs
+#   class { 'varnish::shmlog':
 #     tempfs => false,
 #   }
-#
 class varnish::shmlog (
   Stdlib::Absolutepath $shmlog_dir = '/var/lib/varnish',
-  Boolean $tempfs     = true,
-  String $size       = '170M',
+  Boolean              $tempfs     = true,
+  String               $size       = '170M',
 ) {
   file { 'shmlog-dir':
     ensure  => directory,

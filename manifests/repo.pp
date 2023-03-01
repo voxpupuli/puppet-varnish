@@ -1,13 +1,12 @@
-# Class varnish::repo
-# @summary
-#   This class installs aditional repos for varnish
+# @summary This class installs aditional repos for varnish
+#
 # @param version
 #   Version of varnish for repo
 # @param enable
 #   If repo will be managed
 class varnish::repo (
   Optional[String] $version  = undef,
-  Boolean $enable   = false,
+  Boolean          $enable   = false,
 ) {
   $repo_base_url = 'https://packagecloud.io/varnishcache'
 

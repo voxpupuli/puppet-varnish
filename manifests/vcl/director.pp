@@ -1,6 +1,5 @@
-#director
-# @summary
-#   Defines a backend director in varnish vcl
+# @summary Defines a backend director in varnish vcl
+#
 # @param type
 #   Type of varnish backend director
 # @param backends

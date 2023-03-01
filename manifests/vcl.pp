@@ -1,7 +1,8 @@
-# == Class: varnish::vcl
-# @summary
-#   to change name/location of vcl file, use $varnish_vcl_conf in the main varnish class
-#   NOTE: though you can pass config for backends, directors, acls, probes and selectors
+# @summary Manages the Varnish VCL configuration
+#
+# To change name/location of vcl file, use $varnish_vcl_conf in the main varnish class
+#
+# NOTE: though you can pass config for backends, directors, acls, probes and selectors
 #       as parameters to this class, it is recommended to use existing definitions instead:
 #       varnish::backend
 #       varnish::director
@@ -28,11 +29,9 @@
 #   Array of UserAgent Bots that will be blocked
 # @param enable_waf
 #   controls VCL WAF component, can be true or false
-#   default value: false
 # @param pipe_uploads
 #   If the request is a post/put upload (chunked or multipart),
 #   pipe the request to the backend.
-#   default value: false
 # @param wafexceptions
 #   Exclude those rules
 # @param purgeips
@@ -72,7 +71,7 @@
 # @param unset_headers_debugips
 #   Do not unset the named headers for the following IP's
 # @param vcl_version
-#   Which version von VCL should be used - default 4
+#   Which version von VCL should be used
 #
 # @note
 #   VCL applies following restictions:
@@ -82,7 +81,6 @@
 #   - if you define a director it must be used
 #   You cannot define 2 or more backends/directors and not to have selectors
 #   Not following above rules will result in VCL compilation failure
-#
 class varnish::vcl (
   Hash $functions         = {},
   Hash $probes            = {},
@@ -116,8 +114,6 @@ class varnish::vcl (
   Varnish::Vclversion $vcl_version     = '4',
 ) {
   include varnish
-  validate_array($unset_headers)
-  validate_array($unset_headers_debugips)
 
   # select template to use
   if $template {
@@ -164,23 +160,18 @@ class varnish::vcl (
     #Create resources
 
     #Backends
-    validate_hash($backends)
     create_resources(varnish::vcl::backend,$backends)
 
     #Probes
-    validate_hash($probes)
     create_resources(varnish::vcl::probe,$probes)
 
     #Directors
-    validate_hash($directors)
     create_resources(varnish::vcl::director,$directors)
 
     #Selectors
-    validate_hash($selectors)
     create_resources(varnish::vcl::selector,$selectors)
 
     #ACLs
-    validate_hash($acls)
     $default_acls = {
       blockedips => { hosts => $blockedips },
       unset_headers_debugips => { hosts => $unset_headers_debugips },

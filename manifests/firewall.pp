@@ -1,13 +1,11 @@
-# Class varnish::firewall
-# @summary
-# Uses puppetlabs/firewall module to open varnish listen port
+# @summary Uses `puppetlabs/firewall` module to open varnish listen port
+#
 # @param manage_firewall
 #   Manage firewall
 # @param varnish_listen_port
 #   Port where varnish listens to
-# 
 class varnish::firewall (
-  Boolean $manage_firewall     = false,
+  Boolean      $manage_firewall     = false,
   Stdlib::Port $varnish_listen_port = 6081,
 ) {
   if $manage_firewall {
