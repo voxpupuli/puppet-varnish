@@ -17,6 +17,11 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
+- Fix up puppet-strings and generate REFERENCE.md [\#12](https://github.com/voxpupuli/puppet-varnish/pull/12) ([alexjfisher](https://github.com/alexjfisher))
+- Remove old Modulefile [\#11](https://github.com/voxpupuli/puppet-varnish/pull/11) ([voxel01](https://github.com/voxel01))
+- Update README.md [\#10](https://github.com/voxpupuli/puppet-varnish/pull/10) ([voxel01](https://github.com/voxel01))
+- puppet-lint: Validate puppet-strings & datatypes [\#9](https://github.com/voxpupuli/puppet-varnish/pull/9) ([bastelfreak](https://github.com/bastelfreak))
+- .fixtures.yml: Migrate from forge releases to git [\#8](https://github.com/voxpupuli/puppet-varnish/pull/8) ([bastelfreak](https://github.com/bastelfreak))
 - fix typo in documentation, enhance README.md [\#4](https://github.com/voxpupuli/puppet-varnish/pull/4) ([voxel01](https://github.com/voxel01))
 - Update module author after migration to Vox Pupuli [\#2](https://github.com/voxpupuli/puppet-varnish/pull/2) ([voxel01](https://github.com/voxel01))
 - Update metadata to Vox Pupuli [\#1](https://github.com/voxpupuli/puppet-varnish/pull/1) ([voxel01](https://github.com/voxel01))
