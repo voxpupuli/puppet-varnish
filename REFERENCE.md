@@ -38,7 +38,7 @@
 
 ### Data types
 
-* [`Varnish::Controller::Agent_name`](#Varnish--Controller--Agent_name): Type for supported VCL Versions
+* [`Varnish::Controller::Agent_name`](#Varnish--Controller--Agent_name): Type for supported Agent Name of Controller Agent
 * [`Varnish::Vclversion`](#Varnish--Vclversion): Type for supported VCL Versions
 
 ## Classes
@@ -1308,7 +1308,7 @@ Default value: `$varnish::vcl::vcl_version`
 
 ### <a name="Varnish--Controller--Agent_name"></a>`Varnish::Controller::Agent_name`
 
-Type for supported VCL Versions
+Type for supported Agent Name of Controller Agent
 
 Alias of `Pattern[/\A(?i:([-a-z0-9]+))\z/]`
 
