@@ -9,6 +9,7 @@
 #### Public Classes
 
 * [`varnish`](#varnish): Installs and configures Varnish.
+* [`varnish::controller::agent`](#varnish--controller--agent): Installs and manages Varnish Controller Agent
 * [`varnish::firewall`](#varnish--firewall): Uses `puppetlabs/firewall` module to open varnish listen port
 * [`varnish::install`](#varnish--install): Installs Varnish
 * [`varnish::ncsa`](#varnish--ncsa): Allows setup of varnishncsa
@@ -37,6 +38,7 @@
 
 ### Data types
 
+* [`Varnish::Controller::Agent_name`](#Varnish--Controller--Agent_name): Type for supported VCL Versions
 * [`Varnish::Vclversion`](#Varnish--Vclversion): Type for supported VCL Versions
 
 ## Classes
@@ -379,6 +381,109 @@ Data type: `Integer`
 Default major version of Varnish for that OS release
 
 Default value: `6`
+
+### <a name="varnish--controller--agent"></a>`varnish::controller::agent`
+
+Installs and manages Varnish Controller Agent
+
+#### Examples
+
+##### 
+
+```puppet
+include varnish::controller::agent
+```
+
+#### Parameters
+
+The following parameters are available in the `varnish::controller::agent` class:
+
+* [`base_url`](#-varnish--controller--agent--base_url)
+* [`nats_server`](#-varnish--controller--agent--nats_server)
+* [`nats_server_port`](#-varnish--controller--agent--nats_server_port)
+* [`nats_server_user`](#-varnish--controller--agent--nats_server_user)
+* [`nats_server_password`](#-varnish--controller--agent--nats_server_password)
+* [`agent_name`](#-varnish--controller--agent--agent_name)
+* [`invalidation_host`](#-varnish--controller--agent--invalidation_host)
+* [`package_name`](#-varnish--controller--agent--package_name)
+* [`package_ensure`](#-varnish--controller--agent--package_ensure)
+* [`service_ensure`](#-varnish--controller--agent--service_ensure)
+
+##### <a name="-varnish--controller--agent--base_url"></a>`base_url`
+
+Data type: `Stdlib::HTTPUrl`
+
+see https://docs.varnish-software.com/varnish-controller/installation/agents/#base-url
+
+##### <a name="-varnish--controller--agent--nats_server"></a>`nats_server`
+
+Data type: `Stdlib::Host`
+
+Server for NATS Connection
+
+##### <a name="-varnish--controller--agent--nats_server_port"></a>`nats_server_port`
+
+Data type: `Stdlib::Port`
+
+Port for Nats Connection
+
+Default value: `4222`
+
+##### <a name="-varnish--controller--agent--nats_server_user"></a>`nats_server_user`
+
+Data type: `Optional[String]`
+
+User for Nats Connection
+
+Default value: `undef`
+
+##### <a name="-varnish--controller--agent--nats_server_password"></a>`nats_server_password`
+
+Data type: `Optional[Variant[Sensitive[String],String]]`
+
+Password for Nats Connection
+
+Default value: `undef`
+
+##### <a name="-varnish--controller--agent--agent_name"></a>`agent_name`
+
+Data type: `Varnish::Controller::Agent_name`
+
+see https://docs.varnish-software.com/varnish-controller/installation/agents/#setting-the-agent-name
+
+Default value: `$facts['networking']['hostname']`
+
+##### <a name="-varnish--controller--agent--invalidation_host"></a>`invalidation_host`
+
+Data type: `String`
+
+see https://docs.varnish-software.com/varnish-controller/installation/agents/#varnish-interaction
+
+Default value: `'127.0.0.1:80'`
+
+##### <a name="-varnish--controller--agent--package_name"></a>`package_name`
+
+Data type: `String`
+
+Name of the Package used for installation
+
+Default value: `'varnish-controller-agent'`
+
+##### <a name="-varnish--controller--agent--package_ensure"></a>`package_ensure`
+
+Data type: `String`
+
+Ensure of the Package
+
+Default value: `'present'`
+
+##### <a name="-varnish--controller--agent--service_ensure"></a>`service_ensure`
+
+Data type: `Stdlib::Ensure::Service`
+
+Ensure of Agent Service
+
+Default value: `'running'`
 
 ### <a name="varnish--firewall"></a>`varnish::firewall`
 
@@ -1200,6 +1305,12 @@ Version of VCL Language
 Default value: `$varnish::vcl::vcl_version`
 
 ## Data types
+
+### <a name="Varnish--Controller--Agent_name"></a>`Varnish::Controller::Agent_name`
+
+Type for supported VCL Versions
+
+Alias of `Pattern[/\A(?i:([-a-z0-9]+))\z/]`
 
 ### <a name="Varnish--Vclversion"></a>`Varnish::Vclversion`
 
