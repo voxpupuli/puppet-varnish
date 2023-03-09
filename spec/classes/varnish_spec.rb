@@ -148,7 +148,7 @@ describe 'varnish', type: :class do
 
         it { is_expected.to compile }
         it { is_expected.to contain_file('varnish-conf').with_content(%r{\s -s mse}) }
-        it { is_expected.not_to contain_file('varnish-conf').with_content(%r{\s -s mse, /etc/varnish/mse.conf}) }
+        it { is_expected.not_to contain_file('varnish-conf').with_content(%r{\s -s mse,/etc/varnish/mse.conf}) }
         it { is_expected.not_to contain_exec('varnish-mkfs-mse') }
       end
 
@@ -175,7 +175,7 @@ describe 'varnish', type: :class do
 
         it { is_expected.to compile }
         it { is_expected.not_to contain_file('varnish-conf').with_content(%r{\s -s mse \\}) }
-        it { is_expected.to contain_file('varnish-conf').with_content(%r{\s -s mse, /etc/varnish/mse.conf}) }
+        it { is_expected.to contain_file('varnish-conf').with_content(%r{\s -s mse,/etc/varnish/mse.conf}) }
 
         it { is_expected.to contain_file('varnish-mse-conf').with_path('/etc/varnish/mse.conf') }
 
