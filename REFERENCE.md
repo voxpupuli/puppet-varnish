@@ -455,7 +455,7 @@ Default value: `$facts['networking']['hostname']`
 
 ##### <a name="-varnish--controller--agent--invalidation_host"></a>`invalidation_host`
 
-Data type: `String`
+Data type: `String[1]`
 
 see https://docs.varnish-software.com/varnish-controller/installation/agents/#varnish-interaction
 
@@ -463,7 +463,7 @@ Default value: `'127.0.0.1:80'`
 
 ##### <a name="-varnish--controller--agent--package_name"></a>`package_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of the Package used for installation
 
@@ -471,7 +471,7 @@ Default value: `'varnish-controller-agent'`
 
 ##### <a name="-varnish--controller--agent--package_ensure"></a>`package_ensure`
 
-Data type: `String`
+Data type: `String[1]`
 
 Ensure of the Package
 
