@@ -141,6 +141,64 @@ describe 'varnish', type: :class do
         it { is_expected.to contain_file('varnish-conf').with_content(%r{\s  -j unix,user=vcache}) }
       end
 
+      context 'Storage Type MSE' do
+        let :params do
+          { storage_type: 'mse' }
+        end
+
+        it { is_expected.to compile }
+        it { is_expected.to contain_file('varnish-conf').with_content(%r{\s -s mse}) }
+        it { is_expected.not_to contain_file('varnish-conf').with_content(%r{\s -s mse, /etc/varnish/mse.conf}) }
+        it { is_expected.not_to contain_exec('varnish-mkfs-mse') }
+      end
+
+      context 'Storage Type MSE with custom config' do
+        let :params do
+          {
+            storage_type: 'mse',
+            mse_config: 'env: {
+              id = "mse";
+              memcache_size = "auto";
+              books = ( {
+                      id = "book";
+                      directory = "/var/lib/mse/book";
+                      database_size = "2G";
+                      stores = ( {
+                              id = "store";
+                              filename = "/var/lib/mse/store.dat";
+                              size = "100G";
+                              } );
+                      } );
+              };'
+          }
+        end
+
+        it { is_expected.to compile }
+        it { is_expected.not_to contain_file('varnish-conf').with_content(%r{\s -s mse \\}) }
+        it { is_expected.to contain_file('varnish-conf').with_content(%r{\s -s mse, /etc/varnish/mse.conf}) }
+
+        it { is_expected.to contain_file('varnish-mse-conf').with_path('/etc/varnish/mse.conf') }
+
+        it {
+          is_expected.to contain_file('varnish-mse-conf').with_content('env: {
+              id = "mse";
+              memcache_size = "auto";
+              books = ( {
+                      id = "book";
+                      directory = "/var/lib/mse/book";
+                      database_size = "2G";
+                      stores = ( {
+                              id = "store";
+                              filename = "/var/lib/mse/store.dat";
+                              size = "100G";
+                              } );
+                      } );
+              };')
+        }
+
+        it { is_expected.to contain_exec('varnish-mkfs-mse') }
+      end
+
       context 'Varnish Enterprise' do
         let :params do
           { varnish_enterprise: true }

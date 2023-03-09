@@ -95,6 +95,8 @@ The following parameters are available in the `varnish` class:
 * [`varnish_storage_size`](#-varnish--varnish_storage_size)
 * [`varnish_secret_file`](#-varnish--varnish_secret_file)
 * [`varnish_storage_file`](#-varnish--varnish_storage_file)
+* [`mse_config`](#-varnish--mse_config)
+* [`mse_config_file`](#-varnish--mse_config_file)
 * [`varnish_ttl`](#-varnish--varnish_ttl)
 * [`varnish_enterprise`](#-varnish--varnish_enterprise)
 * [`varnish_enterprise_vmods_extra`](#-varnish--varnish_enterprise_vmods_extra)
@@ -278,6 +280,22 @@ defines the filepath of storage (depending of storage_type)
 
 Default value: `'/var/lib/varnish-storage/varnish_storage.bin'`
 
+##### <a name="-varnish--mse_config"></a>`mse_config`
+
+Data type: `Optional[String[1]]`
+
+MSE Config, see https://docs.varnish-software.com/varnish-cache-plus/features/mse/
+
+Default value: `undef`
+
+##### <a name="-varnish--mse_config_file"></a>`mse_config_file`
+
+Data type: `Stdlib::Absolutepath`
+
+filepath where mse config file will be stored
+
+Default value: `'/etc/varnish/mse.conf'`
+
 ##### <a name="-varnish--varnish_ttl"></a>`varnish_ttl`
 
 Data type: `String`
@@ -328,7 +346,7 @@ Default value: `true`
 
 ##### <a name="-varnish--version"></a>`version`
 
-Data type: `String`
+Data type: `String[1]`
 
 passed to puppet type 'package', attribute 'ensure'
 
@@ -352,7 +370,7 @@ Default value: `false`
 
 ##### <a name="-varnish--varnish_conf_template"></a>`varnish_conf_template`
 
-Data type: `String`
+Data type: `String[1]`
 
 Template that will be used for varnish conf
 
