@@ -42,6 +42,10 @@
 #   path to varnish secret file
 # @param varnish_storage_file
 #   defines the filepath of storage (depending of storage_type)
+# @param mse_config
+#   MSE Config, see https://docs.varnish-software.com/varnish-cache-plus/features/mse/
+# @param mse_config_file
+#   filepath where mse config file will be stored
 # @param varnish_ttl
 #   default ttl for items
 # @param varnish_enterprise
@@ -106,16 +110,18 @@ class varnish (
   String $varnish_storage_size         = '1G',
   Stdlib::Absolutepath $varnish_secret_file          = '/etc/varnish/secret',
   Stdlib::Absolutepath $varnish_storage_file         = '/var/lib/varnish-storage/varnish_storage.bin',
+  Optional[String[1]] $mse_config = undef,
+  Stdlib::Absolutepath $mse_config_file = '/etc/varnish/mse.conf',
   String $varnish_ttl                  = '120',
   Boolean $varnish_enterprise   = false,
   Boolean $varnish_enterprise_vmods_extra = false,
   Optional[Stdlib::Absolutepath] $vcl_dir                      = undef,
   Stdlib::Absolutepath $shmlog_dir                   = '/var/lib/varnish',
   Boolean $shmlog_tempfs                = true,
-  String $version                      = present,
+  String[1] $version                      = present,
   Boolean $add_repo             = false,
   Boolean $manage_firewall      = false,
-  String $varnish_conf_template        = 'varnish/varnish-conf.erb',
+  String[1] $varnish_conf_template        = 'varnish/varnish-conf.erb',
   Stdlib::Absolutepath $conf_file_path  = '/etc/varnish/varnish.params',
   Hash $additional_parameters        = {},
   Integer $default_version = 6,
@@ -144,6 +150,32 @@ class varnish (
     class { 'varnish::shmlog':
       shmlog_dir => $shmlog_dir,
       require    => Package['varnish'],
+    }
+  }
+
+  # Handle MSE Config
+  if $storage_type == 'mse' and $mse_config {
+    file { 'varnish-mse-conf':
+      ensure  => file,
+      path    => $mse_config_file,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      content => $mse_config,
+      require => Package['varnish'],
+      notify  => Service['varnish'],
+    }
+    ~> exec { 'varnish-mkfs-mse':
+      command     => "mkfs.mse -c ${mse_config_file} -f",
+      refreshonly => true,
+      path        => [
+        '/usr/local/sbin',
+        '/usr/local/bin',
+        '/usr/sbin',
+        '/usr/bin',
+        '/sbin',
+        '/bin',
+      ],
     }
   }
 
