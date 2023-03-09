@@ -164,8 +164,8 @@ class varnish (
       content => $mse_config,
       require => Package['varnish'],
       notify  => Service['varnish'],
-    } ~>
-    exec { 'varnish-mkfs-mse':
+    }
+    ~> exec { 'varnish-mkfs-mse':
       command     => "mkfs.mse -c ${mse_config_file} -r",
       refreshonly => true,
       path        => [
