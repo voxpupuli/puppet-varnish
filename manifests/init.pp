@@ -166,7 +166,7 @@ class varnish (
       notify  => Service['varnish'],
     }
     ~> exec { 'varnish-mkfs-mse':
-      command     => "mkfs.mse -c ${mse_config_file} -r",
+      command     => "mkfs.mse -c ${mse_config_file} -f",
       refreshonly => true,
       path        => [
         '/usr/local/sbin',
