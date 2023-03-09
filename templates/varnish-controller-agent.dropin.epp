@@ -1,0 +1,6 @@
+# THIS FILE IS MANAGED BY PUPPET
+[Service]
+Environment="VARNISH_CONTROLLER_AGENT_NAME=<%= $varnish::controller::agent::agent_name %>"
+Environment="VARNISH_CONTROLLER_NATS_SERVER=<% if ( $varnish::controller::agent::nats_server_user and $varnish::controller::agent::nats_server_password ) { %><%= $varnish::controller::agent::nats_server_user %>:<%= $varnish::controller::agent::nats_server_password %>@<% } %><%= $varnish::controller::agent::nats_server %>:<%= $varnish::controller::agent::nats_server_port %>"
+Environment="VARNISH_CONTROLLER_BASE_URL=<%= $varnish::controller::agent::base_url %>"
+Environment="VARNISH_CONTROLLER_VARNISH_INVALIDATION_HOST=<%= $varnish::controller::agent::invalidation_host %>"
