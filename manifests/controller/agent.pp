@@ -29,9 +29,9 @@ class varnish::controller::agent (
   Optional[String] $nats_server_user = undef,
   Optional[Variant[Sensitive[String],String]] $nats_server_password = undef,
   Varnish::Controller::Agent_name $agent_name = $facts['networking']['hostname'],
-  String $invalidation_host = '127.0.0.1:80',
-  String $package_name = 'varnish-controller-agent',
-  String $package_ensure = 'present',
+  String[1] $invalidation_host = '127.0.0.1:80',
+  String[1] $package_name = 'varnish-controller-agent',
+  String[1] $package_ensure = 'present',
   Stdlib::Ensure::Service $service_ensure = 'running',
 ) {
   package { 'varnish-controller-agent':
