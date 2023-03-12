@@ -46,8 +46,6 @@
 #   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
 # @param daemon
 #   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
-# @param write_ip
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
 # @param write_proxy
 #   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
 # @param sni_nomatch_abort

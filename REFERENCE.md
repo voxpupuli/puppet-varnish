@@ -579,7 +579,6 @@ The following parameters are available in the `varnish::hitch` class:
 * [`syslog`](#-varnish--hitch--syslog)
 * [`syslog_facility`](#-varnish--hitch--syslog_facility)
 * [`daemon`](#-varnish--hitch--daemon)
-* [`write_ip`](#-varnish--hitch--write_ip)
 * [`write_proxy`](#-varnish--hitch--write_proxy)
 * [`sni_nomatch_abort`](#-varnish--hitch--sni_nomatch_abort)
 * [`tcp_fastopen`](#-varnish--hitch--tcp_fastopen)
@@ -767,10 +766,6 @@ Data type: `Boolean`
 see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
 
 Default value: `true`
-
-##### <a name="-varnish--hitch--write_ip"></a>`write_ip`
-
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
 
 ##### <a name="-varnish--hitch--write_proxy"></a>`write_proxy`
 
