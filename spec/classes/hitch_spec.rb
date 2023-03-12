@@ -47,7 +47,7 @@ describe 'varnish::hitch' do
       it { is_expected.to contain_file('hitch-conf').with_content(%r{syslog = on}) }
       it { is_expected.to contain_file('hitch-conf').with_content(%r{syslog-facility = "daemon"}) }
       it { is_expected.to contain_file('hitch-conf').with_content(%r{daemon = on}) }
-      it { is_expected.to contain_file('hitch-conf').with_content(%r{write-ip = on}) }
+      it { is_expected.to contain_file('hitch-conf').with_content(%r{write-ip = off}) }
       it { is_expected.to contain_file('hitch-conf').with_content(%r{write-proxy-v1 = off}) }
       it { is_expected.to contain_file('hitch-conf').with_content(%r{write-proxy-v2 = on}) }
       it { is_expected.to contain_file('hitch-conf').with_content(%r{proxy-proxy = off}) }
