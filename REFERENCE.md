@@ -111,6 +111,7 @@ The following parameters are available in the `varnish` class:
 * [`conf_file_path`](#-varnish--conf_file_path)
 * [`additional_parameters`](#-varnish--additional_parameters)
 * [`default_version`](#-varnish--default_version)
+* [`add_hitch`](#-varnish--add_hitch)
 
 ##### <a name="-varnish--service_ensure"></a>`service_ensure`
 
@@ -400,6 +401,14 @@ Data type: `Integer`
 Default major version of Varnish for that OS release
 
 Default value: `6`
+
+##### <a name="-varnish--add_hitch"></a>`add_hitch`
+
+Data type: `Boolean`
+
+Add varnish::hitch class to install hitch
+
+Default value: `false`
 
 ### <a name="varnish--controller--agent"></a>`varnish::controller::agent`
 

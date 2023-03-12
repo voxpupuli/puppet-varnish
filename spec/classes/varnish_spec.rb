@@ -25,6 +25,7 @@ describe 'varnish', type: :class do
       }
 
       it { is_expected.to contain_class('varnish::shmlog') }
+      it { is_expected.not_to contain_class('varnish::hitch') }
 
       it {
         is_expected.to contain_file('varnish-conf').with(
@@ -214,6 +215,15 @@ describe 'varnish', type: :class do
             'name'   => 'varnish-plus'
           )
         }
+      end
+
+      context 'Hitch enabled' do
+        let :params do
+          { add_hitch: true }
+        end
+
+        it { is_expected.to compile }
+        it { is_expected.to contain_class('varnish::hitch') }
       end
     end
   end

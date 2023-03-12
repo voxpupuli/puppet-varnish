@@ -72,6 +72,8 @@
 #   additional parameters that will be passed to varnishd with -p
 # @param default_version
 #   Default major version of Varnish for that OS release
+# @param add_hitch
+#   Add varnish::hitch class to install hitch
 # 
 # @example Installs Varnish
 #   # enables Varnish service
@@ -125,6 +127,7 @@ class varnish (
   Stdlib::Absolutepath $conf_file_path  = '/etc/varnish/varnish.params',
   Hash $additional_parameters        = {},
   Integer $default_version = 6,
+  Boolean $add_hitch = false,
 ) {
   $major_version = $version ? {
     /(\d+)\./ => "${1}",
@@ -144,6 +147,10 @@ class varnish (
 
   # enable Varnish service
   include varnish::service
+
+  if($add_hitch) {
+    include varnish::hitch
+  }
 
   # mount shared memory log dir as tempfs
   if $shmlog_tempfs {
