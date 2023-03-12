@@ -1,0 +1,180 @@
+# Managed by Puppet
+#
+# Example configuration file for hitch(8).
+#
+# NOTE: all config file parameters can be overriden
+#       from command line!
+
+# Listening address. REQUIRED.
+# Can be specified multiple times for multiple listen endpoints.
+<% $varnish::hitch::frontends.each |$frontend| { %>
+frontend = {
+    host = "<%= $frontend[host]%>"
+    port = "<%= $frontend[port]%>"
+}
+<% } %>
+
+# Upstream server address. REQUIRED.
+#
+# type: string
+# syntax: [HOST]:PORT.
+backend = "<%= $varnish::hitch::backend %>"
+
+# SSL x509 certificate file. REQUIRED.
+# List multiple certs to use SNI. Certs are used in the order they
+# are listed; the last cert listed will be used if none of the others match.
+# Specify additional "pem-file" lines per certificate to use.
+#
+# type: string
+<% $varnish::hitch::pem_files.each |$pem_file| { -%>
+pem-file = "<%= $pem_file %>"
+<% } -%>
+
+# OCSP settings
+#
+# Directory where Hitch will store and read OCSP responses for
+# stapling. Directory must be readable and writable for the configured
+# hitch user. Setting this option enables automatic retrieval and
+# updating of OCSP responses.
+#
+ocsp-dir = "/var/lib/hitch-ocsp"
+
+# Timeout for fetching an OCSP response from a responder (in seconds)
+# ocsp-resp-tmo = 10;
+
+# Timeout for connecting to an OCSP responder (in seconds)
+# ocsp-connect-tmo = 4;
+
+# Verification of OCSP responses
+# ocsp-verify-staple = off
+
+# SSL protocol.
+#
+# tls = on
+# ssl = off
+tls-protos = <%= $varnish::hitch::tls_protos %>
+
+# List of allowed SSL ciphers.
+#
+# Run openssl ciphers for list of available ciphers.
+# type: string
+ciphers = "<%= $varnish::hitch::ciphers %>"
+ciphersuites = "<%= $varnish::hitch::ciphersuites %>"
+
+# Enforce server cipher list order
+#
+# type: boolean
+prefer-server-ciphers = on
+
+# Use specified SSL engine
+#
+# type: string
+ssl-engine = "<%= $varnish::hitch::ssl_engine %>"
+
+# Number of worker processes
+#
+# type: integer
+
+<% if $varnish::hitch::workers == 'auto' and $facts['processors']['count'] { -%>
+workers = <%= $facts['processors']['count'] %>
+<% } else { -%>
+workers = <%= $varnish::hitch::workers %>
+<% } -%>
+
+# Listen backlog size
+#
+# type: integer
+backlog = <%= $varnish::hitch::backlog %>
+
+# TCP socket keepalive interval in seconds
+#
+# type: integer
+keepalive = <%= $varnish::hitch::keepalive %>
+
+# Chroot directory
+#
+# type: string
+chroot = "<%= $varnish::hitch::chroot %>"
+
+# Set uid after binding a socket
+#
+# type: string
+user = "<%= $varnish::hitch::user %>"
+
+# Set gid after binding a socket
+#
+# type: string
+group = "<%= $varnish::hitch::group %>"
+
+# Quiet execution, report only error messages
+#
+# type: boolean
+# quiet = on
+
+# Log chattiness. 0=silence, 1=errors, 2=info/debug.
+#
+# type: integer
+log-level = <%= $varnish::hitch::log_level %>
+
+
+# Use syslog for logging
+#
+# type: boolean
+syslog = <% if $varnish::hitch::syslog { -%>on<% } else {-%>off<%}-%>
+
+# Syslog facility to use
+#
+# type: string
+syslog-facility = "<%= $varnish::hitch::syslog_facility %>"
+
+# Run as daemon
+#
+# type: boolean
+daemon = <% if $varnish::hitch::daemon { -%>on<% } else {-%>off<%}-%>
+
+# Report client address by writing IP before sending data
+#
+# NOTE: This option is mutually exclusive with option write-proxy-v2, write-proxy and proxy-proxy.
+#
+# type: boolean
+write-ip = <% if $varnish::hitch::write_ip { -%>on<% } else {-%>off<%}-%>
+
+# Report client address using SENDPROXY protocol, see
+# http://haproxy.1wt.eu/download/1.5/doc/proxy-protocol.txt
+# for details.
+#
+# NOTE: This option is mutually exclusive with option write-proxy-v2, write-ip and proxy-proxy.
+#
+# type: boolean
+write-proxy-v1 = <% if $varnish::hitch::write_proxy == 'v1' { -%>on<% } else {-%>off<%}-%>
+
+# Report client address using SENDPROXY v2 binary protocol, see
+# http://haproxy.1wt.eu/download/1.5/doc/proxy-protocol.txt
+# for details.
+#
+# NOTE: This option is mutually exclusive with option write-ip, write-proxy-v1 and proxy-proxy.
+#
+# type: boolean
+write-proxy-v2 = <% if $varnish::hitch::write_proxy == 'v2' { -%>on<% } else {-%>off<%}-%>
+
+# Proxy an existing SENDPROXY protocol header through this request.
+#
+# NOTE: This option is mutually exclusive with option write-proxy-v2, write-ip and write-proxy-v1.
+#
+# type: boolean
+proxy-proxy = <% if $varnish::hitch::write_proxy == 'proxy' { -%>on<% } else {-%>off<%}-%>
+
+# Abort handshake when the client submits an unrecognized SNI server name.
+#
+# type: boolean
+sni-nomatch-abort = <% if $varnish::hitch::sni_nomatch_abort { -%>on<% } else {-%>off<%}-%>
+
+#
+tcp-fastopen = <% if $varnish::hitch::tcp_fastopen { -%>on<% } else {-%>off<%}%>
+alpn-protos = "<%= $varnish::hitch::alpn_protos %>"
+
+<% $varnish::hitch::additional_parameters.each |$key,$value| { -%>
+<%= $key %> = <% if $value =~ String[1] { -%>"<%= $value %>"<% } else { -%><%= $value %><%}-%>
+<% } -%>
+
+# EOF
