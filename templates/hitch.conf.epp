@@ -137,7 +137,7 @@ daemon = <% if $varnish::hitch::daemon { -%>on<% } else {-%>off<%}-%>
 # NOTE: This option is mutually exclusive with option write-proxy-v2, write-proxy and proxy-proxy.
 #
 # type: boolean
-write-ip = <% if $varnish::hitch::write_ip { -%>on<% } else {-%>off<%}-%>
+write-ip = <% if $varnish::hitch::write_proxy == 'ip' { -%>on<% } else {-%>off<%}-%>
 
 # Report client address using SENDPROXY protocol, see
 # http://haproxy.1wt.eu/download/1.5/doc/proxy-protocol.txt

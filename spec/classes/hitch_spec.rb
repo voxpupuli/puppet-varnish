@@ -198,11 +198,6 @@ describe 'varnish::hitch' do
           check: %r{daemon = off},
         },
         {
-          title: 'manual write_ip',
-          param_add: { 'write_ip' => false },
-          check: %r{write-ip = off},
-        },
-        {
           title: 'manual sni_nomatch_abort',
           param_add: { 'sni_nomatch_abort' => true },
           check: %r{sni-nomatch-abort = on},
