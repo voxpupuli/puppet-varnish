@@ -770,15 +770,11 @@ Default value: `true`
 
 ##### <a name="-varnish--hitch--write_ip"></a>`write_ip`
 
-Data type: `Boolean`
-
 see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
-
-Default value: `true`
 
 ##### <a name="-varnish--hitch--write_proxy"></a>`write_proxy`
 
-Data type: `Enum['v1','v2','proxy']`
+Data type: `Enum['ip','v1','v2','proxy']`
 
 see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
 
