@@ -149,7 +149,7 @@ class varnish (
   include varnish::service
 
   if($add_hitch) {
-    include varnish::hitch
+    contain varnish::hitch
   }
 
   # mount shared memory log dir as tempfs
