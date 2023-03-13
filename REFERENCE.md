@@ -544,6 +544,9 @@ Default value: `6081`
 
 Installs Hitch the SSL Offloading Proxy of Varnish Enterprise
 
+* **See also**
+  * https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+
 #### Examples
 
 ##### 
@@ -637,7 +640,7 @@ Default value: `'varnish/hitch.conf.epp'`
 
 Data type: `Array[Struct[{ host => String[1],port => Stdlib::Port }],1]`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+Define Frontends for hitch
 
 Default value: `[{ 'host'=> '*', 'port'=> 443, }]`
 
@@ -645,7 +648,7 @@ Default value: `[{ 'host'=> '*', 'port'=> 443, }]`
 
 Data type: `String[1]`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+Define Backend
 
 Default value: `'[127.0.0.1]:8443'`
 
@@ -653,13 +656,13 @@ Default value: `'[127.0.0.1]:8443'`
 
 Data type: `Array[Stdlib::Absolutepath,1]`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+PEM Files that will be loaded
 
 ##### <a name="-varnish--hitch--ssl_engine"></a>`ssl_engine`
 
 Data type: `Optional[String[1]]`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+Set the ssl-engine
 
 Default value: `undef`
 
@@ -667,7 +670,7 @@ Default value: `undef`
 
 Data type: `String[1]`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+allowed TLS Protos
 
 Default value: `'TLSv1.2 TLSv1.3'`
 
@@ -675,7 +678,7 @@ Default value: `'TLSv1.2 TLSv1.3'`
 
 Data type: `String[1]`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+allowed ciphers
 
 Default value: `'EECDH+AESGCM:EDH+AESGCM'`
 
@@ -683,7 +686,7 @@ Default value: `'EECDH+AESGCM:EDH+AESGCM'`
 
 Data type: `String[1]`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+allowd cipersuites for TLS1.3+
 
 Default value: `'TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256'`
 
@@ -691,7 +694,7 @@ Default value: `'TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128
 
 Data type: `Variant[Enum['auto'],Integer[1,1024]]`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+number of workers
 
 Default value: `'auto'`
 
@@ -699,7 +702,7 @@ Default value: `'auto'`
 
 Data type: `Integer[1]`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+Listen backlog size
 
 Default value: `200`
 
@@ -707,7 +710,7 @@ Default value: `200`
 
 Data type: `Integer[1]`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+Number of seconds a TCP socket is kept alive
 
 Default value: `3600`
 
@@ -715,7 +718,7 @@ Default value: `3600`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+Chroot directory
 
 Default value: `undef`
 
@@ -723,7 +726,7 @@ Default value: `undef`
 
 Data type: `String[1]`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+User to run as. If Hitch is started as root, it will insist on changing to a user with lower rights after binding to sockets.
 
 Default value: `'hitch'`
 
@@ -731,7 +734,7 @@ Default value: `'hitch'`
 
 Data type: `String[1]`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+If given, Hitch will change to this group after binding to listen sockets.
 
 Default value: `'hitch'`
 
@@ -739,7 +742,8 @@ Default value: `'hitch'`
 
 Data type: `Integer[0,2]`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+Log chattiness. 0=silence, 1=errors, 2=info/debug.
+This setting can also be changed at run-time by editing the configuration file followed by a reload (SIGHUP).
 
 Default value: `1`
 
@@ -747,7 +751,7 @@ Default value: `1`
 
 Data type: `Boolean`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+Send messages to syslog.
 
 Default value: `true`
 
@@ -755,7 +759,7 @@ Default value: `true`
 
 Data type: `Stdlib::Syslogfacility`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+Set the syslog facility.
 
 Default value: `'daemon'`
 
@@ -763,7 +767,7 @@ Default value: `'daemon'`
 
 Data type: `Boolean`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+Run as daemon
 
 Default value: `true`
 
@@ -771,7 +775,7 @@ Default value: `true`
 
 Data type: `Enum['ip','v1','v2','proxy']`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+Which Proxy mode is used
 
 Default value: `'v2'`
 
@@ -779,7 +783,7 @@ Default value: `'v2'`
 
 Data type: `Boolean`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+Abort handshake when the client submits an unrecognized SNI server name.
 
 Default value: `false`
 
@@ -787,7 +791,7 @@ Default value: `false`
 
 Data type: `Boolean`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+Enable TCP Fast Open.
 
 Default value: `false`
 
@@ -795,7 +799,7 @@ Default value: `false`
 
 Data type: `String[1]`
 
-see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+Comma separated list of protocols supported by the backend
 
 Default value: `'h2,http/1.1'`
 

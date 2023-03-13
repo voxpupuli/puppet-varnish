@@ -1,4 +1,5 @@
 # @summary Installs Hitch the SSL Offloading Proxy of Varnish Enterprise
+# @see https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
 #
 # @param package_name
 #   Define used package name
@@ -13,47 +14,48 @@
 # @param config_template
 #   Used EPP Config template
 # @param frontends
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   Define Frontends for hitch
 # @param backend
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   Define Backend
 # @param pem_files
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   PEM Files that will be loaded
 # @param ssl_engine
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   Set the ssl-engine
 # @param tls_protos
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   allowed TLS Protos
 # @param ciphers
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   allowed ciphers
 # @param ciphersuites
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   allowd cipersuites for TLS1.3+
 # @param workers
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   number of workers
 # @param backlog
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   Listen backlog size
 # @param keepalive
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   Number of seconds a TCP socket is kept alive
 # @param chroot
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   Chroot directory
 # @param user
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   User to run as. If Hitch is started as root, it will insist on changing to a user with lower rights after binding to sockets.
 # @param group
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   If given, Hitch will change to this group after binding to listen sockets.
 # @param log_level
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   Log chattiness. 0=silence, 1=errors, 2=info/debug.
+#   This setting can also be changed at run-time by editing the configuration file followed by a reload (SIGHUP).
 # @param syslog
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   Send messages to syslog. 
 # @param syslog_facility
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   Set the syslog facility. 
 # @param daemon
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   Run as daemon
 # @param write_proxy
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   Which Proxy mode is used
 # @param sni_nomatch_abort
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   Abort handshake when the client submits an unrecognized SNI server name.
 # @param tcp_fastopen
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   Enable TCP Fast Open.
 # @param alpn_protos
-#   see Parameter in https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+#   Comma separated list of protocols supported by the backend
 # @param additional_parameters
 #   Add parameters additional as needed
 #
