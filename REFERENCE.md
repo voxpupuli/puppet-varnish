@@ -1390,7 +1390,7 @@ Default value: `undef`
 
 ##### <a name="-varnish--vcl--backend--connect_timeout"></a>`connect_timeout`
 
-Data type: `Optional[Integer]`
+Data type: `Optional[Variant[String[1],Integer]]`
 
 define varnish connect connect_timeout
 
@@ -1398,7 +1398,7 @@ Default value: `undef`
 
 ##### <a name="-varnish--vcl--backend--first_byte_timeout"></a>`first_byte_timeout`
 
-Data type: `Optional[Integer]`
+Data type: `Optional[Variant[String[1],Integer]]`
 
 define varnish first_byte_timeout
 
@@ -1406,7 +1406,7 @@ Default value: `undef`
 
 ##### <a name="-varnish--vcl--backend--between_bytes_timeout"></a>`between_bytes_timeout`
 
-Data type: `Optional[Integer]`
+Data type: `Optional[Variant[String[1],Integer]]`
 
 define varnish between_bytes_timeout
 
