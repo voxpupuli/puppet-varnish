@@ -1,0 +1,2 @@
+---
+varnish::hitch::pem_files: ['/etc/pki/varnish.pem']

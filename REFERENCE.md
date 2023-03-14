@@ -11,6 +11,7 @@
 * [`varnish`](#varnish): Installs and configures Varnish.
 * [`varnish::controller::agent`](#varnish--controller--agent): Installs and manages Varnish Controller Agent
 * [`varnish::firewall`](#varnish--firewall): Uses `puppetlabs/firewall` module to open varnish listen port
+* [`varnish::hitch`](#varnish--hitch): Installs Hitch the SSL Offloading Proxy of Varnish Enterprise
 * [`varnish::install`](#varnish--install): Installs Varnish
 * [`varnish::ncsa`](#varnish--ncsa): Allows setup of varnishncsa
 * [`varnish::repo`](#varnish--repo): This class installs aditional repos for varnish
@@ -110,6 +111,7 @@ The following parameters are available in the `varnish` class:
 * [`conf_file_path`](#-varnish--conf_file_path)
 * [`additional_parameters`](#-varnish--additional_parameters)
 * [`default_version`](#-varnish--default_version)
+* [`add_hitch`](#-varnish--add_hitch)
 
 ##### <a name="-varnish--service_ensure"></a>`service_ensure`
 
@@ -400,6 +402,14 @@ Default major version of Varnish for that OS release
 
 Default value: `6`
 
+##### <a name="-varnish--add_hitch"></a>`add_hitch`
+
+Data type: `Boolean`
+
+Add varnish::hitch class to install hitch
+
+Default value: `false`
+
 ### <a name="varnish--controller--agent"></a>`varnish::controller::agent`
 
 Installs and manages Varnish Controller Agent
@@ -529,6 +539,277 @@ Data type: `Stdlib::Port`
 Port where varnish listens to
 
 Default value: `6081`
+
+### <a name="varnish--hitch"></a>`varnish::hitch`
+
+Installs Hitch the SSL Offloading Proxy of Varnish Enterprise
+
+* **See also**
+  * https://github.com/varnish/hitch/blob/master/hitch.conf.man.rst
+
+#### Examples
+
+##### 
+
+```puppet
+include varnish::hitch
+```
+
+#### Parameters
+
+The following parameters are available in the `varnish::hitch` class:
+
+* [`package_name`](#-varnish--hitch--package_name)
+* [`package_ensure`](#-varnish--hitch--package_ensure)
+* [`service_ensure`](#-varnish--hitch--service_ensure)
+* [`service_name`](#-varnish--hitch--service_name)
+* [`config_path`](#-varnish--hitch--config_path)
+* [`config_template`](#-varnish--hitch--config_template)
+* [`frontends`](#-varnish--hitch--frontends)
+* [`backend`](#-varnish--hitch--backend)
+* [`pem_files`](#-varnish--hitch--pem_files)
+* [`ssl_engine`](#-varnish--hitch--ssl_engine)
+* [`tls_protos`](#-varnish--hitch--tls_protos)
+* [`ciphers`](#-varnish--hitch--ciphers)
+* [`ciphersuites`](#-varnish--hitch--ciphersuites)
+* [`workers`](#-varnish--hitch--workers)
+* [`backlog`](#-varnish--hitch--backlog)
+* [`keepalive`](#-varnish--hitch--keepalive)
+* [`chroot`](#-varnish--hitch--chroot)
+* [`user`](#-varnish--hitch--user)
+* [`group`](#-varnish--hitch--group)
+* [`log_level`](#-varnish--hitch--log_level)
+* [`syslog`](#-varnish--hitch--syslog)
+* [`syslog_facility`](#-varnish--hitch--syslog_facility)
+* [`daemon`](#-varnish--hitch--daemon)
+* [`write_proxy`](#-varnish--hitch--write_proxy)
+* [`sni_nomatch_abort`](#-varnish--hitch--sni_nomatch_abort)
+* [`tcp_fastopen`](#-varnish--hitch--tcp_fastopen)
+* [`alpn_protos`](#-varnish--hitch--alpn_protos)
+* [`additional_parameters`](#-varnish--hitch--additional_parameters)
+
+##### <a name="-varnish--hitch--package_name"></a>`package_name`
+
+Data type: `String[1]`
+
+Define used package name
+
+Default value: `'varnish-plus-addon-ssl'`
+
+##### <a name="-varnish--hitch--package_ensure"></a>`package_ensure`
+
+Data type: `String[1]`
+
+Ensure package
+
+Default value: `'present'`
+
+##### <a name="-varnish--hitch--service_ensure"></a>`service_ensure`
+
+Data type: `Stdlib::Ensure::Service`
+
+Ensure Service status
+
+Default value: `'running'`
+
+##### <a name="-varnish--hitch--service_name"></a>`service_name`
+
+Data type: `String[1]`
+
+Service name for hitch (must match installed)
+
+Default value: `'hitch'`
+
+##### <a name="-varnish--hitch--config_path"></a>`config_path`
+
+Data type: `Stdlib::Absolutepath`
+
+Path for hitch config
+
+Default value: `'/etc/hitch/hitch.conf'`
+
+##### <a name="-varnish--hitch--config_template"></a>`config_template`
+
+Data type: `String[1]`
+
+Used EPP Config template
+
+Default value: `'varnish/hitch.conf.epp'`
+
+##### <a name="-varnish--hitch--frontends"></a>`frontends`
+
+Data type: `Array[Struct[{ host => String[1],port => Stdlib::Port }],1]`
+
+Define Frontends for hitch
+
+Default value: `[{ 'host'=> '*', 'port'=> 443, }]`
+
+##### <a name="-varnish--hitch--backend"></a>`backend`
+
+Data type: `String[1]`
+
+Define Backend
+
+Default value: `'[127.0.0.1]:8443'`
+
+##### <a name="-varnish--hitch--pem_files"></a>`pem_files`
+
+Data type: `Array[Stdlib::Absolutepath,1]`
+
+PEM Files that will be loaded
+
+##### <a name="-varnish--hitch--ssl_engine"></a>`ssl_engine`
+
+Data type: `Optional[String[1]]`
+
+Set the ssl-engine
+
+Default value: `undef`
+
+##### <a name="-varnish--hitch--tls_protos"></a>`tls_protos`
+
+Data type: `String[1]`
+
+allowed TLS Protos
+
+Default value: `'TLSv1.2 TLSv1.3'`
+
+##### <a name="-varnish--hitch--ciphers"></a>`ciphers`
+
+Data type: `String[1]`
+
+allowed ciphers
+
+Default value: `'EECDH+AESGCM:EDH+AESGCM'`
+
+##### <a name="-varnish--hitch--ciphersuites"></a>`ciphersuites`
+
+Data type: `String[1]`
+
+allowd cipersuites for TLS1.3+
+
+Default value: `'TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256'`
+
+##### <a name="-varnish--hitch--workers"></a>`workers`
+
+Data type: `Variant[Enum['auto'],Integer[1,1024]]`
+
+number of workers
+
+Default value: `'auto'`
+
+##### <a name="-varnish--hitch--backlog"></a>`backlog`
+
+Data type: `Integer[1]`
+
+Listen backlog size
+
+Default value: `200`
+
+##### <a name="-varnish--hitch--keepalive"></a>`keepalive`
+
+Data type: `Integer[1]`
+
+Number of seconds a TCP socket is kept alive
+
+Default value: `3600`
+
+##### <a name="-varnish--hitch--chroot"></a>`chroot`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+Chroot directory
+
+Default value: `undef`
+
+##### <a name="-varnish--hitch--user"></a>`user`
+
+Data type: `String[1]`
+
+User to run as. If Hitch is started as root, it will insist on changing to a user with lower rights after binding to sockets.
+
+Default value: `'hitch'`
+
+##### <a name="-varnish--hitch--group"></a>`group`
+
+Data type: `String[1]`
+
+If given, Hitch will change to this group after binding to listen sockets.
+
+Default value: `'hitch'`
+
+##### <a name="-varnish--hitch--log_level"></a>`log_level`
+
+Data type: `Integer[0,2]`
+
+Log chattiness. 0=silence, 1=errors, 2=info/debug.
+This setting can also be changed at run-time by editing the configuration file followed by a reload (SIGHUP).
+
+Default value: `1`
+
+##### <a name="-varnish--hitch--syslog"></a>`syslog`
+
+Data type: `Boolean`
+
+Send messages to syslog.
+
+Default value: `true`
+
+##### <a name="-varnish--hitch--syslog_facility"></a>`syslog_facility`
+
+Data type: `Stdlib::Syslogfacility`
+
+Set the syslog facility.
+
+Default value: `'daemon'`
+
+##### <a name="-varnish--hitch--daemon"></a>`daemon`
+
+Data type: `Boolean`
+
+Run as daemon
+
+Default value: `true`
+
+##### <a name="-varnish--hitch--write_proxy"></a>`write_proxy`
+
+Data type: `Enum['ip','v1','v2','proxy']`
+
+Which Proxy mode is used
+
+Default value: `'v2'`
+
+##### <a name="-varnish--hitch--sni_nomatch_abort"></a>`sni_nomatch_abort`
+
+Data type: `Boolean`
+
+Abort handshake when the client submits an unrecognized SNI server name.
+
+Default value: `false`
+
+##### <a name="-varnish--hitch--tcp_fastopen"></a>`tcp_fastopen`
+
+Data type: `Boolean`
+
+Enable TCP Fast Open.
+
+Default value: `false`
+
+##### <a name="-varnish--hitch--alpn_protos"></a>`alpn_protos`
+
+Data type: `String[1]`
+
+Comma separated list of protocols supported by the backend
+
+Default value: `'h2,http/1.1'`
+
+##### <a name="-varnish--hitch--additional_parameters"></a>`additional_parameters`
+
+Data type: `Hash[String[1],Variant[String[1],Integer[1]]]`
+
+Add parameters additional as needed
+
+Default value: `{}`
 
 ### <a name="varnish--install"></a>`varnish::install`
 
