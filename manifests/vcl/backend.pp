@@ -16,9 +16,9 @@ define varnish::vcl::backend (
   Stdlib::Host  $host,
   Stdlib::Port  $port,
   Optional[String]  $probe                 = undef,
-  Optional[Integer] $connect_timeout       = undef,
-  Optional[Integer] $first_byte_timeout    = undef,
-  Optional[Integer] $between_bytes_timeout = undef,
+  Optional[Variant[String[1],Integer]] $connect_timeout       = undef,
+  Optional[Variant[String[1],Integer]] $first_byte_timeout    = undef,
+  Optional[Variant[String[1],Integer]] $between_bytes_timeout = undef,
 ) {
   validate_re($title,'^[A-Za-z0-9_]*$', "Invalid characters in backend name ${title}. Only letters, numbers and underscore are allowed.")
 
