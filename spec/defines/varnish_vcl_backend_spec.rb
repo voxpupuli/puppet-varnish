@@ -22,8 +22,8 @@ describe 'varnish::vcl::backend', type: :define do
           host: 'www.example.com',
           port: 80,
           probe: 'foo',
-          connect_timeout: 5,
-          first_byte_timeout: 600,
+          connect_timeout: '5s',
+          first_byte_timeout: '10m',
           between_bytes_timeout: 5,
         }
       end
@@ -36,7 +36,7 @@ describe 'varnish::vcl::backend', type: :define do
           is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.port = "80";})
           is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.probe = foo;})
           is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.connect_timeout = 5s;})
-          is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.first_byte_timeout = 600s;})
+          is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.first_byte_timeout = 10m;})
           is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.between_bytes_timeout = 5s;})
         }
       end

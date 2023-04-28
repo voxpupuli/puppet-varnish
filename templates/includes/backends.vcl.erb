@@ -3,8 +3,7 @@ backend <%= @title -%> {
   .host = "<%= @host -%>";
   .port = "<%= @port -%>";
   <%- if @probe -%>  .probe = <%= @probe -%>; <%- end %>
-  <%- if @connect_timeout -%>  .connect_timeout = <%= @connect_timeout -%>s; <%- end %>
-  <%- if @first_byte_timeout -%>  .first_byte_timeout = <%= @first_byte_timeout -%>s; <%- end %>
-  <%- if @between_bytes_timeout -%>  .between_bytes_timeout = <%= @between_bytes_timeout -%>s; <%- end %>
+  <%- if @_connect_timeout -%>  .connect_timeout = <%= @_connect_timeout -%>; <%- end %>
+  <%- if @_first_byte_timeout -%>  .first_byte_timeout = <%= @_first_byte_timeout -%>; <%- end %>
+  <%- if @_between_bytes_timeout -%>  .between_bytes_timeout = <%= @_between_bytes_timeout -%>; <%- end %>
 }
-
