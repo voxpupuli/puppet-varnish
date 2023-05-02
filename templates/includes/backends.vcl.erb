@@ -1,9 +1,17 @@
 # set backend <%= @title %>
-backend <%= @title -%> {
-  .host = "<%= @host -%>";
-  .port = "<%= @port -%>";
-  <%- if @probe -%>  .probe = <%= @probe -%>; <%- end %>
-  <%- if @_connect_timeout -%>  .connect_timeout = <%= @_connect_timeout -%>; <%- end %>
-  <%- if @_first_byte_timeout -%>  .first_byte_timeout = <%= @_first_byte_timeout -%>; <%- end %>
-  <%- if @_between_bytes_timeout -%>  .between_bytes_timeout = <%= @_between_bytes_timeout -%>; <%- end %>
+backend <%= @title %> {
+  .host = "<%= @host %>";
+  .port = "<%= @port %>";
+  <%- if @probe -%>
+  .probe = <%= @probe %>;
+  <%- end -%>
+  <%- if @connect_timeout -%>
+  .connect_timeout = <% if @connect_timeout.is_a? Integer %><%= "#{@connect_timeout}s" %><% else %><%= @connect_timeout %><% end %>;
+  <%- end -%>
+  <%- if @first_byte_timeout -%>
+  .first_byte_timeout = <% if @first_byte_timeout.is_a? Integer %><%= "#{@first_byte_timeout}s" %><% else %><%= @first_byte_timeout %><% end %>;
+  <%- end -%>
+  <%- if @between_bytes_timeout -%>
+  .between_bytes_timeout = <% if @between_bytes_timeout.is_a? Integer %><%= "#{@between_bytes_timeout}s" %><% else %><%= @between_bytes_timeout %><% end %>;
+  <%- end -%>
 }

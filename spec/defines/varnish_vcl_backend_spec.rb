@@ -22,9 +22,9 @@ describe 'varnish::vcl::backend', type: :define do
           host: 'www.example.com',
           port: 80,
           probe: 'foo',
-          connect_timeout: '5s',
+          connect_timeout: 5,
           first_byte_timeout: '10m',
-          between_bytes_timeout: 5,
+          between_bytes_timeout: '5s',
         }
       end
 
