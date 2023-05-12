@@ -9,7 +9,6 @@
 # @param vcl_version
 #   Version of vcl Language
 define varnish::vcl::director (
-  Pattern['\A[A-Za-z0-9_]+\z'] $director_name = $title,
   String $type = 'round-robin',
   Array[String] $backends = [],
   Varnish::Vclversion $vcl_version = $varnish::vcl::vcl_version,

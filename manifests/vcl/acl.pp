@@ -4,8 +4,6 @@
 #    Name of ACL
 # @param hosts
 #    Array of defined Hosts
-# @param acl_name
-#    The actual ACL name
 define varnish::vcl::acl (
   Array[Stdlib::IP::Address] $hosts,
   Varnish::VCL::Ressource $acl_name = $title,

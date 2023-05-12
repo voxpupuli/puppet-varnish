@@ -21,7 +21,6 @@
 # @param request
 #   Paramter as defined from varnish
 define varnish::vcl::probe (
-  Pattern['\A[A-Za-z0-9_]+\z'] $probe_name = $title,
   String $interval  = '5s',
   String $timeout   = '5s',
   String $threshold = '3',
