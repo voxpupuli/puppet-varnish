@@ -7,8 +7,8 @@
 # @param host
 #   Host ip that will be inserted
 define varnish::vcl::acl_member (
-  String $varnish_fqdn,
-  String $acl,
+  String[1] $varnish_fqdn,
+  Varnish::VCL::Ressource $acl,
   Stdlib::IP::Address $host,
 ) {
   unless defined(Concat::Fragment["${acl}-acl_head"]) {

@@ -18,13 +18,13 @@ define varnish::vcl::acl (
       } -> concat::fragment { "${title}-acl_tail":
         target  => "${varnish::vcl::includedir}/acls.vcl",
         content => "}\n",
-        order   => "02-${acl_name}-3-0",
+        order   => "02-${title}-3-0",
       }
     }
-    concat::fragment { "${acl_name}-acl_body":
+    concat::fragment { "${title}-acl_body":
       target  => "${varnish::vcl::includedir}/acls.vcl",
       content => template('varnish/includes/acls_body.vcl.erb'),
-      order   => "02-${acl_name}-2-0",
+      order   => "02-${title}-2-0",
     }
   }
 }

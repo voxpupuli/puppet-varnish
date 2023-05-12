@@ -33,7 +33,7 @@ define varnish::vcl::probe (
   # parameters for probe
   $probe_params = ['interval', 'timeout', 'threshold', 'window', 'url', 'request']
 
-  concat::fragment { "${probe_name}-probe":
+  concat::fragment { "${title}-probe":
     target  => "${includedir}/probes.vcl",
     content => template('varnish/includes/probes.vcl.erb'),
     order   => '02',
