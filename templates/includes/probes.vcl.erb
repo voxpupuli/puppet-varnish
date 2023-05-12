@@ -1,5 +1,5 @@
 # set probe <%= @title %>
-probe <%= @title -%> {
+probe <%= @probe_name -%> {
   <%- @probe_params.each do |param| -%>
     <%- next unless instance_variable_get("@#{param}") -%>
     <%- if param == 'url' -%>

@@ -1,5 +1,5 @@
-# set backend <%= @title %>
-backend <%= @title %> {
+# set backend <%= @backend_name %>
+backend <%= @backend_name %> {
   .host = "<%= @host %>";
   .port = "<%= @port %>";
   <%- if @probe -%>

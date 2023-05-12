@@ -1,5 +1,7 @@
 # @summary Defines a Backend for VCL
 #
+# @param backend_name
+#    Name of the Backend
 # @param host
 #   Host that will be defined as backend
 # @param port
@@ -19,9 +21,8 @@ define varnish::vcl::backend (
   Optional[Variant[String[1],Integer]] $connect_timeout       = undef,
   Optional[Variant[String[1],Integer]] $first_byte_timeout    = undef,
   Optional[Variant[String[1],Integer]] $between_bytes_timeout = undef,
+  Varnish::VCL::Ressource $backend_name = $title,
 ) {
-  validate_re($title,'^[A-Za-z0-9_]*$', "Invalid characters in backend name ${title}. Only letters, numbers and underscore are allowed.")
-
   concat::fragment { "${title}-backend":
     target  => "${varnish::vcl::includedir}/backends.vcl",
     content => template('varnish/includes/backends.vcl.erb'),

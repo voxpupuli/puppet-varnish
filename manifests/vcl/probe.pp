@@ -4,6 +4,8 @@
 #
 # @see https://varnish-cache.org/docs/trunk/reference/vcl-probe.html
 #
+# @param probe_name
+#    Name of the probe
 # @param interval
 #   Paramter as defined from varnish
 # @param timeout
@@ -26,9 +28,8 @@ define varnish::vcl::probe (
   String $includedir = $varnish::vcl::includedir,
   Optional[String] $url       = undef,
   Optional[Variant[String,Array[String]]] $request   = undef,
+  Varnish::VCL::Ressource $probe_name = $title,
 ) {
-  validate_re($title,'^[A-Za-z0-9_]*$', "Invalid characters in probe name ${title}. Only letters, numbers and underscore are allowed.")
-
   # parameters for probe
   $probe_params = ['interval', 'timeout', 'threshold', 'window', 'url', 'request']
 
