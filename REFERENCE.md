@@ -1316,12 +1316,21 @@ Defines an ACL Type of Varnish. Defined ACL's must be used in VCL
 The following parameters are available in the `varnish::vcl::acl` defined type:
 
 * [`hosts`](#-varnish--vcl--acl--hosts)
+* [`acl_name`](#-varnish--vcl--acl--acl_name)
 
 ##### <a name="-varnish--vcl--acl--hosts"></a>`hosts`
 
 Data type: `Array[Stdlib::IP::Address]`
 
 Array of defined Hosts
+
+##### <a name="-varnish--vcl--acl--acl_name"></a>`acl_name`
+
+Data type: `Pattern['\A[A-Za-z0-9_]+\z']`
+
+The actual ACL name
+
+Default value: `$title`
 
 ### <a name="varnish--vcl--acl_member"></a>`varnish::vcl::acl_member`
 
@@ -1363,6 +1372,7 @@ The following parameters are available in the `varnish::vcl::backend` defined ty
 
 * [`host`](#-varnish--vcl--backend--host)
 * [`port`](#-varnish--vcl--backend--port)
+* [`backend_name`](#-varnish--vcl--backend--backend_name)
 * [`probe`](#-varnish--vcl--backend--probe)
 * [`connect_timeout`](#-varnish--vcl--backend--connect_timeout)
 * [`first_byte_timeout`](#-varnish--vcl--backend--first_byte_timeout)
@@ -1379,6 +1389,14 @@ Host that will be defined as backend
 Data type: `Stdlib::Port`
 
 Port of the backend host
+
+##### <a name="-varnish--vcl--backend--backend_name"></a>`backend_name`
+
+Data type: `Pattern['\A[A-Za-z0-9_]+\z']`
+
+The actual backend name
+
+Default value: `$title`
 
 ##### <a name="-varnish--vcl--backend--probe"></a>`probe`
 
@@ -1420,9 +1438,18 @@ Defines a backend director in varnish vcl
 
 The following parameters are available in the `varnish::vcl::director` defined type:
 
+* [`director_name`](#-varnish--vcl--director--director_name)
 * [`type`](#-varnish--vcl--director--type)
 * [`backends`](#-varnish--vcl--director--backends)
 * [`vcl_version`](#-varnish--vcl--director--vcl_version)
+
+##### <a name="-varnish--vcl--director--director_name"></a>`director_name`
+
+Data type: `Pattern['\A[A-Za-z0-9_]+\z']`
+
+The actual director name
+
+Default value: `$title`
 
 ##### <a name="-varnish--vcl--director--type"></a>`type`
 
@@ -1459,6 +1486,7 @@ Defined probes must be used
 
 The following parameters are available in the `varnish::vcl::probe` defined type:
 
+* [`probe_name`](#-varnish--vcl--probe--probe_name)
 * [`interval`](#-varnish--vcl--probe--interval)
 * [`timeout`](#-varnish--vcl--probe--timeout)
 * [`threshold`](#-varnish--vcl--probe--threshold)
@@ -1466,6 +1494,14 @@ The following parameters are available in the `varnish::vcl::probe` defined type
 * [`includedir`](#-varnish--vcl--probe--includedir)
 * [`url`](#-varnish--vcl--probe--url)
 * [`request`](#-varnish--vcl--probe--request)
+
+##### <a name="-varnish--vcl--probe--probe_name"></a>`probe_name`
+
+Data type: `Pattern['\A[A-Za-z0-9_]+\z']`
+
+The actual probe name
+
+Default value: `$title`
 
 ##### <a name="-varnish--vcl--probe--interval"></a>`interval`
 

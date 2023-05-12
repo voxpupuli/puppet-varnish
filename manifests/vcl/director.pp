@@ -9,6 +9,7 @@
 # @param vcl_version
 #   Version of vcl Language
 define varnish::vcl::director (
+  Pattern['\A[A-Za-z0-9_]+\z'] $director_name = $title,
   String $type = 'round-robin',
   Array[String] $backends = [],
   Varnish::Vclversion $vcl_version = $varnish::vcl::vcl_version,
@@ -36,7 +37,7 @@ define varnish::vcl::director (
     }
   }
 
-  concat::fragment { "${title}-director":
+  concat::fragment { "${director_name}-director":
     target  => "${varnish::vcl::includedir}/directors.vcl",
     content => template($template_director),
     order   => '02',

@@ -4,6 +4,8 @@
 #    Name of ACL
 # @param hosts
 #    Array of defined Hosts
+# @param acl_name
+#    The actual ACL name
 define varnish::vcl::acl (
   Array[Stdlib::IP::Address] $hosts,
   Varnish::VCL::Ressource $acl_name = $title,
@@ -18,13 +20,13 @@ define varnish::vcl::acl (
       } -> concat::fragment { "${title}-acl_tail":
         target  => "${varnish::vcl::includedir}/acls.vcl",
         content => "}\n",
-        order   => "02-${title}-3-0",
+        order   => "02-${acl_name}-3-0",
       }
     }
-    concat::fragment { "${title}-acl_body":
+    concat::fragment { "${acl_name}-acl_body":
       target  => "${varnish::vcl::includedir}/acls.vcl",
       content => template('varnish/includes/acls_body.vcl.erb'),
-      order   => "02-${title}-2-0",
+      order   => "02-${acl_name}-2-0",
     }
   }
 }

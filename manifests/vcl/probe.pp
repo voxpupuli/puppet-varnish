@@ -21,6 +21,7 @@
 # @param request
 #   Paramter as defined from varnish
 define varnish::vcl::probe (
+  Pattern['\A[A-Za-z0-9_]+\z'] $probe_name = $title,
   String $interval  = '5s',
   String $timeout   = '5s',
   String $threshold = '3',
@@ -33,7 +34,7 @@ define varnish::vcl::probe (
   # parameters for probe
   $probe_params = ['interval', 'timeout', 'threshold', 'window', 'url', 'request']
 
-  concat::fragment { "${title}-probe":
+  concat::fragment { "${probe_name}-probe":
     target  => "${includedir}/probes.vcl",
     content => template('varnish/includes/probes.vcl.erb'),
     order   => '02',
