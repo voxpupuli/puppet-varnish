@@ -35,7 +35,7 @@ describe 'varnish::vcl::acl', type: :define do
         let(:params) { { hosts: ['192.168.10.14'] } }
 
         it 'causes a failure' do
-          is_expected.to compile.and_raise_error(%r{Invalid characters in ACL name -wrong_title. Only letters, numbers and underscore are allowed.})
+          is_expected.to compile.and_raise_error(%r{parameter 'acl_name' expects a match for Pattern\[/\\A\[A-Za-z0-9_\]\+\\z/\], got '-wrong_title'})
         end
       end
     end
