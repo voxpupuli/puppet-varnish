@@ -1347,13 +1347,13 @@ The following parameters are available in the `varnish::vcl::acl_member` defined
 
 ##### <a name="-varnish--vcl--acl_member--varnish_fqdn"></a>`varnish_fqdn`
 
-Data type: `String`
+Data type: `String[1]`
 
 Tag name of the varnish host that is collected
 
 ##### <a name="-varnish--vcl--acl_member--acl"></a>`acl`
 
-Data type: `String`
+Data type: `Varnish::VCL::Ressource`
 
 Name of the ACL that should be created
 
