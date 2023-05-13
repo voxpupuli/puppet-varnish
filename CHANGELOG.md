@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v4.0.0](https://github.com/voxpupuli/puppet-varnish/tree/v4.0.0) (2023-05-12)
+## [v4.0.0](https://github.com/voxpupuli/puppet-varnish/tree/v4.0.0) (2023-05-13)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v3.0.0...v4.0.0)
 
@@ -14,6 +14,7 @@ These should not affect the functionality of the module.
 
 **Implemented enhancements:**
 
+- Define ressource type to validate instead of validate\_re [\#23](https://github.com/voxpupuli/puppet-varnish/pull/23) ([voxel01](https://github.com/voxel01))
 - Add support for hitch [\#15](https://github.com/voxpupuli/puppet-varnish/pull/15) ([voxel01](https://github.com/voxel01))
 - Add support of custom MSE config [\#14](https://github.com/voxpupuli/puppet-varnish/pull/14) ([voxel01](https://github.com/voxel01))
 - add support for Varnish Controller Agent [\#13](https://github.com/voxpupuli/puppet-varnish/pull/13) ([voxel01](https://github.com/voxel01))
