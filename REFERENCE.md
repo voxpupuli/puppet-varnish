@@ -40,6 +40,7 @@
 ### Data types
 
 * [`Varnish::Controller::Agent_name`](#Varnish--Controller--Agent_name): Type for supported Agent Name of Controller Agent
+* [`Varnish::Vcl::Ressource`](#Varnish--Vcl--Ressource): Type for supported VCL Versions
 * [`Varnish::Vclversion`](#Varnish--Vclversion): Type for supported VCL Versions
 
 ## Classes
@@ -1315,22 +1316,22 @@ Defines an ACL Type of Varnish. Defined ACL's must be used in VCL
 
 The following parameters are available in the `varnish::vcl::acl` defined type:
 
-* [`hosts`](#-varnish--vcl--acl--hosts)
 * [`acl_name`](#-varnish--vcl--acl--acl_name)
+* [`hosts`](#-varnish--vcl--acl--hosts)
+
+##### <a name="-varnish--vcl--acl--acl_name"></a>`acl_name`
+
+Data type: `Varnish::VCL::Ressource`
+
+Name of ACL
+
+Default value: `$title`
 
 ##### <a name="-varnish--vcl--acl--hosts"></a>`hosts`
 
 Data type: `Array[Stdlib::IP::Address]`
 
 Array of defined Hosts
-
-##### <a name="-varnish--vcl--acl--acl_name"></a>`acl_name`
-
-Data type: `Pattern['\A[A-Za-z0-9_]+\z']`
-
-The actual ACL name
-
-Default value: `$title`
 
 ### <a name="varnish--vcl--acl_member"></a>`varnish::vcl::acl_member`
 
@@ -1346,13 +1347,13 @@ The following parameters are available in the `varnish::vcl::acl_member` defined
 
 ##### <a name="-varnish--vcl--acl_member--varnish_fqdn"></a>`varnish_fqdn`
 
-Data type: `String`
+Data type: `String[1]`
 
 Tag name of the varnish host that is collected
 
 ##### <a name="-varnish--vcl--acl_member--acl"></a>`acl`
 
-Data type: `String`
+Data type: `Varnish::VCL::Ressource`
 
 Name of the ACL that should be created
 
@@ -1392,7 +1393,7 @@ Port of the backend host
 
 ##### <a name="-varnish--vcl--backend--backend_name"></a>`backend_name`
 
-Data type: `Pattern['\A[A-Za-z0-9_]+\z']`
+Data type: `Varnish::VCL::Ressource`
 
 The actual backend name
 
@@ -1445,9 +1446,9 @@ The following parameters are available in the `varnish::vcl::director` defined t
 
 ##### <a name="-varnish--vcl--director--director_name"></a>`director_name`
 
-Data type: `Pattern['\A[A-Za-z0-9_]+\z']`
+Data type: `Varnish::VCL::Ressource`
 
-The actual director name
+Name of the director
 
 Default value: `$title`
 
@@ -1497,9 +1498,9 @@ The following parameters are available in the `varnish::vcl::probe` defined type
 
 ##### <a name="-varnish--vcl--probe--probe_name"></a>`probe_name`
 
-Data type: `Pattern['\A[A-Za-z0-9_]+\z']`
+Data type: `Varnish::VCL::Ressource`
 
-The actual probe name
+Name of the probe
 
 Default value: `$title`
 
@@ -1646,6 +1647,12 @@ Default value: `$varnish::vcl::vcl_version`
 Type for supported Agent Name of Controller Agent
 
 Alias of `Pattern[/\A(?i:([-a-z0-9]+))\z/]`
+
+### <a name="Varnish--Vcl--Ressource"></a>`Varnish::Vcl::Ressource`
+
+Type for supported VCL Versions
+
+Alias of `Pattern[/^[A-Za-z0-9_]+$/]`
 
 ### <a name="Varnish--Vclversion"></a>`Varnish::Vclversion`
 

@@ -1,7 +1,7 @@
 # @summary Defines a backend director in varnish vcl
 #
 # @param director_name
-#   The actual director name
+#    Name of the director
 # @param type
 #   Type of varnish backend director
 # @param backends
@@ -9,10 +9,10 @@
 # @param vcl_version
 #   Version of vcl Language
 define varnish::vcl::director (
-  Pattern['\A[A-Za-z0-9_]+\z'] $director_name = $title,
   String $type = 'round-robin',
   Array[String] $backends = [],
-  Varnish::Vclversion $vcl_version = $varnish::vcl::vcl_version
+  Varnish::Vclversion $vcl_version = $varnish::vcl::vcl_version,
+  Varnish::VCL::Ressource $director_name = $title,
 ) {
   case $vcl_version {
     '4': {
@@ -36,7 +36,7 @@ define varnish::vcl::director (
     }
   }
 
-  concat::fragment { "${director_name}-director":
+  concat::fragment { "${title}-director":
     target  => "${varnish::vcl::includedir}/directors.vcl",
     content => template($template_director),
     order   => '02',

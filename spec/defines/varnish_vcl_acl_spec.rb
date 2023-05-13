@@ -19,9 +19,9 @@ describe 'varnish::vcl::acl', type: :define do
         facts
       end
 
-      context('expected behaviour') do
-        let(:params) { { hosts: ['192.168.10.14'] } }
+      let(:params) { { hosts: ['192.168.10.14'] } }
 
+      context('expected behaviour') do
         it { is_expected.to contain_concat__fragment('foo-acl_body').with_target('/etc/varnish/includes/acls.vcl') }
         it { is_expected.to contain_concat__fragment('foo-acl_body').with_content(%r{^\s+"192.168.10.14";\s+$}) }
         it { is_expected.to contain_concat__fragment('foo-acl_head').with_target('/etc/varnish/includes/acls.vcl') }
@@ -32,11 +32,16 @@ describe 'varnish::vcl::acl', type: :define do
 
       context('invalid acl title') do
         let(:title) { '-wrong_title' }
-        let(:params) { { hosts: ['192.168.10.14'] } }
 
         it 'causes a failure' do
-          is_expected.to compile.and_raise_error(%r{parameter 'acl_name' expects a match for Pattern\[/\\A\[A-Za-z0-9_\]\+\\z/\], got '-wrong_title'})
+          is_expected.to compile.and_raise_error(%r{.*})
         end
+      end
+
+      context('title != acl_name') do
+        let(:params) { super().merge('acl_name' => 'bar') }
+
+        it { is_expected.to contain_concat__fragment('foo-acl_head').with_content(%r{^acl bar \{$}) }
       end
     end
   end

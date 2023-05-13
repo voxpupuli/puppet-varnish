@@ -5,7 +5,7 @@
 # @see https://varnish-cache.org/docs/trunk/reference/vcl-probe.html
 #
 # @param probe_name
-#   The actual probe name
+#    Name of the probe
 # @param interval
 #   Paramter as defined from varnish
 # @param timeout
@@ -21,7 +21,6 @@
 # @param request
 #   Paramter as defined from varnish
 define varnish::vcl::probe (
-  Pattern['\A[A-Za-z0-9_]+\z'] $probe_name = $title,
   String $interval  = '5s',
   String $timeout   = '5s',
   String $threshold = '3',
@@ -29,11 +28,12 @@ define varnish::vcl::probe (
   String $includedir = $varnish::vcl::includedir,
   Optional[String] $url       = undef,
   Optional[Variant[String,Array[String]]] $request   = undef,
+  Varnish::VCL::Ressource $probe_name = $title,
 ) {
   # parameters for probe
   $probe_params = ['interval', 'timeout', 'threshold', 'window', 'url', 'request']
 
-  concat::fragment { "${probe_name}-probe":
+  concat::fragment { "${title}-probe":
     target  => "${includedir}/probes.vcl",
     content => template('varnish/includes/probes.vcl.erb'),
     order   => '02',

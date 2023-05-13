@@ -40,6 +40,20 @@ describe 'varnish::vcl::backend', type: :define do
           is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.between_bytes_timeout = 5s;})
         }
       end
+
+      context('invalid title') do
+        let(:title) { '-wrong_title' }
+
+        it 'causes a failure' do
+          is_expected.to compile.and_raise_error(%r{.*})
+        end
+      end
+
+      context('title != backend_name') do
+        let(:params) { super().merge('backend_name' => 'bar') }
+
+        it { is_expected.to contain_concat__fragment('foo-backend').with_content(%r{backend bar \{}) }
+      end
     end
   end
 end
