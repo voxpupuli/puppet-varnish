@@ -4,9 +4,30 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v3.0.0](https://github.com/voxpupuli/puppet-varnish/tree/v3.0.0) (2023-02-28)
+## [v4.0.0](https://github.com/voxpupuli/puppet-varnish/tree/v4.0.0) (2023-05-13)
 
-[Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/d55e143663f24b4f5efd8a9628a3d0173264609b...v3.0.0)
+[Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v3.0.0...v4.0.0)
+
+**Breaking changes:**
+
+- Drop Puppet 6 support [\#20](https://github.com/voxpupuli/puppet-varnish/pull/20) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Define ressource type to validate instead of validate\_re [\#23](https://github.com/voxpupuli/puppet-varnish/pull/23) ([voxel01](https://github.com/voxel01))
+- Add support for hitch [\#15](https://github.com/voxpupuli/puppet-varnish/pull/15) ([voxel01](https://github.com/voxel01))
+- Add support of custom MSE config [\#14](https://github.com/voxpupuli/puppet-varnish/pull/14) ([voxel01](https://github.com/voxel01))
+- add support for Varnish Controller Agent [\#13](https://github.com/voxpupuli/puppet-varnish/pull/13) ([voxel01](https://github.com/voxel01))
+
+**Fixed bugs:**
+
+- Fix VCL syntax [\#19](https://github.com/voxpupuli/puppet-varnish/pull/19) ([zipkid](https://github.com/zipkid))
+- Fix datatype for vcl::backend timeouts [\#17](https://github.com/voxpupuli/puppet-varnish/pull/17) ([voxel01](https://github.com/voxel01))
+- Fix Headline of README.md [\#16](https://github.com/voxpupuli/puppet-varnish/pull/16) ([voxel01](https://github.com/voxel01))
+
+## [v3.0.0](https://github.com/voxpupuli/puppet-varnish/tree/v3.0.0) (2023-03-05)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/1.0.0...v3.0.0)
 
    The Module is based on https://forge.puppet.com/modules/maxchk/varnish/readme. Compared to the last 1.0.0 in that namespace, we did:
   - Add support for new OS
@@ -25,6 +46,10 @@ These should not affect the functionality of the module.
 - fix typo in documentation, enhance README.md [\#4](https://github.com/voxpupuli/puppet-varnish/pull/4) ([voxel01](https://github.com/voxel01))
 - Update module author after migration to Vox Pupuli [\#2](https://github.com/voxpupuli/puppet-varnish/pull/2) ([voxel01](https://github.com/voxel01))
 - Update metadata to Vox Pupuli [\#1](https://github.com/voxpupuli/puppet-varnish/pull/1) ([voxel01](https://github.com/voxel01))
+
+## [1.0.0](https://github.com/voxpupuli/puppet-varnish/tree/1.0.0) (2016-07-27)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/d55e143663f24b4f5efd8a9628a3d0173264609b...1.0.0)
 
 
 
