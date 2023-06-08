@@ -77,6 +77,7 @@ class { 'varnish':
 The following parameters are available in the `varnish` class:
 
 * [`service_ensure`](#-varnish--service_ensure)
+* [`service_enable`](#-varnish--service_enable)
 * [`reload_vcl`](#-varnish--reload_vcl)
 * [`nfiles`](#-varnish--nfiles)
 * [`memlock`](#-varnish--memlock)
@@ -121,6 +122,14 @@ Data type: `Stdlib::Ensure::Service`
 Ensure for varnishservice
 
 Default value: `'running'`
+
+##### <a name="-varnish--service_enable"></a>`service_enable`
+
+Data type: `Boolean`
+
+If Service should be enabled
+
+Default value: `true`
 
 ##### <a name="-varnish--reload_vcl"></a>`reload_vcl`
 
@@ -173,11 +182,11 @@ Default value: `'varnish'`
 
 ##### <a name="-varnish--varnish_jail_user"></a>`varnish_jail_user`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 passed to varnish-conf
 
-Default value: `'vcache'`
+Default value: `undef`
 
 ##### <a name="-varnish--varnish_group"></a>`varnish_group`
 
