@@ -2,6 +2,8 @@
 #
 # @param service_ensure
 #   Ensure for varnishservice
+# @param service_enable
+#   If Service should be enabled
 # @param reload_vcl
 #   V4 paramter if Varnish will be reloaded - deprecated
 #   Will be removed when support for RHEL7 is dropped
@@ -92,13 +94,14 @@
 #
 class varnish (
   Stdlib::Ensure::Service $service_ensure               = 'running',
+  Boolean               $service_enable               = true,
   Boolean               $reload_vcl                   = true,
   String                $nfiles                       = '131072',
   String                $memlock                      = '100M',
   String                $storage_type                 = 'malloc',
   Stdlib::Absolutepath  $varnish_vcl_conf             = '/etc/varnish/default.vcl',
   String                $varnish_user                 = 'varnish',
-  String                $varnish_jail_user            = 'vcache',
+  Optional[String]      $varnish_jail_user            = undef,
   String                $varnish_group                = 'varnish',
   Optional[String[1]]   $varnish_listen_address       = undef,
   Stdlib::Port          $varnish_listen_port          = 6081,
