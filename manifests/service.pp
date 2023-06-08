@@ -18,7 +18,7 @@
 # @api private
 class varnish::service (
   Stdlib::Ensure::Service $ensure            = $varnish::service_ensure,
-  Boolean $enable            = $varnish::service_enable,
+  Boolean $enable                            = $varnish::service_enable,
   Stdlib::Absolutepath    $vcl_reload_script = '/usr/share/varnish/reload-vcl'
 ) {
   # include install
