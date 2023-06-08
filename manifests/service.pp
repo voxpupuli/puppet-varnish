@@ -10,12 +10,15 @@
 #
 # @param ensure 
 #   Ensure service status
+# @param enable 
+#   If Service should be enabled
 # @param vcl_reload_script
 #   Path to reload script
 #
 # @api private
 class varnish::service (
   Stdlib::Ensure::Service $ensure            = $varnish::service_ensure,
+  Boolean $enable                            = $varnish::service_enable,
   Stdlib::Absolutepath    $vcl_reload_script = '/usr/share/varnish/reload-vcl'
 ) {
   # include install
@@ -29,5 +32,6 @@ class varnish::service (
   ~> service { 'varnish':
     ensure  => $ensure,
     require => Package['varnish'],
+    enable  => $enable,
   }
 }

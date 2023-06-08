@@ -14,13 +14,13 @@ describe 'varnish', type: :class do
       it { is_expected.to contain_class('varnish::install').with('add_repo' => 'false') }
 
       it {
-        is_expected.to contain_class('varnish::service').with('ensure' => 'running')
+        is_expected.to contain_class('varnish::service').with('ensure' => 'running', 'enable' => true)
         is_expected.to contain_systemd__dropin_file('varnish_service').with_unit('varnish.service')
         is_expected.to contain_systemd__dropin_file('varnish_service').with_filename('varnish_override.conf')
-        is_expected.to contain_service('varnish').with_ensure('running')
         is_expected.to contain_service('varnish').with(
           'ensure'  => 'running',
-          'require' => 'Package[varnish]'
+          'require' => 'Package[varnish]',
+          'enable'  => true
         )
       }
 
@@ -65,7 +65,7 @@ describe 'varnish', type: :class do
         )
       }
 
-      if (facts[:osfamily] == 'RedHat') && (facts[:os]['release']['major'] == '7')
+      if facts[:osfamily] == 'RedHat'
         it { is_expected.to contain_file('varnish-conf').without_content(%r{\s  -j unix,user=vcache}) }
       else
         it { is_expected.to contain_file('varnish-conf').with_content(%r{\s  -j unix,user=vcache}) }
@@ -139,7 +139,22 @@ describe 'varnish', type: :class do
 
         it { is_expected.to compile }
         it { is_expected.to contain_class('varnish::install').with_version('6.0.0-manual') }
-        it { is_expected.to contain_file('varnish-conf').with_content(%r{\s  -j unix,user=vcache}) }
+
+        if facts[:osfamily] == 'RedHat'
+          it { is_expected.to contain_file('varnish-conf').without_content(%r{\s  -j unix,user=vcache}) }
+        else
+          it { is_expected.to contain_file('varnish-conf').with_content(%r{\s  -j unix,user=vcache}) }
+        end
+      end
+
+      context 'set Jail User' do
+        let :params do
+          { version: '6.0.0-manual',
+            varnish_jail_user: 'myjail' }
+        end
+
+        it { is_expected.to compile }
+        it { is_expected.to contain_file('varnish-conf').with_content(%r{\s  -j unix,user=myjail}) }
       end
 
       context 'Storage Type MSE' do
