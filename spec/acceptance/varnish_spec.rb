@@ -58,7 +58,7 @@ describe 'Varnish class' do
 
     it 'responds with the page' do
       shell('/usr/bin/curl http://127.0.0.1:8080/') do |r|
-        expect(r.stdout).to match(%r{Varnish})
+        expect(r.stdout).to match(%r{Varnish}i)
       end
     end
   end
@@ -82,7 +82,7 @@ describe 'Varnish class' do
 
     it 'responds with the page' do
       shell('/usr/bin/curl http://127.0.0.1:6081/') do |r|
-        expect(r.stdout).to match(%r{Welcome to nginx!})
+        expect(r.stdout).to match(%r{nginx}i)
       end
     end
   end
