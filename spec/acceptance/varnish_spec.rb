@@ -3,36 +3,39 @@
 require 'spec_helper_acceptance'
 
 describe 'Varnish class' do
-  context 'minimal parameters', 'init.pp' do
-    # Using puppet_apply as a helper
-    # it_behaves_like 'init', 'init.pp'
-    it 'works idempotently with no errors' do
-      pp = <<-EOS
-      class { 'varnish':
-      }
-      EOS
-      # Run it twice and test for idempotency
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
-    end
+  # Default Varnish 4.1 on CentOS 7 is EOL and drops errors
+  unless fact_on(host, 'os.family') == 'RedHat' && fact_on(host, 'os.release.major') == '7'
+    context 'minimal parameters', 'init.pp' do
+      # Using puppet_apply as a helper
+      # it_behaves_like 'init', 'init.pp'
+      it 'works idempotently with no errors' do
+        pp = <<-EOS
+        class { 'varnish':
+        }
+        EOS
+        # Run it twice and test for idempotency
+        apply_manifest(pp, catch_failures: true)
+        apply_manifest(pp, catch_failures: true)
+        apply_manifest(pp, catch_changes: true)
+      end
 
-    describe port(6081) do
-      it { is_expected.to be_listening.with('tcp') }
-    end
+      describe port(6081) do
+        it { is_expected.to be_listening.with('tcp') }
+      end
 
-    describe port(6082) do
-      it { is_expected.to be_listening.on('127.0.0.1').with('tcp') }
-    end
+      describe port(6082) do
+        it { is_expected.to be_listening.on('127.0.0.1').with('tcp') }
+      end
 
-    describe service('varnish') do
-      it { is_expected.to be_enabled }
-      it { is_expected.to be_running }
-    end
+      describe service('varnish') do
+        it { is_expected.to be_enabled }
+        it { is_expected.to be_running }
+      end
 
-    it 'responds with the page' do
-      shell('/usr/bin/curl http://127.0.0.1:6081/') do |r|
-        expect(r.stdout).to match(%r{Varnish})
+      it 'responds with the page' do
+        shell('/usr/bin/curl http://127.0.0.1:6081/') do |r|
+          expect(r.stdout).to match(%r{Varnish})
+        end
       end
     end
   end
