@@ -4,7 +4,7 @@ require 'spec_helper_acceptance'
 
 describe 'Varnish class' do
   # Default Varnish 4.1 on CentOS 7 is EOL and drops errors
-  unless fact_on(host, 'os.family') == 'RedHat' && fact_on(host, 'os.release.major') == '7'
+  unless fact('os.family') == 'RedHat' && fact('os.release.major') == '7'
     context 'minimal parameters', 'init.pp' do
       # Using puppet_apply as a helper
       # it_behaves_like 'init', 'init.pp'
