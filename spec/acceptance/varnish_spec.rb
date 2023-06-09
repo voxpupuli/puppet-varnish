@@ -38,54 +38,54 @@ describe 'Varnish class' do
         end
       end
     end
-  end
 
-  context 'Custom Listen Port' do
-    # Using puppet_apply as a helper
-    it 'works idempotently with no errors' do
-      pp = <<-EOS
-      class { 'varnish':
-        varnish_listen_port => 8080,
-      }
-      EOS
+    context 'Custom Listen Port' do
+      # Using puppet_apply as a helper
+      it 'works idempotently with no errors' do
+        pp = <<-EOS
+        class { 'varnish':
+          varnish_listen_port => 8080,
+        }
+        EOS
 
-      # Run it twice and test for idempotency
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
-    end
+        # Run it twice and test for idempotency
+        apply_manifest(pp, catch_failures: true)
+        apply_manifest(pp, catch_failures: true)
+        apply_manifest(pp, catch_changes: true)
+      end
 
-    describe port(8080) do
-      it { is_expected.to be_listening }
-    end
+      describe port(8080) do
+        it { is_expected.to be_listening }
+      end
 
-    it 'responds with the page' do
-      shell('/usr/bin/curl http://127.0.0.1:8080/') do |r|
-        expect(r.stdout).to match(%r{Varnish}i)
+      it 'responds with the page' do
+        shell('/usr/bin/curl http://127.0.0.1:8080/') do |r|
+          expect(r.stdout).to match(%r{Varnish}i)
+        end
       end
     end
-  end
 
-  context 'Custom Backend' do
-    # Using puppet_apply as a helper
-    it 'works idempotently with no errors' do
-      pp = <<-EOS
-      class { 'varnish':
-      }
-      class { 'varnish::vcl':
-        backends => { 'default' => { host => '127.0.0.1', port => 80 }},
-      }
-      EOS
+    context 'Custom Backend' do
+      # Using puppet_apply as a helper
+      it 'works idempotently with no errors' do
+        pp = <<-EOS
+        class { 'varnish':
+        }
+        class { 'varnish::vcl':
+          backends => { 'default' => { host => '127.0.0.1', port => 80 }},
+        }
+        EOS
 
-      # Run it twice and test for idempotency
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
-    end
+        # Run it twice and test for idempotency
+        apply_manifest(pp, catch_failures: true)
+        apply_manifest(pp, catch_failures: true)
+        apply_manifest(pp, catch_changes: true)
+      end
 
-    it 'responds with the page' do
-      shell('/usr/bin/curl http://127.0.0.1:6081/') do |r|
-        expect(r.stdout).to match(%r{nginx}i)
+      it 'responds with the page' do
+        shell('/usr/bin/curl http://127.0.0.1:6081/') do |r|
+          expect(r.stdout).to match(%r{nginx}i)
+        end
       end
     end
   end
