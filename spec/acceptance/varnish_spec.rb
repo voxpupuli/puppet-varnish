@@ -8,7 +8,7 @@ describe 'Varnish class' do
     context 'minimal parameters', 'init.pp' do
       # Using puppet_apply as a helper
       # it_behaves_like 'init', 'init.pp'
-      it 'works idempotently with no errors' do
+      it 'works almost idempotently with no errors' do
         pp = <<-EOS
         class { 'varnish':
         }
