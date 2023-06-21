@@ -17,23 +17,27 @@ describe 'varnish::ncsa', type: :class do
         it { is_expected.to compile }
 
         it {
-          is_expected.to contain_file('/etc/default/varnishncsa').with(
-            'ensure' => 'file',
-            'owner' => 'root',
-            'group' => 'root',
-            'mode' => '0644',
-            'notify' => 'Service[varnishncsa]'
+          is_expected.to contain_service('varnishncsa').with(
+            'ensure' => 'running',
+            'require' => 'Service[varnish]'
           )
         }
 
-        it { is_expected.to contain_file('/etc/default/varnishncsa').with_content(%r{VARNISHNCSA_ENABLED=1}) }
-        it { is_expected.to contain_file('/etc/default/varnishncsa').without_content(%r{DAEMON_OPTS}) }
-
         it {
-          is_expected.to contain_service('varnishncsa').with(
-            'ensure'    => 'running',
-            'require'   => 'Service[varnish]',
-            'subscribe' => 'File[/etc/default/varnishncsa]'
+          is_expected.to contain_systemd__dropin_file('varnishncsa_service').with(
+            'unit'     => 'varnishncsa.service',
+            'content'  => '# THIS FILE IS MANAGED BY PUPPET
+[Service]
+Type=forking
+KillMode=process
+ExecStart=
+ExecStart=/usr/bin/varnishncsa -a -w /var/log/varnish/varnishncsa.log -D
+
+[Unit]
+Wants=network-online.target
+After=network.target network-online.target
+',
+            'filename' => 'varnishncsa_override.conf'
           )
         }
       end
@@ -41,21 +45,18 @@ describe 'varnish::ncsa', type: :class do
       context 'with enable false' do
         let(:params) { { enable: false } }
 
-        it { is_expected.to contain_file('/etc/default/varnishncsa').with_content(%r{# VARNISHNCSA_ENABLED=1}) }
         it { is_expected.to contain_service('varnishncsa').with('enable' => false) }
       end
 
       context 'with service_ensure stopped' do
         let(:params) { { service_ensure: 'stopped' } }
 
-        it { is_expected.to contain_file('/etc/default/varnishncsa').with_content(%r{VARNISHNCSA_ENABLED=1}) }
         it { is_expected.to contain_service('varnishncsa').with('ensure' => 'stopped') }
       end
 
       context 'with all disabled' do
         let(:params) { { service_ensure: 'stopped', enable: false } }
 
-        it { is_expected.to contain_file('/etc/default/varnishncsa').with_content(%r{# VARNISHNCSA_ENABLED=1}) }
         it { is_expected.to contain_service('varnishncsa').with('ensure' => 'stopped') }
         it { is_expected.to contain_service('varnishncsa').with('enable' => false) }
       end

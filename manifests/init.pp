@@ -76,6 +76,8 @@
 #   Default major version of Varnish for that OS release
 # @param add_hitch
 #   Add varnish::hitch class to install hitch
+# @param add_ncsa
+#   Add varnish::ncsa class to install varnishncsa Service
 # 
 # @example Installs Varnish
 #   # enables Varnish service
@@ -131,6 +133,7 @@ class varnish (
   Hash $additional_parameters        = {},
   Integer $default_version = 6,
   Boolean $add_hitch = false,
+  Boolean $add_ncsa = false,
 ) {
   $major_version = $version ? {
     /(\d+)\./ => "${1}",
@@ -153,6 +156,11 @@ class varnish (
 
   if($add_hitch) {
     contain varnish::hitch
+  }
+
+  #Allow to add Varnishncsa from base class
+  if($add_ncsa) {
+    contain varnish::ncsa
   }
 
   # mount shared memory log dir as tempfs
