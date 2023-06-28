@@ -38,6 +38,12 @@ describe 'varnish::vcl::backend', type: :define do
           is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.connect_timeout = 5s;})
           is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.first_byte_timeout = 10m;})
           is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.between_bytes_timeout = 5s;})
+          is_expected.not_to contain_concat__fragment('foo-backend').with_content(%r{\s+.ssl = .*;})
+          is_expected.not_to contain_concat__fragment('foo-backend').with_content(%r{\s+.ssl_sni = .*;})
+          is_expected.not_to contain_concat__fragment('foo-backend').with_content(%r{\s+.ssl_verify_peer = .*;})
+          is_expected.not_to contain_concat__fragment('foo-backend').with_content(%r{\s+.ssl_verify_host = .*;})
+          is_expected.not_to contain_concat__fragment('foo-backend').with_content(%r{\s+.host_header = .*;})
+          is_expected.not_to contain_concat__fragment('foo-backend').with_content(%r{\s+.host_header = .*;})
         }
       end
 
@@ -56,9 +62,23 @@ describe 'varnish::vcl::backend', type: :define do
       end
 
       context('ssl params') do
-        let(:params) { super().merge('ssl' => 1) }
+        let(:params) do
+          super().merge(
+            'ssl' => 1,
+            'ssl_sni' => 1,
+            'ssl_verify_peer' => 1,
+            'ssl_verify_host' => 1,
+            'host_header' => 'foobar',
+            'certificate' => 'foobar'
+          )
+        end
 
         it { is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.ssl = 1;}) }
+        it { is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.ssl_sni = 1;}) }
+        it { is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.ssl_verify_peer = 1;}) }
+        it { is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.ssl_verify_host = 1;}) }
+        it { is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.host_header = "foobar";}) }
+        it { is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.host_header = "foobar";}) }
       end
     end
   end

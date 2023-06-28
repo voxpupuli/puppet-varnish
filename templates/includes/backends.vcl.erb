@@ -15,21 +15,21 @@ backend <%= @backend_name %> {
   .between_bytes_timeout = <% if @between_bytes_timeout.is_a? Integer %><%= "#{@between_bytes_timeout}s" %><% else %><%= @between_bytes_timeout %><% end %>;
   <%- end -%>
   <%- if @ssl -%>
-  .ssl = <%= @ssl %>;;
+  .ssl = <%= @ssl %>;
   <%- end -%>
   <%- if @ssl_sni -%>
-  .ssl_sni = <%= @ssl_sni %>;;
+  .ssl_sni = <%= @ssl_sni %>;
   <%- end -%>
   <%- if @ssl_verify_peer -%>
-  .ssl_verify_peer = <%= @ssl_verify_peer %>;;
+  .ssl_verify_peer = <%= @ssl_verify_peer %>;
   <%- end -%>
   <%- if @ssl_verify_host -%>
-  .ssl_verify_host = <%= @ssl_verify_host %>;;
+  .ssl_verify_host = <%= @ssl_verify_host %>;
   <%- end -%>
   <%- if @host_header -%>
-  .host_header = <%= @host_header %>;;
+  .host_header = "<%= @host_header %>";
   <%- end -%>
   <%- if @certificate -%>
-  .certificate = <%= @certificate %>;;
+  .certificate = "<%= @certificate %>";
   <%- end -%>
 }
