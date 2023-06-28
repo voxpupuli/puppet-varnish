@@ -1387,6 +1387,12 @@ The following parameters are available in the `varnish::vcl::backend` defined ty
 * [`connect_timeout`](#-varnish--vcl--backend--connect_timeout)
 * [`first_byte_timeout`](#-varnish--vcl--backend--first_byte_timeout)
 * [`between_bytes_timeout`](#-varnish--vcl--backend--between_bytes_timeout)
+* [`ssl`](#-varnish--vcl--backend--ssl)
+* [`ssl_sni`](#-varnish--vcl--backend--ssl_sni)
+* [`ssl_verify_peer`](#-varnish--vcl--backend--ssl_verify_peer)
+* [`ssl_verify_host`](#-varnish--vcl--backend--ssl_verify_host)
+* [`host_header`](#-varnish--vcl--backend--host_header)
+* [`certificate`](#-varnish--vcl--backend--certificate)
 
 ##### <a name="-varnish--vcl--backend--host"></a>`host`
 
@@ -1437,6 +1443,54 @@ Default value: `undef`
 Data type: `Optional[Variant[String[1],Integer]]`
 
 define varnish between_bytes_timeout
+
+Default value: `undef`
+
+##### <a name="-varnish--vcl--backend--ssl"></a>`ssl`
+
+Data type: `Optional[Integer[0,1]]`
+
+varnish-plus: Set this true (1) to enable SSL/TLS for this backend.
+
+Default value: `undef`
+
+##### <a name="-varnish--vcl--backend--ssl_sni"></a>`ssl_sni`
+
+Data type: `Optional[Integer[0,1]]`
+
+varnish-plus: Set this to false (0) to disable the use of the Server Name Indication (SNI) extension for backend TLS connections
+
+Default value: `undef`
+
+##### <a name="-varnish--vcl--backend--ssl_verify_peer"></a>`ssl_verify_peer`
+
+Data type: `Optional[Integer[0,1]]`
+
+varnish-plus: Set this to false (0) to disable verification of the peer’s certificate chain.
+
+Default value: `undef`
+
+##### <a name="-varnish--vcl--backend--ssl_verify_host"></a>`ssl_verify_host`
+
+Data type: `Optional[Integer[0,1]]`
+
+varnish-plus: Set this to true (1) to enable verification of the peer’s certificate identity
+
+Default value: `undef`
+
+##### <a name="-varnish--vcl--backend--host_header"></a>`host_header`
+
+Data type: `Optional[String[1]]`
+
+varnish-plus: A host header to add to probes and regular backend requests if they have no such header
+
+Default value: `undef`
+
+##### <a name="-varnish--vcl--backend--certificate"></a>`certificate`
+
+Data type: `Optional[String[1]]`
+
+varnish-plus: Specifies a client certificate to be used
 
 Default value: `undef`
 

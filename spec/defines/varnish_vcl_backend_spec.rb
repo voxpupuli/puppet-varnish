@@ -54,6 +54,12 @@ describe 'varnish::vcl::backend', type: :define do
 
         it { is_expected.to contain_concat__fragment('foo-backend').with_content(%r{backend bar \{}) }
       end
+
+      context('ssl params') do
+        let(:params) { super().merge('ssl' => 1) }
+
+        it { is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.ssl = 1;}) }
+      end
     end
   end
 end
