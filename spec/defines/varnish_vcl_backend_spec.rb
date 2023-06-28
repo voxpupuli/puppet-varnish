@@ -43,7 +43,7 @@ describe 'varnish::vcl::backend', type: :define do
           is_expected.not_to contain_concat__fragment('foo-backend').with_content(%r{\s+.ssl_verify_peer = .*;})
           is_expected.not_to contain_concat__fragment('foo-backend').with_content(%r{\s+.ssl_verify_host = .*;})
           is_expected.not_to contain_concat__fragment('foo-backend').with_content(%r{\s+.host_header = .*;})
-          is_expected.not_to contain_concat__fragment('foo-backend').with_content(%r{\s+.host_header = .*;})
+          is_expected.not_to contain_concat__fragment('foo-backend').with_content(%r{\s+.certificate = .*;})
         }
       end
 
@@ -78,7 +78,7 @@ describe 'varnish::vcl::backend', type: :define do
         it { is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.ssl_verify_peer = 1;}) }
         it { is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.ssl_verify_host = 1;}) }
         it { is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.host_header = "foobar";}) }
-        it { is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.host_header = "foobar";}) }
+        it { is_expected.to contain_concat__fragment('foo-backend').with_content(%r{\s+.certificate = "foobar";}) }
       end
     end
   end
