@@ -928,7 +928,7 @@ The following parameters are available in the `varnish::ncsa` class:
 
 * [`enable`](#-varnish--ncsa--enable)
 * [`service_ensure`](#-varnish--ncsa--service_ensure)
-* [`daemon_opts`](#-varnish--ncsa--daemon_opts)
+* [`varnishncsa_daemon_opts`](#-varnish--ncsa--varnishncsa_daemon_opts)
 
 ##### <a name="-varnish--ncsa--enable"></a>`enable`
 
@@ -946,7 +946,7 @@ ensure serice
 
 Default value: `'running'`
 
-##### <a name="-varnish--ncsa--daemon_opts"></a>`daemon_opts`
+##### <a name="-varnish--ncsa--varnishncsa_daemon_opts"></a>`varnishncsa_daemon_opts`
 
 Data type: `String`
 
