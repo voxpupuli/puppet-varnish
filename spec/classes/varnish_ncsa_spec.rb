@@ -31,7 +31,7 @@ describe 'varnish::ncsa', type: :class do
 Type=forking
 KillMode=process
 ExecStart=
-ExecStart=/usr/bin/varnishncsa -a -w /var/log/varnish/varnishncsa.log -D
+ExecStart=/usr/bin/varnishncsa -a -w /var/log/varnish/varnishncsa.log -D -P /run/varnishncsa/varnishncsa.pid
 
 [Unit]
 Wants=network-online.target
