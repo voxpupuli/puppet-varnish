@@ -952,7 +952,7 @@ Data type: `String`
 
 Options handed to varnishncsa
 
-Default value: `'-a -w /var/log/varnish/varnishncsa.log -D'`
+Default value: `'-a -w /var/log/varnish/varnishncsa.log -D -P /run/varnishncsa/varnishncsa.pid'`
 
 ### <a name="varnish--repo"></a>`varnish::repo`
 
