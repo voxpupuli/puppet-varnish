@@ -19,6 +19,9 @@
 #   Directory for include files
 # @param vcl_version
 #   Version of VCL Language
+# @param backend
+#   Backend that will be used if provided, else "${director}.backend()" will be used
+
 define varnish::vcl::selector (
   String $condition,
   String $director = $name,
