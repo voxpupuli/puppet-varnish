@@ -1555,10 +1555,10 @@ The following parameters are available in the `varnish::vcl::probe` defined type
 * [`timeout`](#-varnish--vcl--probe--timeout)
 * [`threshold`](#-varnish--vcl--probe--threshold)
 * [`window`](#-varnish--vcl--probe--window)
+* [`expected_response`](#-varnish--vcl--probe--expected_response)
 * [`includedir`](#-varnish--vcl--probe--includedir)
 * [`url`](#-varnish--vcl--probe--url)
 * [`request`](#-varnish--vcl--probe--request)
-* [`expected_response`](#-varnish--vcl--probe--expected_response)
 
 ##### <a name="-varnish--vcl--probe--probe_name"></a>`probe_name`
 
@@ -1600,6 +1600,14 @@ Paramter as defined from varnish
 
 Default value: `'8'`
 
+##### <a name="-varnish--vcl--probe--expected_response"></a>`expected_response`
+
+Data type: `String`
+
+The expected HTTP status, defaults to '200'
+
+Default value: `'200'`
+
 ##### <a name="-varnish--vcl--probe--includedir"></a>`includedir`
 
 Data type: `String`
@@ -1623,14 +1631,6 @@ Data type: `Optional[Variant[String,Array[String]]]`
 Paramter as defined from varnish
 
 Default value: `undef`
-
-##### <a name="-varnish--vcl--probe--expected_response"></a>`expected_response`
-
-Data type: `Optional[String]`
-
-The expected HTTP status, defaults to '200'
-
-Default value: `'200'`
 
 ### <a name="varnish--vcl--selector"></a>`varnish::vcl::selector`
 
