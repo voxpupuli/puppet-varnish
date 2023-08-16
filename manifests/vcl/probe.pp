@@ -20,6 +20,8 @@
 #   Paramter as defined from varnish
 # @param request
 #   Paramter as defined from varnish
+# @param expected_response
+#   The expected HTTP status, defaults to '200'
 define varnish::vcl::probe (
   String $interval  = '5s',
   String $timeout   = '5s',
@@ -28,10 +30,11 @@ define varnish::vcl::probe (
   String $includedir = $varnish::vcl::includedir,
   Optional[String] $url       = undef,
   Optional[Variant[String,Array[String]]] $request   = undef,
+  Optional[String] $expected_response = '200',
   Varnish::VCL::Ressource $probe_name = $title,
 ) {
   # parameters for probe
-  $probe_params = ['interval', 'timeout', 'threshold', 'window', 'url', 'request']
+  $probe_params = ['interval', 'timeout', 'threshold', 'window', 'url', 'request', 'expected_response']
 
   concat::fragment { "${title}-probe":
     target  => "${includedir}/probes.vcl",
