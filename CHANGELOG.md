@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.0.0](https://github.com/voxpupuli/puppet-varnish/tree/v5.0.0) (2023-11-08)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v4.0.0...v5.0.0)
+
+**Breaking changes:**
+
+- 🐛 Fix firewall usage to match the new module, switch to puppetlabs/firewall 7 [\#36](https://github.com/voxpupuli/puppet-varnish/pull/36) ([JGodin-C2C](https://github.com/JGodin-C2C))
+- Drop debian 9 support [\#26](https://github.com/voxpupuli/puppet-varnish/pull/26) ([voxel01](https://github.com/voxel01))
+
+**Implemented enhancements:**
+
+- Add Puppet 8 support [\#30](https://github.com/voxpupuli/puppet-varnish/pull/30) ([bastelfreak](https://github.com/bastelfreak))
+- puppetlabs/stdlib: Allow 9.x [\#29](https://github.com/voxpupuli/puppet-varnish/pull/29) ([bastelfreak](https://github.com/bastelfreak))
+- Add varnish-plus Backend parameters to use with ssl [\#28](https://github.com/voxpupuli/puppet-varnish/pull/28) ([voxel01](https://github.com/voxel01))
+- Add acceptance tests [\#24](https://github.com/voxpupuli/puppet-varnish/pull/24) ([voxel01](https://github.com/voxel01))
+
+**Fixed bugs:**
+
+- Fix CentOS8 - jail user/ enable service [\#25](https://github.com/voxpupuli/puppet-varnish/pull/25) ([voxel01](https://github.com/voxel01))
+
 ## [v4.0.0](https://github.com/voxpupuli/puppet-varnish/tree/v4.0.0) (2023-05-13)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v3.0.0...v4.0.0)
