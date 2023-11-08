@@ -177,7 +177,7 @@ class varnish::vcl (
       unset_headers_debugips => { hosts => $unset_headers_debugips },
       purge => { hosts => $purgeips },
     }
-    $all_acls = merge($default_acls, $acls)
+    $all_acls = stdlib::merge($default_acls, $acls)
     create_resources(varnish::vcl::acl,$all_acls)
     Varnish::Vcl::Acl_member <| varnish_fqdn == $facts['networking']['fqdn'] |>
   }
