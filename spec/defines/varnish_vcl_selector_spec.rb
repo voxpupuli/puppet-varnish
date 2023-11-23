@@ -5,8 +5,8 @@ require 'spec_helper'
 describe 'varnish::vcl::selector', type: :define do
   let :pre_condition do
     [
-      'class { "::varnish": }',
-      'class { "::varnish::vcl": }',
+      'class { "varnish": }',
+      'class { "varnish::vcl": }',
     ]
   end
 
