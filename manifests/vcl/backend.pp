@@ -14,6 +14,8 @@
 #   define varnish first_byte_timeout
 # @param between_bytes_timeout
 #   define varnish between_bytes_timeout
+# @param max_connections
+#   define varnish maximum number of connections to the backend
 # @param ssl
 #   varnish-plus: Set this true (1) to enable SSL/TLS for this backend.
 # @param ssl_sni
@@ -33,6 +35,7 @@ define varnish::vcl::backend (
   Optional[Variant[String[1],Integer]] $connect_timeout       = undef,
   Optional[Variant[String[1],Integer]] $first_byte_timeout    = undef,
   Optional[Variant[String[1],Integer]] $between_bytes_timeout = undef,
+  Optional[Integer] $max_connections = undef,
   Optional[Integer[0,1]] $ssl = undef,
   Optional[Integer[0,1]] $ssl_sni = undef,
   Optional[Integer[0,1]] $ssl_verify_peer = undef,
