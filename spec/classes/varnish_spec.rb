@@ -56,6 +56,7 @@ describe 'varnish', type: :class do
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_STORAGE="malloc,\${VARNISH_STORAGE_SIZE}"}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_TTL=120}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{DAEMON_OPTS="-a :6081 }) }
+      it { is_expected.not_to contain_file('varnish-conf').with_content(%r{-a /tmp/varnish.sock,PROXY,user=varnish,group=varnish,mode=666}) }
 
       it {
         is_expected.to contain_file('storage-dir').with(
@@ -89,6 +90,16 @@ describe 'varnish', type: :class do
 
         it { is_expected.to compile }
         it { is_expected.to contain_file('varnish-conf').with_content(%r{-a 127.0.0.1:8443,PROXY}) }
+        it { is_expected.not_to contain_file('varnish-conf').with_content(%r{-a /tmp/varnish.sock,PROXY,user=varnish,group=varnish,mode=666}) }
+      end
+
+      context 'enable proxy socket' do
+        let :params do
+          { varnish_proxy_listen_socket: '/tmp/varnish.sock' }
+        end
+
+        it { is_expected.to compile }
+        it { is_expected.to contain_file('varnish-conf').with_content(%r{-a /tmp/varnish.sock,PROXY,user=varnish,group=varnish,mode=666}) }
       end
 
       context 'with custom configfile' do

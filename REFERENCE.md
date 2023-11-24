@@ -90,6 +90,8 @@ The following parameters are available in the `varnish` class:
 * [`varnish_listen_port`](#-varnish--varnish_listen_port)
 * [`varnish_proxy_listen_address`](#-varnish--varnish_proxy_listen_address)
 * [`varnish_proxy_listen_port`](#-varnish--varnish_proxy_listen_port)
+* [`varnish_proxy_listen_socket`](#-varnish--varnish_proxy_listen_socket)
+* [`varnish_proxy_listen_socket_mode`](#-varnish--varnish_proxy_listen_socket_mode)
 * [`varnish_admin_listen_address`](#-varnish--varnish_admin_listen_address)
 * [`varnish_admin_listen_port`](#-varnish--varnish_admin_listen_port)
 * [`varnish_min_threads`](#-varnish--varnish_min_threads)
@@ -228,6 +230,22 @@ Data type: `Optional[Stdlib::Port]`
 port varnish binds to in proxy mode
 
 Default value: `undef`
+
+##### <a name="-varnish--varnish_proxy_listen_socket"></a>`varnish_proxy_listen_socket`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+socket varnish binds to in proxy mode
+
+Default value: `undef`
+
+##### <a name="-varnish--varnish_proxy_listen_socket_mode"></a>`varnish_proxy_listen_socket_mode`
+
+Data type: `Stdlib::Filemode`
+
+Filemode for socket varnish binds to in proxy mode
+
+Default value: `'666'`
 
 ##### <a name="-varnish--varnish_admin_listen_address"></a>`varnish_admin_listen_address`
 
