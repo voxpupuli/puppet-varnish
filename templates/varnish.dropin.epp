@@ -3,7 +3,7 @@
 Type=forking
 KillMode=process
 ExecStart=
-EnvironmentFile=-<%= $::varnish::conf_file_path %>
+EnvironmentFile=-<%= $varnish::conf_file_path %>
 ExecStart=/usr/sbin/varnishd -f $VARNISH_VCL_CONF $DAEMON_OPTS
 
 [Unit]
