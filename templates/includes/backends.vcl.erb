@@ -14,6 +14,9 @@ backend <%= @backend_name %> {
   <%- if @between_bytes_timeout -%>
   .between_bytes_timeout = <% if @between_bytes_timeout.is_a? Integer %><%= "#{@between_bytes_timeout}s" %><% else %><%= @between_bytes_timeout %><% end %>;
   <%- end -%>
+  <%- if @max_connections -%>
+  .max_connections = <%= @max_connections %>;
+  <%- end -%>
   <%- if @ssl -%>
   .ssl = <%= @ssl %>;
   <%- end -%>

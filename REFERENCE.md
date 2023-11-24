@@ -1387,6 +1387,7 @@ The following parameters are available in the `varnish::vcl::backend` defined ty
 * [`connect_timeout`](#-varnish--vcl--backend--connect_timeout)
 * [`first_byte_timeout`](#-varnish--vcl--backend--first_byte_timeout)
 * [`between_bytes_timeout`](#-varnish--vcl--backend--between_bytes_timeout)
+* [`max_connections`](#-varnish--vcl--backend--max_connections)
 * [`ssl`](#-varnish--vcl--backend--ssl)
 * [`ssl_sni`](#-varnish--vcl--backend--ssl_sni)
 * [`ssl_verify_peer`](#-varnish--vcl--backend--ssl_verify_peer)
@@ -1443,6 +1444,14 @@ Default value: `undef`
 Data type: `Optional[Variant[String[1],Integer]]`
 
 define varnish between_bytes_timeout
+
+Default value: `undef`
+
+##### <a name="-varnish--vcl--backend--max_connections"></a>`max_connections`
+
+Data type: `Optional[Integer]`
+
+define varnish maximum number of connections to the backend
 
 Default value: `undef`
 
