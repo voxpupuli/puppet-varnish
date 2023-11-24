@@ -114,6 +114,7 @@ The following parameters are available in the `varnish` class:
 * [`additional_parameters`](#-varnish--additional_parameters)
 * [`default_version`](#-varnish--default_version)
 * [`add_hitch`](#-varnish--add_hitch)
+* [`add_ncsa`](#-varnish--add_ncsa)
 
 ##### <a name="-varnish--service_ensure"></a>`service_ensure`
 
@@ -417,6 +418,14 @@ Default value: `6`
 Data type: `Boolean`
 
 Add varnish::hitch class to install hitch
+
+Default value: `false`
+
+##### <a name="-varnish--add_ncsa"></a>`add_ncsa`
+
+Data type: `Boolean`
+
+Add varnish::ncsa class to install varnishncsa Service
 
 Default value: `false`
 
@@ -939,11 +948,11 @@ Default value: `'running'`
 
 ##### <a name="-varnish--ncsa--varnishncsa_daemon_opts"></a>`varnishncsa_daemon_opts`
 
-Data type: `Optional[String]`
+Data type: `String`
 
 Options handed to varnishncsa
 
-Default value: `undef`
+Default value: `'-a -w /var/log/varnish/varnishncsa.log -D -P /run/varnishncsa/varnishncsa.pid'`
 
 ### <a name="varnish--repo"></a>`varnish::repo`
 
