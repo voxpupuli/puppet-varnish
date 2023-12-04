@@ -29,6 +29,10 @@
 #   address varnish binds to in proxy mode
 # @param varnish_proxy_listen_port
 #   port varnish binds to in proxy mode
+# @param varnish_proxy_listen_socket
+#   socket varnish binds to in proxy mode
+# @param varnish_proxy_listen_socket_mode
+#   Filemode for socket varnish binds to in proxy mode
 # @param varnish_admin_listen_address
 #   address varnish binds to in admin mode
 # @param varnish_admin_listen_port
@@ -109,6 +113,8 @@ class varnish (
   Stdlib::Port          $varnish_listen_port          = 6081,
   String                $varnish_proxy_listen_address       = '127.0.0.1',
   Optional[Stdlib::Port]  $varnish_proxy_listen_port          = undef,
+  Optional[Stdlib::Absolutepath] $varnish_proxy_listen_socket = undef,
+  Stdlib::Filemode $varnish_proxy_listen_socket_mode = '666',
   String                $varnish_admin_listen_address = 'localhost',
   Stdlib::Port $varnish_admin_listen_port    = 6082,
   String $varnish_min_threads          = '5',
