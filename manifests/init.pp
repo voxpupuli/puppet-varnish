@@ -29,6 +29,10 @@
 #   address varnish binds to in proxy mode
 # @param varnish_proxy_listen_port
 #   port varnish binds to in proxy mode
+# @param varnish_proxy_listen_socket
+#   socket varnish binds to in proxy mode
+# @param varnish_proxy_listen_socket_mode
+#   Filemode for socket varnish binds to in proxy mode
 # @param varnish_admin_listen_address
 #   address varnish binds to in admin mode
 # @param varnish_admin_listen_port
@@ -76,6 +80,8 @@
 #   Default major version of Varnish for that OS release
 # @param add_hitch
 #   Add varnish::hitch class to install hitch
+# @param add_ncsa
+#   Add varnish::ncsa class to install varnishncsa Service
 # 
 # @example Installs Varnish
 #   # enables Varnish service
@@ -107,6 +113,8 @@ class varnish (
   Stdlib::Port          $varnish_listen_port          = 6081,
   String                $varnish_proxy_listen_address       = '127.0.0.1',
   Optional[Stdlib::Port]  $varnish_proxy_listen_port          = undef,
+  Optional[Stdlib::Absolutepath] $varnish_proxy_listen_socket = undef,
+  Stdlib::Filemode $varnish_proxy_listen_socket_mode = '666',
   String                $varnish_admin_listen_address = 'localhost',
   Stdlib::Port $varnish_admin_listen_port    = 6082,
   String $varnish_min_threads          = '5',
@@ -131,6 +139,7 @@ class varnish (
   Hash $additional_parameters        = {},
   Integer $default_version = 6,
   Boolean $add_hitch = false,
+  Boolean $add_ncsa = false,
 ) {
   $major_version = $version ? {
     /(\d+)\./ => "${1}",
@@ -153,6 +162,11 @@ class varnish (
 
   if($add_hitch) {
     contain varnish::hitch
+  }
+
+  #Allow to add Varnishncsa from base class
+  if($add_ncsa) {
+    contain varnish::ncsa
   }
 
   # mount shared memory log dir as tempfs

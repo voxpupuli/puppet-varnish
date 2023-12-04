@@ -90,6 +90,8 @@ The following parameters are available in the `varnish` class:
 * [`varnish_listen_port`](#-varnish--varnish_listen_port)
 * [`varnish_proxy_listen_address`](#-varnish--varnish_proxy_listen_address)
 * [`varnish_proxy_listen_port`](#-varnish--varnish_proxy_listen_port)
+* [`varnish_proxy_listen_socket`](#-varnish--varnish_proxy_listen_socket)
+* [`varnish_proxy_listen_socket_mode`](#-varnish--varnish_proxy_listen_socket_mode)
 * [`varnish_admin_listen_address`](#-varnish--varnish_admin_listen_address)
 * [`varnish_admin_listen_port`](#-varnish--varnish_admin_listen_port)
 * [`varnish_min_threads`](#-varnish--varnish_min_threads)
@@ -114,6 +116,7 @@ The following parameters are available in the `varnish` class:
 * [`additional_parameters`](#-varnish--additional_parameters)
 * [`default_version`](#-varnish--default_version)
 * [`add_hitch`](#-varnish--add_hitch)
+* [`add_ncsa`](#-varnish--add_ncsa)
 
 ##### <a name="-varnish--service_ensure"></a>`service_ensure`
 
@@ -227,6 +230,22 @@ Data type: `Optional[Stdlib::Port]`
 port varnish binds to in proxy mode
 
 Default value: `undef`
+
+##### <a name="-varnish--varnish_proxy_listen_socket"></a>`varnish_proxy_listen_socket`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+socket varnish binds to in proxy mode
+
+Default value: `undef`
+
+##### <a name="-varnish--varnish_proxy_listen_socket_mode"></a>`varnish_proxy_listen_socket_mode`
+
+Data type: `Stdlib::Filemode`
+
+Filemode for socket varnish binds to in proxy mode
+
+Default value: `'666'`
 
 ##### <a name="-varnish--varnish_admin_listen_address"></a>`varnish_admin_listen_address`
 
@@ -417,6 +436,14 @@ Default value: `6`
 Data type: `Boolean`
 
 Add varnish::hitch class to install hitch
+
+Default value: `false`
+
+##### <a name="-varnish--add_ncsa"></a>`add_ncsa`
+
+Data type: `Boolean`
+
+Add varnish::ncsa class to install varnishncsa Service
 
 Default value: `false`
 
@@ -939,11 +966,11 @@ Default value: `'running'`
 
 ##### <a name="-varnish--ncsa--varnishncsa_daemon_opts"></a>`varnishncsa_daemon_opts`
 
-Data type: `Optional[String]`
+Data type: `String`
 
 Options handed to varnishncsa
 
-Default value: `undef`
+Default value: `'-a -w /var/log/varnish/varnishncsa.log -D -P /run/varnishncsa/varnishncsa.pid'`
 
 ### <a name="varnish--repo"></a>`varnish::repo`
 
@@ -1387,6 +1414,7 @@ The following parameters are available in the `varnish::vcl::backend` defined ty
 * [`connect_timeout`](#-varnish--vcl--backend--connect_timeout)
 * [`first_byte_timeout`](#-varnish--vcl--backend--first_byte_timeout)
 * [`between_bytes_timeout`](#-varnish--vcl--backend--between_bytes_timeout)
+* [`max_connections`](#-varnish--vcl--backend--max_connections)
 * [`ssl`](#-varnish--vcl--backend--ssl)
 * [`ssl_sni`](#-varnish--vcl--backend--ssl_sni)
 * [`ssl_verify_peer`](#-varnish--vcl--backend--ssl_verify_peer)
@@ -1443,6 +1471,14 @@ Default value: `undef`
 Data type: `Optional[Variant[String[1],Integer]]`
 
 define varnish between_bytes_timeout
+
+Default value: `undef`
+
+##### <a name="-varnish--vcl--backend--max_connections"></a>`max_connections`
+
+Data type: `Optional[Integer]`
+
+define varnish maximum number of connections to the backend
 
 Default value: `undef`
 

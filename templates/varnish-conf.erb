@@ -91,6 +91,9 @@ DAEMON_OPTS="-a <%= scope.lookupvar('varnish_listen_address') %>:<%= scope.looku
 <% if @varnish_proxy_listen_port -%>
             -a <%= scope.lookupvar('varnish_proxy_listen_address') %>:<%= scope.lookupvar('varnish_proxy_listen_port') %>,PROXY \
 <% end -%>
+<% if @varnish_proxy_listen_socket -%>
+            -a <%= scope.lookupvar('varnish_proxy_listen_socket') %>,PROXY,user=<%= scope.lookupvar('varnish_user') -%>,group=<%= scope.lookupvar('varnish_group') -%>,mode=<%= scope.lookupvar('varnish_proxy_listen_socket_mode') %> \
+<% end -%>
              -f <%= scope.lookupvar('varnish_vcl_conf') %> \
              -T <%= scope.lookupvar('varnish_admin_listen_address') %>:<%= scope.lookupvar('varnish_admin_listen_port') %> \
              -t <%= scope.lookupvar('varnish_ttl') %> \

@@ -1,10 +1,11 @@
+<%- | String  $daemon_opts,
+| -%>
 # THIS FILE IS MANAGED BY PUPPET
 [Service]
 Type=forking
 KillMode=process
 ExecStart=
-EnvironmentFile=-<%= $varnish::conf_file_path %>
-ExecStart=/usr/sbin/varnishd -f $VARNISH_VCL_CONF $DAEMON_OPTS
+ExecStart=/usr/bin/varnishncsa <%= $daemon_opts %>
 
 [Unit]
 Wants=network-online.target

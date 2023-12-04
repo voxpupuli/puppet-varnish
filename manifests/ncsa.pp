@@ -9,21 +9,16 @@
 class varnish::ncsa (
   Boolean $enable = true,
   Stdlib::Ensure::Service $service_ensure = 'running',
-  Optional[String] $varnishncsa_daemon_opts = undef,
+  String $varnishncsa_daemon_opts = '-a -w /var/log/varnish/varnishncsa.log -D -P /run/varnishncsa/varnishncsa.pid',
 ) {
-  file { '/etc/default/varnishncsa':
-    ensure  => 'file',
-    mode    => '0644',
-    owner   => 'root',
-    group   => 'root',
-    content => template('varnish/varnishncsa-default.erb'),
-    notify  => Service['varnishncsa'],
+  systemd::dropin_file { 'varnishncsa_service':
+    unit     => 'varnishncsa.service',
+    content  => epp('varnish/varnishncsa.dropin.epp', { 'daemon_opts' => $varnishncsa_daemon_opts }),
+    filename => 'varnishncsa_override.conf',
   }
-
-  service { 'varnishncsa':
-    ensure    => $service_ensure,
-    enable    => $enable,
-    require   => Service['varnish'],
-    subscribe => File['/etc/default/varnishncsa'],
+  ~> service { 'varnishncsa':
+    ensure  => $service_ensure,
+    enable  => $enable,
+    require => Service['varnish'],
   }
 }

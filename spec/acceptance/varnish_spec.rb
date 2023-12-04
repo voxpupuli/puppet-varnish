@@ -88,5 +88,12 @@ describe 'Varnish class' do
         end
       end
     end
+
+    it_behaves_like 'the example', 'ncsa.pp' do
+      describe service('varnishncsa') do
+        it { is_expected.to be_enabled }
+        it { is_expected.to be_running }
+      end
+    end
   end
 end
