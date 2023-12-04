@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [Unreleased](https://github.com/voxpupuli/puppet-varnish/tree/HEAD)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v5.0.0...HEAD)
+
+**Implemented enhancements:**
+
+- Add Support for Sockets in Varnish Proxy Listening [\#42](https://github.com/voxpupuli/puppet-varnish/pull/42) ([voxel01](https://github.com/voxel01))
+- Added max\_connections option to a backend [\#41](https://github.com/voxpupuli/puppet-varnish/pull/41) ([wimsymons](https://github.com/wimsymons))
+- Fix varnish ncsa support [\#27](https://github.com/voxpupuli/puppet-varnish/pull/27) ([voxel01](https://github.com/voxel01))
+
+**Closed issues:**
+
+- No support for Socket listeners [\#39](https://github.com/voxpupuli/puppet-varnish/issues/39)
+
+**Merged pull requests:**
+
+- Remove legacy top-scope syntax [\#40](https://github.com/voxpupuli/puppet-varnish/pull/40) ([smortex](https://github.com/smortex))
+
 ## [v5.0.0](https://github.com/voxpupuli/puppet-varnish/tree/v5.0.0) (2023-11-08)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v4.0.0...v5.0.0)
