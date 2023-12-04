@@ -14,6 +14,8 @@
 #   Paramter as defined from varnish
 # @param window
 #   Paramter as defined from varnish
+# @param expected_response
+#   The expected HTTP status, defaults to '200'
 # @param includedir
 #   Directory where includefiles will be created
 # @param url
@@ -25,13 +27,14 @@ define varnish::vcl::probe (
   String $timeout   = '5s',
   String $threshold = '3',
   String $window    = '8',
+  String $expected_response = '200',
   String $includedir = $varnish::vcl::includedir,
   Optional[String] $url       = undef,
   Optional[Variant[String,Array[String]]] $request   = undef,
   Varnish::VCL::Ressource $probe_name = $title,
 ) {
   # parameters for probe
-  $probe_params = ['interval', 'timeout', 'threshold', 'window', 'url', 'request']
+  $probe_params = ['interval', 'timeout', 'threshold', 'window', 'url', 'request', 'expected_response']
 
   concat::fragment { "${title}-probe":
     target  => "${includedir}/probes.vcl",

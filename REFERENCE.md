@@ -1591,6 +1591,7 @@ The following parameters are available in the `varnish::vcl::probe` defined type
 * [`timeout`](#-varnish--vcl--probe--timeout)
 * [`threshold`](#-varnish--vcl--probe--threshold)
 * [`window`](#-varnish--vcl--probe--window)
+* [`expected_response`](#-varnish--vcl--probe--expected_response)
 * [`includedir`](#-varnish--vcl--probe--includedir)
 * [`url`](#-varnish--vcl--probe--url)
 * [`request`](#-varnish--vcl--probe--request)
@@ -1634,6 +1635,14 @@ Data type: `String`
 Paramter as defined from varnish
 
 Default value: `'8'`
+
+##### <a name="-varnish--vcl--probe--expected_response"></a>`expected_response`
+
+Data type: `String`
+
+The expected HTTP status, defaults to '200'
+
+Default value: `'200'`
 
 ##### <a name="-varnish--vcl--probe--includedir"></a>`includedir`
 
