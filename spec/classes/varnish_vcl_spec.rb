@@ -141,6 +141,19 @@ describe 'varnish::vcl', type: :class do
 
           it { is_expected.to compile }
           it { is_expected.to contain_varnish__vcl__probe('test') }
+
+          it {
+            is_expected.to contain_varnish__vcl__probe('test').with({
+                                                                      'url' => '/',
+                                                                      'interval' => '5s',
+                                                                      'timeout' => '5s',
+                                                                      'threshold' => '3',
+                                                                      'window' => '8',
+                                                                      'expected_response' => '200',
+                                                                      'includedir' => '/etc/varnish/includes'
+                                                                    })
+          }
+
           it { is_expected.to contain_concat__fragment('test-probe') }
         end
 
@@ -188,6 +201,10 @@ describe 'varnish::vcl', type: :class do
           end
 
           it { is_expected.to compile }
+          # Default ACLs still exist
+          it { is_expected.to contain_varnish__vcl__acl('blockedips').with_hosts([]) }
+          it { is_expected.to contain_varnish__vcl__acl('unset_headers_debugips').with_hosts(['172.0.0.1']) }
+          # New ACL is also defined
           it { is_expected.to contain_varnish__vcl__acl('test').with_hosts(['127.0.0.1/32']) }
           it { is_expected.to contain_concat__fragment('test-acl_head').with_target('/etc/varnish/includes/acls.vcl') }
           it { is_expected.to contain_concat__fragment('test-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }
