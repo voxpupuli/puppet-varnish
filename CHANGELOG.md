@@ -12,11 +12,8 @@ These should not affect the functionality of the module.
 
 - Add Support for Sockets in Varnish Proxy Listening [\#42](https://github.com/voxpupuli/puppet-varnish/pull/42) ([voxel01](https://github.com/voxel01))
 - Added max\_connections option to a backend [\#41](https://github.com/voxpupuli/puppet-varnish/pull/41) ([wimsymons](https://github.com/wimsymons))
+- add expected\_response parameter for probes [\#33](https://github.com/voxpupuli/puppet-varnish/pull/33) ([jhunt-steds](https://github.com/jhunt-steds))
 - Fix varnish ncsa support [\#27](https://github.com/voxpupuli/puppet-varnish/pull/27) ([voxel01](https://github.com/voxel01))
-
-**Closed issues:**
-
-- No support for Socket listeners [\#39](https://github.com/voxpupuli/puppet-varnish/issues/39)
 
 **Merged pull requests:**
 
