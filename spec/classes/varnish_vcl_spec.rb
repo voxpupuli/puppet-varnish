@@ -145,11 +145,6 @@ describe 'varnish::vcl', type: :class do
           it {
             is_expected.to contain_varnish__vcl__probe('test').with({
                                                                       'url' => '/',
-                                                                      'interval' => '5s',
-                                                                      'timeout' => '5s',
-                                                                      'threshold' => '3',
-                                                                      'window' => '8',
-                                                                      'expected_response' => '200',
                                                                       'includedir' => '/etc/varnish/includes'
                                                                     })
           }

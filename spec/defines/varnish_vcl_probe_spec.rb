@@ -11,7 +11,6 @@ describe 'varnish::vcl::probe', type: :define do
   let(:title) { 'foo' }
   let(:params) do
     {
-      url: '/',
       includedir: '/etc/varnish/includes',
     }
   end
@@ -22,7 +21,7 @@ describe 'varnish::vcl::probe', type: :define do
       is_expected.to contain_concat__fragment('foo-probe').with_content(%r{probe foo \{})
     }
 
-    it { is_expected.to contain_concat__fragment('foo-probe').with_content(%r{^# set probe foo\s+probe foo \{\s+\.interval = 5s;\s+\.timeout = 5s;\s+\.threshold = 3;\s+\.window = 8;\s+\.url = "/";\s+\.expected_response = 200;\s+\}\s*$}m) }
+    it { is_expected.to contain_concat__fragment('foo-probe').with_content(%r{^# set probe foo\s+probe foo \{\s*\}\s*$}m) }
 
     context 'with interval' do
       let :params do
@@ -44,6 +43,28 @@ describe 'varnish::vcl::probe', type: :define do
 
       it { is_expected.to compile }
       it { is_expected.to contain_concat__fragment('foo-probe').with_content(%r{\.timeout = 1s;}) }
+    end
+
+    context 'with timeout as int' do
+      let :params do
+        super().merge({
+                        timeout: 1,
+                      })
+      end
+
+      it { is_expected.to compile }
+      it { is_expected.to contain_concat__fragment('foo-probe').with_content(%r{\.timeout = 1;}) }
+    end
+
+    context 'with timeout as double' do
+      let :params do
+        super().merge({
+                        timeout: 1.0,
+                      })
+      end
+
+      it { is_expected.to compile }
+      it { is_expected.to contain_concat__fragment('foo-probe').with_content(%r{\.timeout = 1.0;}) }
     end
 
     context 'with threshold' do
@@ -70,13 +91,20 @@ describe 'varnish::vcl::probe', type: :define do
 
     context 'with expected_response' do
       let :params do
-        super().merge({
-                        expected_response: '404',
-                      })
+        super().merge({ expected_response: '404' })
       end
 
       it { is_expected.to compile }
       it { is_expected.to contain_concat__fragment('foo-probe').with_content(%r{\.expected_response = 404;}) }
+    end
+
+    context 'with url' do
+      let :params do
+        super().merge({ url: '/' })
+      end
+
+      it { is_expected.to compile }
+      it { is_expected.to contain_concat__fragment('foo-probe').with_content(%r{\.url = "/";}) }
     end
   end
 
