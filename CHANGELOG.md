@@ -4,9 +4,9 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [Unreleased](https://github.com/voxpupuli/puppet-varnish/tree/HEAD)
+## [v5.1.0](https://github.com/voxpupuli/puppet-varnish/tree/v5.1.0) (2023-12-04)
 
-[Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v5.0.0...HEAD)
+[Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v5.0.0...v5.1.0)
 
 **Implemented enhancements:**
 
@@ -20,6 +20,7 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
+- Replace legacy stdlib::merge\(\) with native puppet code [\#45](https://github.com/voxpupuli/puppet-varnish/pull/45) ([bastelfreak](https://github.com/bastelfreak))
 - Remove legacy top-scope syntax [\#40](https://github.com/voxpupuli/puppet-varnish/pull/40) ([smortex](https://github.com/smortex))
 
 ## [v5.0.0](https://github.com/voxpupuli/puppet-varnish/tree/v5.0.0) (2023-11-08)
