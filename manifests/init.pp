@@ -74,6 +74,8 @@
 #   Template that will be used for varnish conf
 # @param conf_file_path
 #   path where varnish conf will be stored
+# @param varnish_pid_file_path
+#   path where varnish will store its PID file
 # @param additional_parameters
 #   additional parameters that will be passed to varnishd with -p
 # @param default_version
@@ -82,7 +84,7 @@
 #   Add varnish::hitch class to install hitch
 # @param add_ncsa
 #   Add varnish::ncsa class to install varnishncsa Service
-# 
+#
 # @example Installs Varnish
 #   # enables Varnish service
 #   # uses default VCL '/etc/varnish/default.vcl'
@@ -136,6 +138,7 @@ class varnish (
   Boolean $manage_firewall      = false,
   String[1] $varnish_conf_template        = 'varnish/varnish-conf.erb',
   Stdlib::Absolutepath $conf_file_path  = '/etc/varnish/varnish.params',
+  Optional[Stdlib::Absolutepath] $varnish_pid_file_path = undef,
   Hash $additional_parameters        = {},
   Integer $default_version = 6,
   Boolean $add_hitch = false,

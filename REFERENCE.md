@@ -113,6 +113,7 @@ The following parameters are available in the `varnish` class:
 * [`manage_firewall`](#-varnish--manage_firewall)
 * [`varnish_conf_template`](#-varnish--varnish_conf_template)
 * [`conf_file_path`](#-varnish--conf_file_path)
+* [`varnish_pid_file_path`](#-varnish--varnish_pid_file_path)
 * [`additional_parameters`](#-varnish--additional_parameters)
 * [`default_version`](#-varnish--default_version)
 * [`add_hitch`](#-varnish--add_hitch)
@@ -414,6 +415,14 @@ Data type: `Stdlib::Absolutepath`
 path where varnish conf will be stored
 
 Default value: `'/etc/varnish/varnish.params'`
+
+##### <a name="-varnish--varnish_pid_file_path"></a>`varnish_pid_file_path`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+path where varnish will store its PID file
+
+Default value: `undef`
 
 ##### <a name="-varnish--additional_parameters"></a>`additional_parameters`
 

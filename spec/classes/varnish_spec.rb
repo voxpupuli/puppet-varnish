@@ -57,6 +57,7 @@ describe 'varnish', type: :class do
       it { is_expected.to contain_file('varnish-conf').with_content(%r{VARNISH_TTL=120}) }
       it { is_expected.to contain_file('varnish-conf').with_content(%r{DAEMON_OPTS="-a :6081 }) }
       it { is_expected.not_to contain_file('varnish-conf').with_content(%r{-a /tmp/varnish.sock,PROXY,user=varnish,group=varnish,mode=666}) }
+      it { is_expected.not_to contain_file('varnish-conf').with_content(%r{-P /run/varnishd.pid}) }
 
       it {
         is_expected.to contain_file('storage-dir').with(
@@ -132,6 +133,15 @@ describe 'varnish', type: :class do
             'require' => 'Package[varnish]'
           )
         }
+      end
+
+      context 'with custom pid file' do
+        let :params do
+          { varnish_pid_file_path: '/run/varnishd.pid' }
+        end
+
+        it { is_expected.to compile }
+        it { is_expected.to contain_file('varnish-conf').with_content(%r{-P /run/varnishd.pid}) }
       end
 
       context 'without shmlog_tempfs' do
