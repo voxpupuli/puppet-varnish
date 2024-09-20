@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 describe 'varnish::vcl', type: :class do
-  on_supported_os.each do |os, facts|
+  on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let :facts do
-        facts
+        os_facts
       end
       let :pre_condition do
         'include varnish'

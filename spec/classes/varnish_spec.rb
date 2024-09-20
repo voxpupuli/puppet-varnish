@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 describe 'varnish', type: :class do
-  on_supported_os.each do |os, facts|
+  on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let :facts do
-        facts
+        os_facts
       end
 
       # Base Checks for all OS
@@ -67,7 +67,7 @@ describe 'varnish', type: :class do
         )
       }
 
-      if facts[:osfamily] == 'RedHat'
+      if os_facts['os']['family'] == 'RedHat'
         it { is_expected.to contain_file('varnish-conf').without_content(%r{\s  -j unix,user=vcache}) }
       else
         it { is_expected.to contain_file('varnish-conf').with_content(%r{\s  -j unix,user=vcache}) }
@@ -161,7 +161,7 @@ describe 'varnish', type: :class do
         it { is_expected.to compile }
         it { is_expected.to contain_class('varnish::install').with_version('6.0.0-manual') }
 
-        if facts[:osfamily] == 'RedHat'
+        if os_facts['os']['family'] == 'RedHat'
           it { is_expected.to contain_file('varnish-conf').without_content(%r{\s  -j unix,user=vcache}) }
         else
           it { is_expected.to contain_file('varnish-conf').with_content(%r{\s  -j unix,user=vcache}) }
