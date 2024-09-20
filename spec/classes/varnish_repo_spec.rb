@@ -22,7 +22,7 @@ describe 'varnish::repo', type: :class do
 
         it { is_expected.to compile }
 
-        case os_facts[:osfamily]
+        case os_facts['os']['family']
         when 'Debian'
           it {
             is_expected.to contain_apt__source('varnish').with(

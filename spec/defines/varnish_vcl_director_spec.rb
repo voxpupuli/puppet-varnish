@@ -11,10 +11,10 @@ describe 'varnish::vcl::director', type: :define do
   end
   let(:title) { 'foo' }
 
-  on_supported_os.each do |os, facts|
+  on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let :facts do
-        facts
+        os_facts
       end
       let(:params) { { backends: ['192.168.10.14'] } }
 

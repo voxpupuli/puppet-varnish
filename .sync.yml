@@ -5,3 +5,4 @@
     - parameter_types
 spec/spec_helper.rb:
   hiera_config: "'spec/fixtures/hiera/hiera.yaml'"
+  facterdb_string_keys: true

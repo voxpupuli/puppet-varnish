@@ -13,10 +13,10 @@ describe 'varnish::vcl::acl', type: :define do
   let(:title) { 'foo' }
   let(:facts) { { concat_basedir: '/dne' } }
 
-  on_supported_os.each do |os, facts|
+  on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let :facts do
-        facts
+        os_facts
       end
 
       let(:params) { { hosts: ['192.168.10.14'] } }

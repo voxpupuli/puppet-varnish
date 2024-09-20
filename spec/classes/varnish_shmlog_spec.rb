@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 describe 'varnish::shmlog', type: :class do
-  on_supported_os.each do |os, facts|
+  on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let :facts do
-        facts
+        os_facts
       end
 
       context 'default values' do
@@ -19,7 +19,7 @@ describe 'varnish::shmlog', type: :class do
           )
         }
 
-        if facts[:os]['selinux']['enabled'] == true
+        if os_facts['os']['selinux']['enabled'] == true
           it {
             is_expected.to contain_mount('shmlog-mount').with(
               'target'  => '/etc/fstab',
