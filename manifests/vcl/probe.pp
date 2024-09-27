@@ -15,7 +15,7 @@
 # @param window
 #   Paramter as defined from varnish
 # @param expected_response
-#   The expected HTTP status, defaults to '200'
+#   The expected HTTP status
 # @param includedir
 #   Directory where includefiles will be created
 # @param url
@@ -23,11 +23,11 @@
 # @param request
 #   Paramter as defined from varnish
 define varnish::vcl::probe (
-  String $interval  = '5s',
-  String $timeout   = '5s',
-  String $threshold = '3',
-  String $window    = '8',
-  String $expected_response = '200',
+  Optional[Varnish::Vcl::Duration] $interval  = undef,
+  Optional[Varnish::Vcl::Duration] $timeout   = undef,
+  Optional[Variant[String[1],Integer[0,1024]]] $threshold = undef,
+  Optional[Variant[String[1],Integer[0,1024]]] $window    = undef,
+  Optional[Variant[String[1],Integer[0,1024]]] $expected_response = undef,
   String $includedir = $varnish::vcl::includedir,
   Optional[String] $url       = undef,
   Optional[Variant[String,Array[String]]] $request   = undef,
