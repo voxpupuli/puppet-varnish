@@ -3,6 +3,11 @@
 vcl 4.0;
 import std;
 import directors;
+<%- if @import_vmods -%>
+<%- @import_vmods.each do |vmod| -%>
+import <%= vmod %>;
+<%- end -%>
+<%- end -%>
 
 #Import file with probe definitions
 include "includes/probes.vcl";
