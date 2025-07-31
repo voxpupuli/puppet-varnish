@@ -65,163 +65,174 @@ describe 'varnish::vcl', type: :class do
         it { is_expected.to contain_concat__fragment('unset_headers_debugips-acl_body').with_target('/etc/varnish/includes/acls.vcl') }
         it { is_expected.to contain_concat__fragment('unset_headers_debugips-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }
         it { is_expected.to contain_varnish__vcl__acl('purge').with_hosts([]) }
+      end
 
-        context 'functions arround' do
-          let :params do
-            {
-              functions: {
-                vcl_recv_prepend: 'vcl_recv_prepend',
-                vcl_recv_append: 'vcl_recv_append',
+      context 'functions arround' do
+        let :params do
+          {
+            functions: {
+              vcl_recv_prepend: 'vcl_recv_prepend',
+              vcl_recv_append: 'vcl_recv_append',
+            },
+          }
+        end
+
+        it { is_expected.to compile }
+        it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_recv_prepend}) }
+        it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_recv_append}) }
+      end
+
+      context 'functions replace' do
+        let :params do
+          {
+            functions: {
+              vcl_init: 'vcl_init',
+              vcl_recv: 'vcl_recv',
+              vcl_hash: 'vcl_hash',
+              vcl_pipe: 'vcl_pipe',
+              vcl_hit: 'vcl_hit',
+              vcl_miss: 'vcl_miss',
+              vcl_pass: 'vcl_pass',
+              vcl_backend_response: 'vcl_backend_response',
+              vcl_deliver: 'vcl_deliver',
+            },
+          }
+        end
+
+        it { is_expected.to compile }
+        it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_init}) }
+        it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_recv}) }
+        it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_hash}) }
+        it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_pipe}) }
+        it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_hit}) }
+        it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_miss}) }
+        it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_pass}) }
+        it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_backend_response}) }
+        it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_deliver}) }
+      end
+
+      context 'manual backends' do
+        let :params do
+          {
+            backends: {
+              test: {
+                host: '127.0.0.2',
+                port: 8081,
               },
-            }
-          end
-
-          it { is_expected.to compile }
-          it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_recv_prepend}) }
-          it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_recv_append}) }
+            },
+          }
         end
 
-        context 'functions replace' do
-          let :params do
-            {
-              functions: {
-                vcl_init: 'vcl_init',
-                vcl_recv: 'vcl_recv',
-                vcl_hash: 'vcl_hash',
-                vcl_pipe: 'vcl_pipe',
-                vcl_hit: 'vcl_hit',
-                vcl_miss: 'vcl_miss',
-                vcl_pass: 'vcl_pass',
-                vcl_backend_response: 'vcl_backend_response',
-                vcl_deliver: 'vcl_deliver',
+        it { is_expected.to compile }
+        it { is_expected.to contain_varnish__vcl__backend('test').with_host('127.0.0.2') }
+        it { is_expected.to contain_varnish__vcl__backend('test').with_port('8081') }
+        it { is_expected.to contain_concat__fragment('test-backend').with_target('/etc/varnish/includes/backends.vcl') }
+      end
+
+      context 'manual probes' do
+        let :params do
+          {
+            probes: {
+              test: {
+                url: '/',
               },
-            }
-          end
-
-          it { is_expected.to compile }
-          it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_init}) }
-          it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_recv}) }
-          it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_hash}) }
-          it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_pipe}) }
-          it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_hit}) }
-          it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_miss}) }
-          it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_pass}) }
-          it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_backend_response}) }
-          it { is_expected.to contain_file('varnish-vcl').with_content(%r{vcl_deliver}) }
+            },
+          }
         end
 
-        context 'manual backends' do
-          let :params do
-            {
-              backends: {
-                test: {
-                  host: '127.0.0.2',
-                  port: 8081,
-                },
+        it { is_expected.to compile }
+        it { is_expected.to contain_varnish__vcl__probe('test') }
+        it { is_expected.to contain_concat__fragment('test-probe') }
+      end
+
+      context 'manual directors' do
+        let :params do
+          {
+            directors: {
+              test: {
+                backends: ['default'],
               },
-            }
-          end
-
-          it { is_expected.to compile }
-          it { is_expected.to contain_varnish__vcl__backend('test').with_host('127.0.0.2') }
-          it { is_expected.to contain_varnish__vcl__backend('test').with_port('8081') }
-          it { is_expected.to contain_concat__fragment('test-backend').with_target('/etc/varnish/includes/backends.vcl') }
+            },
+          }
         end
 
-        context 'manual probes' do
-          let :params do
-            {
-              probes: {
-                test: {
-                  url: '/',
-                },
+        it { is_expected.to compile }
+        it { is_expected.to contain_varnish__vcl__director('test') }
+        it { is_expected.to contain_concat__fragment('test-director') }
+      end
+
+      context 'manual selectors' do
+        let :params do
+          {
+            selectors: {
+              test: {
+                condition: 'req.url ~ "/"',
               },
-            }
-          end
-
-          it { is_expected.to compile }
-          it { is_expected.to contain_varnish__vcl__probe('test') }
-          it { is_expected.to contain_concat__fragment('test-probe') }
+            },
+          }
         end
 
-        context 'manual directors' do
-          let :params do
-            {
-              directors: {
-                test: {
-                  backends: ['default'],
-                },
+        it { is_expected.to compile }
+        it { is_expected.to contain_varnish__vcl__selector('test').with_condition('req.url ~ "/"') }
+        it { is_expected.to contain_concat__fragment('test-selector').with_target('/etc/varnish/includes/backendselection.vcl') }
+      end
+
+      context 'manual ACLS' do
+        let :params do
+          {
+            acls: {
+              test: {
+                hosts: ['127.0.0.1/32'],
               },
-            }
-          end
-
-          it { is_expected.to compile }
-          it { is_expected.to contain_varnish__vcl__director('test') }
-          it { is_expected.to contain_concat__fragment('test-director') }
+            },
+          }
         end
 
-        context 'manual selectors' do
-          let :params do
-            {
-              selectors: {
-                test: {
-                  condition: 'req.url ~ "/"',
-                },
-              },
-            }
-          end
+        it { is_expected.to compile }
+        it { is_expected.to contain_varnish__vcl__acl('test').with_hosts(['127.0.0.1/32']) }
+        it { is_expected.to contain_concat__fragment('test-acl_head').with_target('/etc/varnish/includes/acls.vcl') }
+        it { is_expected.to contain_concat__fragment('test-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }
+        it { is_expected.to contain_concat__fragment('test-acl_body').with_target('/etc/varnish/includes/acls.vcl') }
+      end
 
-          it { is_expected.to compile }
-          it { is_expected.to contain_varnish__vcl__selector('test').with_condition('req.url ~ "/"') }
-          it { is_expected.to contain_concat__fragment('test-selector').with_target('/etc/varnish/includes/backendselection.vcl') }
+      context 'blocked IPS' do
+        let :params do
+          {
+            blockedips: ['127.0.0.12/32'],
+          }
         end
 
-        context 'manual ACLS' do
-          let :params do
-            {
-              acls: {
-                test: {
-                  hosts: ['127.0.0.1/32'],
-                },
-              },
-            }
-          end
+        it { is_expected.to compile }
+        it { is_expected.to contain_varnish__vcl__acl('blockedips').with_hosts(['127.0.0.12/32']) }
+        it { is_expected.to contain_concat__fragment('blockedips-acl_head').with_target('/etc/varnish/includes/acls.vcl') }
+        it { is_expected.to contain_concat__fragment('blockedips-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }
+        it { is_expected.to contain_concat__fragment('blockedips-acl_body').with_target('/etc/varnish/includes/acls.vcl') }
+        it { is_expected.to contain_file('varnish-vcl').with_content(%r{\s# blocked list}) }
+      end
 
-          it { is_expected.to compile }
-          it { is_expected.to contain_varnish__vcl__acl('test').with_hosts(['127.0.0.1/32']) }
-          it { is_expected.to contain_concat__fragment('test-acl_head').with_target('/etc/varnish/includes/acls.vcl') }
-          it { is_expected.to contain_concat__fragment('test-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }
-          it { is_expected.to contain_concat__fragment('test-acl_body').with_target('/etc/varnish/includes/acls.vcl') }
+      context 'manual purgeips' do
+        let :params do
+          {
+            purgeips: ['127.0.0.12/32'],
+          }
         end
 
-        context 'blocked IPS' do
-          let :params do
-            {
-              blockedips: ['127.0.0.12/32'],
-            }
-          end
+        it { is_expected.to compile }
+        it { is_expected.to contain_varnish__vcl__acl('purge').with_hosts(['127.0.0.12/32']) }
+        it { is_expected.to contain_concat__fragment('purge-acl_head').with_target('/etc/varnish/includes/acls.vcl') }
+        it { is_expected.to contain_concat__fragment('purge-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }
+        it { is_expected.to contain_concat__fragment('purge-acl_body').with_target('/etc/varnish/includes/acls.vcl') }
+      end
 
-          it { is_expected.to compile }
-          it { is_expected.to contain_varnish__vcl__acl('blockedips').with_hosts(['127.0.0.12/32']) }
-          it { is_expected.to contain_concat__fragment('blockedips-acl_head').with_target('/etc/varnish/includes/acls.vcl') }
-          it { is_expected.to contain_concat__fragment('blockedips-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }
-          it { is_expected.to contain_concat__fragment('blockedips-acl_body').with_target('/etc/varnish/includes/acls.vcl') }
-          it { is_expected.to contain_file('varnish-vcl').with_content(%r{\s# blocked list}) }
+      context 'with mods' do
+        let :params do
+          {
+            import_vmods: %w[moda modb]
+          }
         end
 
-        context 'manual purgeips' do
-          let :params do
-            {
-              purgeips: ['127.0.0.12/32'],
-            }
-          end
-
-          it { is_expected.to compile }
-          it { is_expected.to contain_varnish__vcl__acl('purge').with_hosts(['127.0.0.12/32']) }
-          it { is_expected.to contain_concat__fragment('purge-acl_head').with_target('/etc/varnish/includes/acls.vcl') }
-          it { is_expected.to contain_concat__fragment('purge-acl_tail').with_target('/etc/varnish/includes/acls.vcl') }
-          it { is_expected.to contain_concat__fragment('purge-acl_body').with_target('/etc/varnish/includes/acls.vcl') }
-        end
+        it { is_expected.to compile }
+        it { is_expected.to contain_file('varnish-vcl').with_content(%r{^import moda;$}).with_content(%r{^import modb;$}) }
       end
     end
   end
