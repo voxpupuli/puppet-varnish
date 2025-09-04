@@ -40,6 +40,7 @@
 ### Data types
 
 * [`Varnish::Controller::Agent_name`](#Varnish--Controller--Agent_name): Type for supported Agent Name of Controller Agent
+* [`Varnish::Vcl::Duration`](#Varnish--Vcl--Duration): Type for Duration in VCL definitions
 * [`Varnish::Vcl::Ressource`](#Varnish--Vcl--Ressource): Type for supported VCL Versions
 * [`Varnish::Vclversion`](#Varnish--Vclversion): Type for supported VCL Versions
 
@@ -1615,43 +1616,43 @@ Default value: `$title`
 
 ##### <a name="-varnish--vcl--probe--interval"></a>`interval`
 
-Data type: `String`
+Data type: `Optional[Varnish::Vcl::Duration]`
 
 Paramter as defined from varnish
 
-Default value: `'5s'`
+Default value: `undef`
 
 ##### <a name="-varnish--vcl--probe--timeout"></a>`timeout`
 
-Data type: `String`
+Data type: `Optional[Varnish::Vcl::Duration]`
 
 Paramter as defined from varnish
 
-Default value: `'5s'`
+Default value: `undef`
 
 ##### <a name="-varnish--vcl--probe--threshold"></a>`threshold`
 
-Data type: `String`
+Data type: `Optional[Variant[String[1],Integer[0,1024]]]`
 
 Paramter as defined from varnish
 
-Default value: `'3'`
+Default value: `undef`
 
 ##### <a name="-varnish--vcl--probe--window"></a>`window`
 
-Data type: `String`
+Data type: `Optional[Variant[String[1],Integer[0,1024]]]`
 
 Paramter as defined from varnish
 
-Default value: `'8'`
+Default value: `undef`
 
 ##### <a name="-varnish--vcl--probe--expected_response"></a>`expected_response`
 
-Data type: `String`
+Data type: `Optional[Variant[String[1],Integer[0,1024]]]`
 
-The expected HTTP status, defaults to '200'
+The expected HTTP status
 
-Default value: `'200'`
+Default value: `undef`
 
 ##### <a name="-varnish--vcl--probe--includedir"></a>`includedir`
 
@@ -1764,6 +1765,12 @@ Default value: `$varnish::vcl::vcl_version`
 Type for supported Agent Name of Controller Agent
 
 Alias of `Pattern[/\A(?i:([-a-z0-9]+))\z/]`
+
+### <a name="Varnish--Vcl--Duration"></a>`Varnish::Vcl::Duration`
+
+Type for Duration in VCL definitions
+
+Alias of `Variant[Pattern[/^[0-9]+(\.[0-9]*)?[smhdwy]?$/], Integer[0], Float[0]]`
 
 ### <a name="Varnish--Vcl--Ressource"></a>`Varnish::Vcl::Ressource`
 
