@@ -1109,6 +1109,7 @@ The following parameters are available in the `varnish::vcl` class:
 * [`unset_headers`](#-varnish--vcl--unset_headers)
 * [`unset_headers_debugips`](#-varnish--vcl--unset_headers_debugips)
 * [`vcl_version`](#-varnish--vcl--vcl_version)
+* [`import_vmods`](#-varnish--vcl--import_vmods)
 
 ##### <a name="-varnish--vcl--functions"></a>`functions`
 
@@ -1350,6 +1351,14 @@ Data type: `Varnish::Vclversion`
 Which version von VCL should be used
 
 Default value: `'4'`
+
+##### <a name="-varnish--vcl--import_vmods"></a>`import_vmods`
+
+Data type: `Optional[Array]`
+
+List of vmods that should be imported
+
+Default value: `undef`
 
 ## Defined types
 

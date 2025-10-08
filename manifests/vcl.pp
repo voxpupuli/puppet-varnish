@@ -72,6 +72,8 @@
 #   Do not unset the named headers for the following IP's
 # @param vcl_version
 #   Which version von VCL should be used
+# @param import_vmods
+#   List of vmods that should be imported
 #
 # @note
 #   VCL applies following restictions:
@@ -112,6 +114,7 @@ class varnish::vcl (
   Array[String] $unset_headers     = ['Via','X-Powered-By','X-Varnish','Server','Age','X-Cache'],
   Array[Stdlib::IP::Address] $unset_headers_debugips = ['172.0.0.1'],
   Varnish::Vclversion $vcl_version     = '4',
+  Optional[Array] $import_vmods = undef,
 ) {
   include varnish
 
