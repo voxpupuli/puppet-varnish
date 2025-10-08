@@ -13,6 +13,9 @@
 #   passed to varnish conf-file
 # @param storage_type
 #   which storage will be used for varnish - default malloc
+# @param transient_malloc
+# Configure transient memory allocation if requried (optional)
+# Example hiera config varnish::transient_malloc: '512m'
 # @param varnish_vcl_conf
 #   path to main vcl file
 # @param varnish_user
@@ -107,6 +110,7 @@ class varnish (
   String                $nfiles                       = '131072',
   String                $memlock                      = '100M',
   String                $storage_type                 = 'malloc',
+  String                $transient_malloc             = 'undef',
   Stdlib::Absolutepath  $varnish_vcl_conf             = '/etc/varnish/default.vcl',
   String                $varnish_user                 = 'varnish',
   Optional[String]      $varnish_jail_user            = undef,

@@ -109,6 +109,9 @@ DAEMON_OPTS="-a <%= scope.lookupvar('varnish_listen_address') %>:<%= scope.looku
 <% else -%>
              -s <%= scope.lookupvar('storage_type') %>,<%= scope.lookupvar('varnish_storage_file') %>,<%= scope.lookupvar('varnish_storage_size') %> \
 <% end -%>
+<% if scope.lookupvar('storage_type') == 'malloc' && scope.lookupvar('transient_malloc') != 'undef' -%>
+             -s Transient=<%= scope.lookupvar('storage_type') %>,<%= scope.lookupvar('transient_malloc') %>
+<% end -%>
 <% if @vcl_dir -%>
              -p vcl_dir=<%= @vcl_dir %> \
 <% end -%>
