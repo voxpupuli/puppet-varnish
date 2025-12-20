@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.0.0](https://github.com/voxpupuli/puppet-varnish/tree/v6.0.0) (2025-12-20)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v5.1.0...v6.0.0)
+
+**Breaking changes:**
+
+- Drop puppet, update openvox minimum version to 8.19 [\#74](https://github.com/voxpupuli/puppet-varnish/pull/74) ([TheMeier](https://github.com/TheMeier))
+- Drop EoL EL7 support [\#62](https://github.com/voxpupuli/puppet-varnish/pull/62) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Add support for custom vmod imports [\#73](https://github.com/voxpupuli/puppet-varnish/pull/73) ([hseagle2015](https://github.com/hseagle2015))
+- Allow puppetlabs/apt 10.x [\#69](https://github.com/voxpupuli/puppet-varnish/pull/69) ([smortex](https://github.com/smortex))
+- metadata.json: Add OpenVox [\#68](https://github.com/voxpupuli/puppet-varnish/pull/68) ([jstraw](https://github.com/jstraw))
+- puppet/systemd: allow 8.x [\#64](https://github.com/voxpupuli/puppet-varnish/pull/64) ([jay7x](https://github.com/jay7x))
+- puppetlabs/firewall: Allow 8.x [\#51](https://github.com/voxpupuli/puppet-varnish/pull/51) ([zilchms](https://github.com/zilchms))
+- Add varnish pid file path configuration option [\#49](https://github.com/voxpupuli/puppet-varnish/pull/49) ([vvangestel](https://github.com/vvangestel))
+- Add support for Debian 12 [\#47](https://github.com/voxpupuli/puppet-varnish/pull/47) ([voxel01](https://github.com/voxel01))
+
+**Closed issues:**
+
+- No support for "adding imports" [\#65](https://github.com/voxpupuli/puppet-varnish/issues/65)
+
+**Merged pull requests:**
+
+- Cleanup metadata.json & README.md [\#63](https://github.com/voxpupuli/puppet-varnish/pull/63) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v5.1.0](https://github.com/voxpupuli/puppet-varnish/tree/v5.1.0) (2023-12-04)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v5.0.0...v5.1.0)
