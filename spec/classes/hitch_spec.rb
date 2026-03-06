@@ -24,7 +24,7 @@ describe 'varnish::hitch' do
           'path' => '/etc/hitch/hitch.conf',
           'owner' => 'root',
           'group' => 'root',
-          'mode' => '0644'
+          'mode' => '0644',
         )
       }
 
@@ -113,7 +113,7 @@ describe 'varnish::hitch' do
 
       context 'with multiple frontends' do
         let(:params) do
-          super().merge(frontends: [{ 'host' => '*', 'port' => 443, }, { 'host' => 'demo.example.com', 'port' => 8443, }])
+          super().merge(frontends: [{ 'host' => '*', 'port' => 443 }, { 'host' => 'demo.example.com', 'port' => 8443 }])
         end
 
         it { is_expected.to compile.with_all_deps }

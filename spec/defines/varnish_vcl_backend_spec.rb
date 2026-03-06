@@ -69,7 +69,7 @@ describe 'varnish::vcl::backend', type: :define do
             'ssl_verify_peer' => 1,
             'ssl_verify_host' => 1,
             'host_header' => 'foobar',
-            'certificate' => 'foobar'
+            'certificate' => 'foobar',
           )
         end
 

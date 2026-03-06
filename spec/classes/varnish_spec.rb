@@ -20,7 +20,7 @@ describe 'varnish', type: :class do
         is_expected.to contain_service('varnish').with(
           'ensure'  => 'running',
           'require' => 'Package[varnish]',
-          'enable'  => true
+          'enable'  => true,
         )
       }
 
@@ -34,7 +34,7 @@ describe 'varnish', type: :class do
           'owner'   => 'root',
           'group'   => 'root',
           'mode'    => '0644',
-          'require' => 'Package[varnish]'
+          'require' => 'Package[varnish]',
           #    'notify'  => 'Service[varnish]',
         )
       }
@@ -63,7 +63,7 @@ describe 'varnish', type: :class do
         is_expected.to contain_file('storage-dir').with(
           'ensure' => 'directory',
           'path' => '/var/lib/varnish-storage',
-          'require' => 'Package[varnish]'
+          'require' => 'Package[varnish]',
         )
       }
 
@@ -76,7 +76,7 @@ describe 'varnish', type: :class do
       context 'with extra varnish-conf values' do
         let :params do
           { additional_parameters: {
-            thread_pools: 4
+            thread_pools: 4,
           } }
         end
 
@@ -106,7 +106,7 @@ describe 'varnish', type: :class do
       context 'with custom configfile' do
         let :params do
           {
-            conf_file_path: '/etc/varnish.params'
+            conf_file_path: '/etc/varnish.params',
           }
         end
 
@@ -130,7 +130,7 @@ describe 'varnish', type: :class do
           is_expected.to contain_service('varnish').with_ensure('stopped')
           is_expected.to contain_service('varnish').with(
             'ensure'  => 'stopped',
-            'require' => 'Package[varnish]'
+            'require' => 'Package[varnish]',
           )
         }
       end
@@ -171,7 +171,7 @@ describe 'varnish', type: :class do
       context 'set Jail User' do
         let :params do
           { version: '6.0.0-manual',
-            varnish_jail_user: 'myjail' }
+            varnish_jail_user: 'myjail', }
         end
 
         it { is_expected.to compile }
@@ -206,7 +206,7 @@ describe 'varnish', type: :class do
                               size = "100G";
                               } );
                       } );
-              };'
+              };',
           }
         end
 
@@ -248,7 +248,7 @@ describe 'varnish', type: :class do
         it {
           is_expected.to contain_package('varnish').with(
             'ensure' => 'present',
-            'name'   => 'varnish-plus'
+            'name'   => 'varnish-plus',
           )
         }
       end

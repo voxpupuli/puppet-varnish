@@ -31,14 +31,14 @@ describe 'varnish::repo', type: :class do
               'key' => {
                 'id'     => '48D81A24CB0456F5D59431D94CFCFD6BA750EDCD',
                 'source' => 'https://packagecloud.io/varnishcache/varnish60lts/gpgkey',
-              }
+              },
             )
           }
         when 'Redhat'
           it {
             is_expected.to contain_yumrepo('varnish').with(
               'enabled' => '1',
-              'baseurl' => 'https://packagecloud.io/varnishcache/varnish60lts/el/7/x86_64'
+              'baseurl' => 'https://packagecloud.io/varnishcache/varnish60lts/el/7/x86_64',
             )
           }
         end
