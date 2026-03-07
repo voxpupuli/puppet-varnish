@@ -19,7 +19,7 @@ describe 'varnish::ncsa', type: :class do
         it {
           is_expected.to contain_service('varnishncsa').with(
             'ensure' => 'running',
-            'require' => 'Service[varnish]'
+            'require' => 'Service[varnish]',
           )
         }
 
@@ -37,7 +37,7 @@ ExecStart=/usr/bin/varnishncsa -a -w /var/log/varnish/varnishncsa.log -D -P /run
 Wants=network-online.target
 After=network.target network-online.target
 ',
-            'filename' => 'varnishncsa_override.conf'
+            'filename' => 'varnishncsa_override.conf',
           )
         }
       end

@@ -15,7 +15,7 @@ describe 'varnish::shmlog', type: :class do
         it {
           is_expected.to contain_file('shmlog-dir').with(
             'ensure' => 'directory',
-            'path' => '/var/lib/varnish'
+            'path' => '/var/lib/varnish',
           )
         }
 
@@ -25,7 +25,7 @@ describe 'varnish::shmlog', type: :class do
               'target'  => '/etc/fstab',
               'fstype'  => 'tmpfs',
               'device'  => 'tmpfs',
-              'options' => 'defaults,noatime,size=170M,rootcontext=system_u:object_r:varnishd_var_lib_t:s0'
+              'options' => 'defaults,noatime,size=170M,rootcontext=system_u:object_r:varnishd_var_lib_t:s0',
             )
           }
         else
@@ -34,7 +34,7 @@ describe 'varnish::shmlog', type: :class do
               'target'  => '/etc/fstab',
               'fstype'  => 'tmpfs',
               'device'  => 'tmpfs',
-              'options' => 'defaults,noatime,size=170M'
+              'options' => 'defaults,noatime,size=170M',
             )
           }
         end

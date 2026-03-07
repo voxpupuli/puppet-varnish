@@ -15,14 +15,14 @@ describe 'varnish::install', type: :class do
         it {
           is_expected.to contain_package('varnish').with(
             'ensure' => 'present',
-            'name'   => 'varnish'
+            'name'   => 'varnish',
           )
         }
 
         it {
           is_expected.to contain_package('varnish-absent').with(
             'ensure' => 'absent',
-            'name'   => 'varnish-plus'
+            'name'   => 'varnish-plus',
           )
         }
 
@@ -42,14 +42,14 @@ describe 'varnish::install', type: :class do
         it {
           is_expected.to contain_package('varnish').with(
             'ensure' => 'present',
-            'name'   => 'varnish-plus'
+            'name'   => 'varnish-plus',
           )
         }
 
         it {
           is_expected.to contain_package('varnish-absent').with(
             'ensure' => 'absent',
-            'name'   => 'varnish'
+            'name'   => 'varnish',
           )
         }
 
@@ -70,21 +70,21 @@ describe 'varnish::install', type: :class do
         it {
           is_expected.to contain_package('varnish').with(
             'ensure' => 'present',
-            'name'   => 'varnish-plus'
+            'name'   => 'varnish-plus',
           )
         }
 
         it {
           is_expected.to contain_package('varnish-plus-vmods-extra').with(
             'ensure' => 'present',
-            'name'   => 'varnish-plus-vmods-extra'
+            'name'   => 'varnish-plus-vmods-extra',
           )
         }
 
         it {
           is_expected.to contain_package('varnish-absent').with(
             'ensure' => 'absent',
-            'name'   => 'varnish'
+            'name'   => 'varnish',
           )
         }
       end
@@ -101,7 +101,7 @@ describe 'varnish::install', type: :class do
         it {
           is_expected.to contain_package('varnish').with(
             'ensure' => 'present',
-            'name'   => 'varnish-custom'
+            'name'   => 'varnish-custom',
           )
         }
 
@@ -121,14 +121,14 @@ describe 'varnish::install', type: :class do
         it {
           is_expected.to contain_package('varnish').with(
             'ensure' => '6.0',
-            'name'   => 'varnish'
+            'name'   => 'varnish',
           )
         }
 
         it {
           is_expected.to contain_package('varnish-absent').with(
             'ensure' => 'absent',
-            'name'   => 'varnish-plus'
+            'name'   => 'varnish-plus',
           )
         }
 

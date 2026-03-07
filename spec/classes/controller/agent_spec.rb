@@ -18,7 +18,7 @@ describe 'varnish::controller::agent' do
       it {
         is_expected.to contain_package('varnish-controller-agent').with(
           'ensure' => 'present',
-          'name'   => 'varnish-controller-agent'
+          'name'   => 'varnish-controller-agent',
         )
       }
 
@@ -28,7 +28,7 @@ describe 'varnish::controller::agent' do
         is_expected.to contain_service('varnish-controller-agent').with_ensure('running')
         is_expected.to contain_service('varnish-controller-agent').with(
           'ensure'  => 'running',
-          'require' => 'Package[varnish-controller-agent]'
+          'require' => 'Package[varnish-controller-agent]',
         )
       }
 
@@ -47,7 +47,7 @@ describe 'varnish::controller::agent' do
         it {
           is_expected.to contain_package('varnish-controller-agent').with(
             'ensure' => '1.0.1',
-            'name'   => 'varnish-controller-agent'
+            'name'   => 'varnish-controller-agent',
           )
         }
       end
@@ -62,7 +62,7 @@ describe 'varnish::controller::agent' do
         it {
           is_expected.to contain_package('varnish-controller-agent').with(
             'ensure' => 'present',
-            'name'   => 'vca'
+            'name'   => 'vca',
           )
         }
       end
@@ -100,7 +100,7 @@ describe 'varnish::controller::agent' do
             {
               'nats_server_user' => 'foo',
               'nats_server_password' => 'bar',
-            }
+            },
           )
         end
 

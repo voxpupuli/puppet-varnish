@@ -22,7 +22,7 @@ describe 'varnish::vcl', type: :class do
             'group'   => 'root',
             'mode'    => '0644',
             'require' => 'Package[varnish]',
-            'notify'  => 'Service[varnish]'
+            'notify'  => 'Service[varnish]',
           )
         }
 
@@ -227,7 +227,7 @@ describe 'varnish::vcl', type: :class do
       context 'with mods' do
         let :params do
           {
-            import_vmods: %w[moda modb]
+            import_vmods: %w[moda modb],
           }
         end
 
