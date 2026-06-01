@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v9.1.0](https://github.com/voxpupuli/puppet-varnish/tree/v9.1.0) (2026-06-01)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v6.0.0...v9.1.0)
+
+**Implemented enhancements:**
+
+- Support puppetlabs/concat 10.x [\#84](https://github.com/voxpupuli/puppet-varnish/pull/84) ([dabelenda](https://github.com/dabelenda))
+
 ## [v6.0.0](https://github.com/voxpupuli/puppet-varnish/tree/v6.0.0) (2025-12-20)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v5.1.0...v6.0.0)
