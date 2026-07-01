@@ -115,6 +115,7 @@ The following parameters are available in the `varnish` class:
 * [`conf_file_path`](#-varnish--conf_file_path)
 * [`varnish_pid_file_path`](#-varnish--varnish_pid_file_path)
 * [`additional_parameters`](#-varnish--additional_parameters)
+* [`extra_options`](#-varnish--extra_options)
 * [`default_version`](#-varnish--default_version)
 * [`add_hitch`](#-varnish--add_hitch)
 * [`add_ncsa`](#-varnish--add_ncsa)
@@ -431,6 +432,16 @@ Data type: `Hash`
 additional parameters that will be passed to varnishd with -p
 
 Default value: `{}`
+
+##### <a name="-varnish--extra_options"></a>`extra_options`
+
+Data type: `Array[String]`
+
+Additional arbitrary varnishd command-line options appended verbatim to DAEMON_OPTS.
+Unlike additional_parameters (which adds -p key=value pairs), these strings are
+passed as-is, allowing flags such as '--foo' or '-M remotehost:1234'.
+
+Default value: `[]`
 
 ##### <a name="-varnish--default_version"></a>`default_version`
 

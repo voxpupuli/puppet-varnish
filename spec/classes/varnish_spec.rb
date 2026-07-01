@@ -84,6 +84,18 @@ describe 'varnish', type: :class do
         it { is_expected.to contain_file('varnish-conf').with_content(%r{-p thread_pools=4}) }
       end
 
+      context 'with extra_options' do
+        let :params do
+          { extra_options: ['--foo', '-M remotehost:1234'] }
+        end
+
+        it { is_expected.to compile }
+        it { is_expected.to contain_file('varnish-conf').with_content(%r{--foo}) }
+        it { is_expected.to contain_file('varnish-conf').with_content(%r{-M remotehost:1234}) }
+        it { is_expected.not_to contain_file('varnish-conf').with_content(%r{-p --foo}) }
+        it { is_expected.not_to contain_file('varnish-conf').with_content(%r{-p -M remotehost:1234}) }
+      end
+
       context 'enable proxy port' do
         let :params do
           { varnish_proxy_listen_port: 8443 }

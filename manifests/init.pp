@@ -78,6 +78,10 @@
 #   path where varnish will store its PID file
 # @param additional_parameters
 #   additional parameters that will be passed to varnishd with -p
+# @param extra_options
+#   Additional arbitrary varnishd command-line options appended verbatim to DAEMON_OPTS.
+#   Unlike additional_parameters (which adds -p key=value pairs), these strings are
+#   passed as-is, allowing flags such as '--foo' or '-M remotehost:1234'.
 # @param default_version
 #   Default major version of Varnish for that OS release
 # @param add_hitch
@@ -140,6 +144,7 @@ class varnish (
   Stdlib::Absolutepath $conf_file_path  = '/etc/varnish/varnish.params',
   Optional[Stdlib::Absolutepath] $varnish_pid_file_path = undef,
   Hash $additional_parameters        = {},
+  Array[String] $extra_options       = [],
   Integer $default_version = 6,
   Boolean $add_hitch = false,
   Boolean $add_ncsa = false,
