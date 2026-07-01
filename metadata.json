@@ -1,6 +1,6 @@
 {
   "name": "puppet-varnish",
-  "version": "9.1.0",
+  "version": "9.2.0",
   "author": "Vox Pupuli",
   "summary": "Varnish module",
   "license": "Apache-2.0",
