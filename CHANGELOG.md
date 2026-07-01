@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v9.2.0](https://github.com/voxpupuli/puppet-varnish/tree/v9.2.0) (2026-07-01)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v9.1.0...v9.2.0)
+
+**Implemented enhancements:**
+
+- feat\(varnish\): add `extra_options` parameter [\#86](https://github.com/voxpupuli/puppet-varnish/pull/86) ([cyberkov](https://github.com/cyberkov))
+
 ## [v9.1.0](https://github.com/voxpupuli/puppet-varnish/tree/v9.1.0) (2026-06-01)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v6.0.0...v9.1.0)
