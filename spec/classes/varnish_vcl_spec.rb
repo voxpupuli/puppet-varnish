@@ -22,7 +22,8 @@ describe 'varnish::vcl', type: :class do
             'group'   => 'root',
             'mode'    => '0644',
             'require' => 'Package[varnish]',
-            'notify'  => 'Service[varnish]'
+            'notify'  => 'Exec[varnish-vcl-reload]',
+            'before'  => 'Service[varnish]'
           )
         }
 

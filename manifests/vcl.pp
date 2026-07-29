@@ -128,6 +128,11 @@ class varnish::vcl (
   }
 
   # vcl file
+  # This is VCL content, which varnishd can hot-load without a restart, so it
+  # notifies Exec['varnish-vcl-reload'] (see varnish::service) rather than
+  # Service['varnish']. `before => Service['varnish']` restates the ordering
+  # that the notify used to provide implicitly, so on a first run the VCL is
+  # still written before the daemon starts.
   file { 'varnish-vcl':
     ensure  => file,
     path    => $varnish::varnish_vcl_conf,
@@ -135,8 +140,9 @@ class varnish::vcl (
     group   => 'root',
     mode    => '0644',
     content => template($template_vcl),
-    notify  => Service['varnish'],
+    notify  => Exec['varnish-vcl-reload'],
     require => Package['varnish'],
+    before  => Service['varnish'],
   }
 
   if $template == undef or $manage_includes {
