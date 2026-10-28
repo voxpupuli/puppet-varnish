@@ -473,7 +473,7 @@ Installs and manages Varnish Controller Agent
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 include varnish::controller::agent
@@ -606,7 +606,7 @@ Installs Hitch the SSL Offloading Proxy of Varnish Enterprise
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 include varnish::hitch
@@ -1796,4 +1796,3 @@ Alias of `Pattern[/^[A-Za-z0-9_]+$/]`
 Type for supported VCL Versions
 
 Alias of `Pattern[/\A(?i:(4))\z/]`
-
