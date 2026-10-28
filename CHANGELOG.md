@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v9.3.0](https://github.com/voxpupuli/puppet-varnish/tree/v9.3.0) (2026-10-28)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v9.2.0...v9.3.0)
+
+**Implemented enhancements:**
+
+- puppet/systemd: Allow 11.x [\#92](https://github.com/voxpupuli/puppet-varnish/pull/92) ([bastelfreak](https://github.com/bastelfreak))
+- Update requirements to allow OpenVox 9 [\#91](https://github.com/voxpupuli/puppet-varnish/pull/91) ([sebastianrakel](https://github.com/sebastianrakel))
+
 ## [v9.2.0](https://github.com/voxpupuli/puppet-varnish/tree/v9.2.0) (2026-07-01)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-varnish/compare/v9.1.0...v9.2.0)
